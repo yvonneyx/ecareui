@@ -1,13 +1,17 @@
 /* This is the Root component mainly initializes Redux and React Router. */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Provider } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { hot, setConfig } from 'react-hot-loader';
 import store from './common/store';
 import routeConfig from './common/routeConfig';
 import history from './common/history';
+import useForceUpdate from 'use-force-update';
+
+let isLogined = true;
+let role = 'admin';
 
 setConfig({
   logLevel: 'debug',
@@ -18,6 +22,24 @@ function renderRouteConfigV3(routes, contextPath) {
   const children = []; // children component list
 
   const renderRoute = (item, routeContextPath) => {
+    // isLogined = store.getState().home.isLogined;
+    // role = store.getState().home.role;
+    if (!isLogined && item.protected) {
+      item = {
+        ...item,
+        component: () => <Redirect to="/login" />,
+        children: [],
+      };
+    }
+    if (item.protected && item.role && item.role !== role) {
+      debugger;
+      item = {
+        ...item,
+        component: () => <Redirect to="/common/unauthorized" />,
+        children: [],
+      };
+    }
+
     let newContextPath;
     if (/^\//.test(item.path)) {
       newContextPath = item.path;
@@ -50,7 +72,15 @@ function renderRouteConfigV3(routes, contextPath) {
 }
 
 function Root() {
+  const forceUpdate = useForceUpdate();
+  useEffect(() => {
+    store.subscribe(() => {
+      forceUpdate();
+    }, []);
+  });
+
   const children = renderRouteConfigV3(routeConfig, '/');
+
   return (
     <Provider store={store}>
       <ConnectedRouter history={history}>{children}</ConnectedRouter>
