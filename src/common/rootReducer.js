@@ -4,7 +4,6 @@ import { connectRouter } from 'connected-react-router'
 import history from './history';
 import homeReducer from '../features/home/redux/reducer';
 import commonReducer from '../features/common/redux/reducer';
-import examplesReducer from '../features/examples/redux/reducer';
 import adminReducer from '../features/admin/redux/reducer';
 
 // NOTE 1: DO NOT CHANGE the 'reducerMap' name and the declaration pattern.
@@ -16,7 +15,6 @@ const reducerMap = {
   router: connectRouter(history),
   home: homeReducer,
   common: commonReducer,
-  examples: examplesReducer,
   admin: adminReducer,
 };
 
