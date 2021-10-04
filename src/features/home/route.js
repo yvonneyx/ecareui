@@ -1,4 +1,4 @@
-import { WelcomePage } from './';
+import { WelcomePage, Login } from './';
 
 export default {
   path: '',
@@ -6,9 +6,9 @@ export default {
     {
       path: 'welcome-page',
       component: WelcomePage,
-      isIndex: true,
       protected: true,
       role: 'admin',
     },
+    { path: 'login', component: Login, isIndex: true },
   ],
 };

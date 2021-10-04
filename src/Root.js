@@ -32,7 +32,6 @@ function renderRouteConfigV3(routes, contextPath) {
       };
     }
     if (item.protected && item.role && item.role !== role) {
-      debugger;
       item = {
         ...item,
         component: () => <Redirect to="/common/unauthorized" />,

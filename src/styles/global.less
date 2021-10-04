@@ -1,9 +1,90 @@
 @import './mixins';
 
-// Here you put all global css rules.
+html {
+  --antd-wave-shadow-color: var(--first-color);
+}
+html,
+body {
+  height: 100%;
+}
 
 body {
   margin: 0;
   padding: 0;
   font-family: var(--body-font);
+}
+
+.ant-btn {
+  border-radius: 10px;
+  transition: ease 0.3s;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+.ant-btn-primary {
+  background-color: var(--first-color);
+  color: var(--white-color);
+  font-weight: var(--font-semi-bold);
+  transition: 0.3s;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+
+.ant-btn:hover,
+.ant-btn:focus {
+  border-color: var(--first-color);
+  color: var(--first-color);
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  cursor: pointer;
+  background-color: var(--first-color-alt);
+  color: var(--white-color);
+  border: none;
+}
+
+.ant-input:hover,
+.ant-input:focus,
+.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input)
+  .ant-select-selector,
+.ant-select:not(.ant-select-disabled):hover .ant-select-selector {
+  border-color: var(--first-color) !important;
+  box-shadow: 0 0 0 2px rgba(127, 130, 215, 0.2);
+}
+
+::selection {
+  background: var(--first-color);
+}
+
+.ant-menu-item-selected,
+.ant-menu-item-selected a,
+.ant-menu-item-selected a:hover,
+.ant-menu-light .ant-menu-item:hover,
+.ant-menu-light .ant-menu-item-active,
+.ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open,
+.ant-menu-light .ant-menu-submenu-active,
+.ant-menu-light .ant-menu-submenu-title:hover {
+  color: var(--first-color);
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: rgba(127, 130, 215, 0.2);
+}
+
+.ant-menu-vertical .ant-menu-item::after,
+.ant-menu-vertical-left .ant-menu-item::after,
+.ant-menu-vertical-right .ant-menu-item::after,
+.ant-menu-inline .ant-menu-item::after {
+  border-right: 3px solid var(--first-color);
+}
+
+
+/* ================MODAL============== */
+.ant-modal-header{
+  border-radius: 14px 14px 0 0;
+}
+
+.ant-modal-content{
+  border-radius: 14px;
 }
