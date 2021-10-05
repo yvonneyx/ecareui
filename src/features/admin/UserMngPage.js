@@ -220,6 +220,7 @@ export default function UserMngPage() {
           columns={columns}
           dataSource={usersToShow}
           pagination={paginationProps}
+          rowKey={record => record.userId}
         />
         <div className="admin-user-mng-page-footer">
           {!getUsersListError ? (

@@ -29,10 +29,13 @@ export default function ModalContainer(props) {
     switch (name) {
       case 'user':
         userFormRef.current && userFormRef.current.onFinish();
+        break;
       case 'examen':
         examenFormRef.current && examenFormRef.current.onFinish();
+        break;
       case 'dpt':
         dptFormRef.current && dptFormRef.current.onFinish();
+        break;
       default:
         break;
     }

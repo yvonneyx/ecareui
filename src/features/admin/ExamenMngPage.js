@@ -2,8 +2,6 @@ import React, { useEffect, useState, useMemo } from 'react';
 // import PropTypes from 'prop-types';
 import {
   Table,
-  Tag,
-  Select,
   Input,
   Button,
   Typography,

@@ -4,7 +4,7 @@ import { Form, Input, message, notification } from 'antd';
 import _ from 'lodash';
 import { useAddExamen, useUpdateExamen } from './redux/hooks';
 
-function ExamenDetailForm(props, ref) {
+var ExamenDetailForm = function(props, ref) {
   const { data, onModalVisibleChange, handleVersionUpdate } = props;
   const [form] = Form.useForm();
   const mode = _.isEmpty(data) ? 'new' : 'update';
@@ -115,7 +115,7 @@ function ExamenDetailForm(props, ref) {
       </Form>
     </div>
   );
-}
+};
 
 export default ExamenDetailForm = forwardRef(ExamenDetailForm);
 

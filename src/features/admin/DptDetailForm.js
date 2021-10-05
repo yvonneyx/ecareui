@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { useAddDpt, useUpdateDpt } from './redux/hooks';
 import TextArea from 'antd/lib/input/TextArea';
 
-function DptDetailForm(props, ref) {
+var DptDetailForm = function(props, ref) {
   const { data, onModalVisibleChange, handleVersionUpdate } = props;
   const [form] = Form.useForm();
   const mode = _.isEmpty(data) ? 'new' : 'update';
@@ -107,7 +107,7 @@ function DptDetailForm(props, ref) {
       </Form>
     </div>
   );
-}
+};
 
 export default DptDetailForm = forwardRef(DptDetailForm);
 

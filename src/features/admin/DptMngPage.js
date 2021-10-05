@@ -6,7 +6,6 @@ import _ from 'lodash';
 import { antIcon } from '../../common/constants';
 import ModalWrapper from './ModalWrapper';
 import { useGetDptsList, useDeleteDpt } from './redux/hooks';
-import TextArea from 'antd/lib/input/TextArea';
 
 const { Meta } = Card;
 const { Search } = Input;
@@ -128,6 +127,7 @@ export default function DptMngPage(props) {
                   ]}
                   bordered={false}
                   loading={getDptsListPending}
+                  key={`card-${data.departementId}`}
                 >
                   <Meta title={data.departementNom} description={data.departementDescription} />
                 </Card>

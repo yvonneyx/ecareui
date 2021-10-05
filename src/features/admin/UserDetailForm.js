@@ -5,7 +5,7 @@ import { Form, Input, Select, message, notification } from 'antd';
 import _ from 'lodash';
 import { useAddUser, useUpdateUser } from './redux/hooks';
 
-function UserDetailForm(props, ref) {
+var UserDetailForm = function(props, ref) {
   const { data, onModalVisibleChange, handleVersionUpdate } = props;
   const [form] = Form.useForm();
   const mode = _.isEmpty(data) ? 'new' : 'update';
@@ -140,7 +140,7 @@ function UserDetailForm(props, ref) {
       </Form>
     </div>
   );
-}
+};
 
 export default UserDetailForm = forwardRef(UserDetailForm);
 

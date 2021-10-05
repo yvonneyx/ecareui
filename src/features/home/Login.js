@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 // import PropTypes from 'prop-types';
 // import {} from './redux/hooks';
 import {} from 'antd';
 import { Form, Input, Button, Radio } from 'antd';
 
 export default function Login() {
-  const [role, setRole] = useState('nurse');
 
   const onFinish = values => {
     console.log('Success:', values);
