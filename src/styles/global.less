@@ -18,12 +18,17 @@ body {
   background: var(--second-color);
 }
 
+h1 {
+  font-weight: 800;
+  color: var(--first-color-alt);
+}
+
 /* ================BUTTONS============== */
 
 .ant-btn {
   border-radius: 10px;
   transition: ease 0.3s;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+  box-shadow: var(--box-shadow);
 }
 
 .ant-btn-primary {
@@ -32,7 +37,7 @@ body {
   font-weight: var(--font-semi-bold);
   transition: 0.3s;
   border: none;
-  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+  box-shadow: var(--box-shadow);
   // box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
 
@@ -58,13 +63,13 @@ body {
   .ant-select-selector,
 .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
   border-color: var(--first-color) !important;
-  box-shadow: 0 0 0 2px rgba(127, 130, 215, 0.2);
+  box-shadow: 0 0 0 2px var(--first-color-shadow);
 }
 
 .ant-input-affix-wrapper:hover,
 .ant-input-affix-wrapper-focused {
   border-color: var(--first-color) !important;
-  box-shadow: 0 0 0 2px rgba(127, 130, 215, 0.2) !important;
+  box-shadow: 0 0 0 2px var(--first-color-shadow) !important;
 
   .ant-input:hover {
     border: none;
@@ -87,7 +92,7 @@ body {
 }
 
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-  background-color: rgba(127, 130, 215, 0.2);
+  background-color: var(--first-color-shadow);
 }
 
 .ant-menu-vertical .ant-menu-item::after,
@@ -108,4 +113,38 @@ body {
 
 .error {
   color: #f81d22;
+}
+
+// ICON
+.ant-card-actions li span:hover {
+  color: var(--first-color);
+}
+
+/* ================SPIN============== */
+
+.ant-spin-text {
+  color: var(--first-color);
+}
+/* ================CARD ICON============== */
+
+.ant-card-actions > li > span a:not(.ant-btn):hover,
+.ant-card-actions > li > span > .anticon:hover {
+  color: var(--second-color);
+  cursor: pointer;
+}
+
+/* ================POPOVER============== */
+
+.ant-popover-inner {
+  border-radius: 12px;
+
+  &-content {
+    width: 240px;
+  }
+}
+
+.ant-popover-placement-left {
+  .ant-popover-inner-content {
+    width: 260px;
+  }
 }

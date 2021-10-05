@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import 'moment/locale/fr';
 import _ from 'lodash';
+import { LoadingOutlined } from '@ant-design/icons';
 
 export const roles = ['Administrateur', 'Infirmière', 'Coordinateur', 'Tous'];
 
@@ -23,3 +24,5 @@ export const showDate = time => {
     </>
   );
 };
+
+export const antIcon = <LoadingOutlined style={{ color: 'var(--first-color)' }} spin />;

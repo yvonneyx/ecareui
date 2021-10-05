@@ -6,3 +6,5 @@ export { default as UserDetailForm } from './UserDetailForm';
 export { default as ModalWrapper } from './ModalWrapper';
 export { default as ExamenMngPage } from './ExamenMngPage';
 export { default as ExamenDetailForm } from './ExamenDetailForm';
+export { default as DptMngPage } from './DptMngPage';
+export { default as DptDetailForm } from './DptDetailForm';

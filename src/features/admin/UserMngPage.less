@@ -18,12 +18,12 @@
     background-color: var(--white-color);
     height: 48px;
     margin-bottom: var(--mb-0-75);
-    border-radius: 5px;
+    border-radius: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1rem;
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+    padding: 0 10px;
+    box-shadow: var(--box-shadow);
 
     &-left {
       .role-selector {
@@ -48,7 +48,7 @@
   }
 
   .ant-table {
-    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+    box-shadow: var(--box-shadow);
     &-thead {
       font-size: 12px;
     }
@@ -62,6 +62,7 @@
     position: fixed;
     bottom: 30px;
     font-size: 12px;
-    color: #7f7d87;
+    color: var(--first-color);
+    font-weight: 200;
   }
 }

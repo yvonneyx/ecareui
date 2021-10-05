@@ -15,6 +15,10 @@ import { reducer as addExamenReducer } from './addExamen';
 import { reducer as deleteExamenReducer } from './deleteExamen';
 import { reducer as updateExamenReducer } from './updateExamen';
 import { reducer as getExamensListReducer } from './getExamensList';
+import { reducer as addDptReducer } from './addDpt';
+import { reducer as getDptsListReducer } from './getDptsList';
+import { reducer as deleteDptReducer } from './deleteDpt';
+import { reducer as updateDptReducer } from './updateDpt';
 
 const reducers = [
   getUsersListReducer,
@@ -25,6 +29,10 @@ const reducers = [
   deleteExamenReducer,
   updateExamenReducer,
   getExamensListReducer,
+  addDptReducer,
+  getDptsListReducer,
+  deleteDptReducer,
+  updateDptReducer,
 ];
 
 export default function reducer(state = initialState, action) {

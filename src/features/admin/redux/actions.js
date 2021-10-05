@@ -6,3 +6,7 @@ export { addExamen, dismissAddExamenError } from './addExamen';
 export { deleteExamen, dismissDeleteExamenError } from './deleteExamen';
 export { updateExamen, dismissUpdateExamenError } from './updateExamen';
 export { getExamensList, dismissGetExamensListError } from './getExamensList';
+export { addDpt, dismissAddDptError } from './addDpt';
+export { getDptsList, dismissGetDptsListError } from './getDptsList';
+export { deleteDpt, dismissDeleteDptError } from './deleteDpt';
+export { updateDpt, dismissUpdateDptError } from './updateDpt';

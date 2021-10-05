@@ -14,7 +14,7 @@ import {
 } from 'antd';
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons';
 import _ from 'lodash';
-import { showDate } from '../../common/constants';
+import { showDate, antIcon } from '../../common/constants';
 import ModalWrapper from './ModalWrapper';
 import { useGetExamensList, useDeleteExamen } from './redux/hooks';
 
@@ -190,16 +190,16 @@ export default function ExamenMngPage(props) {
           </Button>
         </div>
       </div>
-      <Spin tip="Chargement en cours..." spinning={getExamensListPending}>
+      <Spin tip="Chargement en cours..." spinning={getExamensListPending} indicator={antIcon}>
         <Table size="middle" columns={columns} dataSource={emToShow} pagination={paginationProps} />
         <div className="admin-examen-mng-page-footer">
           {!getExamensListError ? (
-            (emToShow || {}).length > 1 ? (
-              `${emToShow.length} examens medicaux répondent aux critères de
-          recherche`
+            _.isEmpty(emToShow) ? (
+              'Pas de résultat répond aux critères de recherche'
+            ) : emToShow.length === 1 ? (
+              'Seul 1 examen medical répond aux critères de recherche'
             ) : (
-              `${(emToShow || {}).length} examen medical répondent aux critères de
-          recherche`
+              `${emToShow.length} examens medicaux répondent aux critères de recherche`
             )
           ) : (
             <div className="error">Échec du chargement des données</div>

@@ -14,7 +14,7 @@ import {
 } from 'antd';
 import { ModalWrapper } from './';
 import { UserDeleteOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons';
-import { roles, showDate } from '../../common/constants';
+import { roles, showDate, antIcon } from '../../common/constants';
 import { useDeleteUser, useGetUsersList } from './redux/hooks';
 import _ from 'lodash';
 
@@ -149,7 +149,6 @@ export default function UserMngPage() {
                 }}
                 okText="Oui, je confirme"
                 cancelText="Non"
-                placement="left"
               >
                 <UserDeleteOutlined />
               </Popconfirm>
@@ -162,9 +161,7 @@ export default function UserMngPage() {
 
   const paginationProps = {
     pageSize: 8,
-    // current: this.state.pageNum,
     total: usersToShow && usersToShow.length,
-    // onChange: (current) => this.changePage(current),
   };
 
   return (
@@ -213,7 +210,11 @@ export default function UserMngPage() {
           </Button>
         </div>
       </div>
-      <Spin tip="Chargement en cours..." spinning={getUsersListPending || deleteUserPending}>
+      <Spin
+        tip="Chargement en cours..."
+        spinning={getUsersListPending || deleteUserPending}
+        indicator={antIcon}
+      >
         <Table
           size="middle"
           columns={columns}
@@ -221,10 +222,17 @@ export default function UserMngPage() {
           pagination={paginationProps}
         />
         <div className="admin-user-mng-page-footer">
-          {!getUsersListError
-            ? `${(usersToShow || {}).length} utilisateur(s) répondent aux critères de
-          recherche`
-            : 'Échec du chargement des données'}
+          {!getUsersListError ? (
+            _.isEmpty(usersToShow) ? (
+              'Pas de résultat répond aux critères de recherche'
+            ) : usersToShow.length === 1 ? (
+              'Seul 1 utilisateur répond répond aux critères de recherche'
+            ) : (
+              `${usersToShow.length} utilisateurs répondent aux critères de recherche`
+            )
+          ) : (
+            <div className="error">Échec du chargement des données</div>
+          )}
         </div>
       </Spin>
     </div>

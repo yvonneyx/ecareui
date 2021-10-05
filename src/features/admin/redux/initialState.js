@@ -22,6 +22,14 @@ const initialState = {
   updateExamenError: null,
   getExamensListPending: false,
   getExamensListError: null,
+  addDptPending: false,
+  addDptError: null,
+  getDptsListPending: false,
+  getDptsListError: null,
+  deleteDptPending: false,
+  deleteDptError: null,
+  updateDptPending: false,
+  updateDptError: null,
 };
 
 export default initialState;
