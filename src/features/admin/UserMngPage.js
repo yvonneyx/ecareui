@@ -12,12 +12,11 @@ import {
   message,
   Spin,
 } from 'antd';
-import { UserModalWrapper } from './';
+import { ModalWrapper } from './';
 import { UserDeleteOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons';
-import { roles } from '../../common/constants';
-import moment from 'moment';
-import 'moment/locale/fr';
+import { roles, showDate } from '../../common/constants';
 import { useDeleteUser, useGetUsersList } from './redux/hooks';
+import _ from 'lodash';
 
 const { Option } = Select;
 const { Search } = Input;
@@ -32,12 +31,10 @@ export default function UserMngPage() {
   const [version, setVersion] = useState('');
 
   useEffect(() => {
-    debugger;
     getUsersList();
   }, [getUsersList, version]);
 
   const handleVersionUpdate = () => {
-    debugger;
     setVersion(new Date());
   };
 
@@ -50,7 +47,7 @@ export default function UserMngPage() {
   };
 
   const usersToShow = useMemo(() => {
-    if (!usersList) return null;
+    if (_.isEmpty(usersList)) return null;
     let temp = usersList.filter(data => data.isDeleted === 'N');
     if (selectedRole && selectedRole !== 'Tous') {
       temp = temp.filter(data => {
@@ -58,9 +55,7 @@ export default function UserMngPage() {
       });
     }
     if (searchKey) {
-      temp = temp.filter(data => {
-        return data.userNom.includes(searchKey);
-      });
+      temp = temp.filter(data => _.includes(_.lowerCase(data.userNom), _.lowerCase(searchKey)));
     }
     return temp;
   }, [usersList, searchKey, selectedRole]);
@@ -76,6 +71,15 @@ export default function UserMngPage() {
       .catch(() => {
         message.error('Echec de la suppression', 5);
       });
+  };
+
+  const onResetClick = () => {
+    setSearchKey('');
+    setSelectedRole('');
+  };
+
+  const onModalVisibleChange = visible => {
+    setIsModalVisible(visible);
   };
 
   const columns = [
@@ -103,40 +107,14 @@ export default function UserMngPage() {
       dataIndex: 'createdTime',
       key: 'createdTime',
       width: 180,
-      render: time => (
-        <>
-          <div>
-            {moment(time)
-              .locale('fr')
-              .format('MMMM Do YYYY')}
-          </div>
-          <div>
-            {moment(time)
-              .locale('fr')
-              .format('h:mm:ss a')}
-          </div>
-        </>
-      ),
+      render: time => showDate(time),
     },
     {
       title: 'Heure mise à jour',
       dataIndex: 'updatedTime',
       key: 'updatedTime',
       width: 180,
-      render: time => (
-        <>
-          <div>
-            {moment(time)
-              .locale('fr')
-              .format('MMMM Do YYYY')}
-          </div>
-          <div>
-            {moment(time)
-              .locale('fr')
-              .format('h:mm:ss a')}
-          </div>
-        </>
-      ),
+      render: time => showDate(time),
     },
     {
       title: 'Rôle',
@@ -171,6 +149,7 @@ export default function UserMngPage() {
                 }}
                 okText="Oui, je confirme"
                 cancelText="Non"
+                placement="left"
               >
                 <UserDeleteOutlined />
               </Popconfirm>
@@ -180,15 +159,6 @@ export default function UserMngPage() {
       },
     },
   ];
-
-  const onResetClick = () => {
-    setSearchKey('');
-    setSelectedRole('');
-  };
-
-  const onModalVisibleChange = visible => {
-    setIsModalVisible(visible);
-  };
 
   const paginationProps = {
     pageSize: 8,
@@ -211,7 +181,8 @@ export default function UserMngPage() {
           Créer un nouvel utilisateur
         </Button>
       </div>
-      <UserModalWrapper
+      <ModalWrapper
+        name="user"
         visible={isModalVisible}
         onModalVisibleChange={onModalVisibleChange}
         data={currentLine}
@@ -242,7 +213,7 @@ export default function UserMngPage() {
           </Button>
         </div>
       </div>
-      <Spin tip="Loading..." spinning={getUsersListPending || deleteUserPending}>
+      <Spin tip="Chargement en cours..." spinning={getUsersListPending || deleteUserPending}>
         <Table
           size="middle"
           columns={columns}
@@ -251,7 +222,7 @@ export default function UserMngPage() {
         />
         <div className="admin-user-mng-page-footer">
           {!getUsersListError
-            ? `${(usersToShow || {}).length} utilisateurs répondent aux critères de
+            ? `${(usersToShow || {}).length} utilisateur(s) répondent aux critères de
           recherche`
             : 'Échec du chargement des données'}
         </div>

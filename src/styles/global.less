@@ -14,10 +14,16 @@ body {
   font-family: var(--body-font);
 }
 
+::selection {
+  background: var(--second-color);
+}
+
+/* ================BUTTONS============== */
+
 .ant-btn {
   border-radius: 10px;
   transition: ease 0.3s;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
 }
 
 .ant-btn-primary {
@@ -26,9 +32,9 @@ body {
   font-weight: var(--font-semi-bold);
   transition: 0.3s;
   border: none;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+  // box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
 }
-
 
 .ant-btn:hover,
 .ant-btn:focus {
@@ -44,6 +50,8 @@ body {
   border: none;
 }
 
+/* ================INPUT============== */
+
 .ant-input:hover,
 .ant-input:focus,
 .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input)
@@ -53,15 +61,25 @@ body {
   box-shadow: 0 0 0 2px rgba(127, 130, 215, 0.2);
 }
 
-::selection {
-  background: var(--first-color);
+.ant-input-affix-wrapper:hover,
+.ant-input-affix-wrapper-focused {
+  border-color: var(--first-color) !important;
+  box-shadow: 0 0 0 2px rgba(127, 130, 215, 0.2) !important;
+
+  .ant-input:hover {
+    border: none;
+    box-shadow: none;
+  }
 }
+
+/* ================MENU============== */
 
 .ant-menu-item-selected,
 .ant-menu-item-selected a,
 .ant-menu-item-selected a:hover,
 .ant-menu-light .ant-menu-item:hover,
 .ant-menu-light .ant-menu-item-active,
+.ant-menu-light .ant-menu-item-active a,
 .ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open,
 .ant-menu-light .ant-menu-submenu-active,
 .ant-menu-light .ant-menu-submenu-title:hover {
@@ -79,12 +97,15 @@ body {
   border-right: 3px solid var(--first-color);
 }
 
-
 /* ================MODAL============== */
-.ant-modal-header{
+.ant-modal-header {
   border-radius: 14px 14px 0 0;
 }
 
-.ant-modal-content{
+.ant-modal-content {
   border-radius: 14px;
+}
+
+.error {
+  color: #f81d22;
 }

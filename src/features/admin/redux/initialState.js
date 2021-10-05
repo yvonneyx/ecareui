@@ -14,6 +14,14 @@ const initialState = {
   deleteUserError: null,
   updateUserPending: false,
   updateUserError: null,
+  addExamenPending: false,
+  addExamenError: null,
+  deleteExamenPending: false,
+  deleteExamenError: null,
+  updateExamenPending: false,
+  updateExamenError: null,
+  getExamensListPending: false,
+  getExamensListError: null,
 };
 
 export default initialState;

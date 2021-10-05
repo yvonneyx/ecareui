@@ -1,27 +1,27 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
-  ADMIN_UPDATE_USER_BEGIN,
-  ADMIN_UPDATE_USER_SUCCESS,
-  ADMIN_UPDATE_USER_FAILURE,
-  ADMIN_UPDATE_USER_DISMISS_ERROR,
+  ADMIN_ADD_EXAMEN_BEGIN,
+  ADMIN_ADD_EXAMEN_SUCCESS,
+  ADMIN_ADD_EXAMEN_FAILURE,
+  ADMIN_ADD_EXAMEN_DISMISS_ERROR,
 } from './constants';
 import axios from 'axios';
 import { serverUrl, config } from '../../../common/globalConfig';
 
-export function updateUser(args = {}) {
+export function addExamen(args = {}) {
   return (dispatch) => { // optionally you can have getState as the second argument
     dispatch({
-      type: ADMIN_UPDATE_USER_BEGIN,
+      type: ADMIN_ADD_EXAMEN_BEGIN,
     });
 
     const promise = new Promise((resolve, reject) => {
       const requestJSON = JSON.stringify({ ...args });
-      const doRequest = axios.post(`${serverUrl}/User/change`, requestJSON, config);
+      const doRequest = axios.post(`${serverUrl}/ExamenMedical/new`, requestJSON, config);
       doRequest.then(
         (res) => {
           dispatch({
-            type: ADMIN_UPDATE_USER_SUCCESS,
+            type: ADMIN_ADD_EXAMEN_SUCCESS,
             data: res,
           });
           resolve(res);
@@ -29,7 +29,7 @@ export function updateUser(args = {}) {
         // Use rejectHandler as the second argument so that render errors won't be caught.
         (err) => {
           dispatch({
-            type: ADMIN_UPDATE_USER_FAILURE,
+            type: ADMIN_ADD_EXAMEN_FAILURE,
             data: { error: err },
           });
           reject(err);
@@ -41,70 +41,70 @@ export function updateUser(args = {}) {
   };
 }
 
-export function dismissUpdateUserError() {
+export function dismissAddExamenError() {
   return {
-    type: ADMIN_UPDATE_USER_DISMISS_ERROR,
+    type: ADMIN_ADD_EXAMEN_DISMISS_ERROR,
   };
 }
 
-export function useUpdateUser() {
+export function useAddExamen() {
   const dispatch = useDispatch();
 
-  const { updateUserPending, updateUserError } = useSelector(
+  const { addExamenPending, addExamenError } = useSelector(
     state => ({
-      updateUserPending: state.admin.updateUserPending,
-      updateUserError: state.admin.updateUserError,
+      addExamenPending: state.admin.addExamenPending,
+      addExamenError: state.admin.addExamenError,
     }),
     shallowEqual,
   );
 
   const boundAction = useCallback((...args) => {
-    return dispatch(updateUser(...args));
+    return dispatch(addExamen(...args));
   }, [dispatch]);
 
   const boundDismissError = useCallback(() => {
-    return dispatch(dismissUpdateUserError());
+    return dispatch(dismissAddExamenError());
   }, [dispatch]);
 
   return {
-    updateUser: boundAction,
-    updateUserPending,
-    updateUserError,
-    dismissUpdateUserError: boundDismissError,
+    addExamen: boundAction,
+    addExamenPending,
+    addExamenError,
+    dismissAddExamenError: boundDismissError,
   };
 }
 
 export function reducer(state, action) {
   switch (action.type) {
-    case ADMIN_UPDATE_USER_BEGIN:
+    case ADMIN_ADD_EXAMEN_BEGIN:
       // Just after a request is sent
       return {
         ...state,
-        updateUserPending: true,
-        updateUserError: null,
+        addExamenPending: true,
+        addExamenError: null,
       };
 
-    case ADMIN_UPDATE_USER_SUCCESS:
+    case ADMIN_ADD_EXAMEN_SUCCESS:
       // The request is success
       return {
         ...state,
-        updateUserPending: false,
-        updateUserError: null,
+        addExamenPending: false,
+        addExamenError: null,
       };
 
-    case ADMIN_UPDATE_USER_FAILURE:
+    case ADMIN_ADD_EXAMEN_FAILURE:
       // The request is failed
       return {
         ...state,
-        updateUserPending: false,
-        updateUserError: action.data.error,
+        addExamenPending: false,
+        addExamenError: action.data.error,
       };
 
-    case ADMIN_UPDATE_USER_DISMISS_ERROR:
+    case ADMIN_ADD_EXAMEN_DISMISS_ERROR:
       // Dismiss the request failure error
       return {
         ...state,
-        updateUserError: null,
+        addExamenError: null,
       };
 
     default:

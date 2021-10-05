@@ -1,16 +1,15 @@
 import React, { useImperativeHandle, forwardRef } from 'react';
 // import PropTypes from 'prop-types';
-import { roles } from '../../common/constants';
-import { Form, Input, Select, message, notification } from 'antd';
+import { Form, Input, message, notification } from 'antd';
 import _ from 'lodash';
-import { useAddUser, useUpdateUser } from './redux/hooks';
+import { useAddExamen, useUpdateExamen } from './redux/hooks';
 
-function UserDetailForm(props, ref) {
+function ExamenDetailForm(props, ref) {
   const { data, onModalVisibleChange, handleVersionUpdate } = props;
   const [form] = Form.useForm();
   const mode = _.isEmpty(data) ? 'new' : 'update';
-  const { addUser } = useAddUser();
-  const { updateUser } = useUpdateUser();
+  const { addExamen } = useAddExamen();
+  const { updateExamen } = useUpdateExamen();
 
   useImperativeHandle(ref, () => ({
     onFinish: () => {
@@ -31,14 +30,13 @@ function UserDetailForm(props, ref) {
 
   const onFinish = values => {
     if (mode === 'new') {
-      addUser({
-        userNom: values.username,
-        userType: roles.indexOf(values.role),
-        userPassword: values.password,
+      addExamen({
+        examenMedicalNom: values.name,
+        examenMedicalPrix: values.price,
       })
         .then(() => {
           onModalVisibleChange(false);
-          message.success('Créé avec succès', 5);
+          message.success('Ajouté avec succès', 5);
           handleVersionUpdate();
         })
         .catch(() => {
@@ -47,11 +45,10 @@ function UserDetailForm(props, ref) {
         });
     }
     if (mode === 'update') {
-      updateUser({
-        userId: values.id,
-        userNom: values.username,
-        userType: roles.indexOf(values.role),
-        userPassword: values.password,
+      updateExamen({
+        examenMedicalId: values.id,
+        examenMedicalNom: values.name,
+        examenMedicalPrix: values.price,
       })
         .then(() => {
           onModalVisibleChange(false);
@@ -66,16 +63,15 @@ function UserDetailForm(props, ref) {
   };
 
   const initialValues = {
-    id: data.userId,
-    username: data.userNom,
-    password: data.userPassword,
-    role: roles[data.userType],
+    id: data.examenMedicalId,
+    name: data.examenMedicalNom,
+    price: data.examenMedicalPrix,
   };
 
   return (
-    <div className="admin-user-detail-form">
+    <div className="admin-examen-detail-form">
       <Form
-        name="user-detail-form"
+        name="examen-detail-form"
         form={form}
         labelCol={{
           span: 8,
@@ -87,17 +83,17 @@ function UserDetailForm(props, ref) {
       >
         {mode === 'update' && (
           <Form.Item label="ID" name="id">
-            <span className="ant-form-text">{data.userId}</span>
+            <span className="ant-form-text">{data.examenMedicalId}</span>
           </Form.Item>
         )}
 
         <Form.Item
-          label="Nom d'utilisateur"
-          name="username"
+          label="Nom"
+          name="name"
           rules={[
             {
               required: true,
-              message: "Veuillez saisir le nom d'utilisateur!",
+              message: "Veuillez saisir le nom de l'examen medical!",
             },
           ]}
         >
@@ -105,8 +101,8 @@ function UserDetailForm(props, ref) {
         </Form.Item>
 
         <Form.Item
-          label="Mot de passe"
-          name="password"
+          label="Prix"
+          name="price"
           rules={[
             {
               required: true,
@@ -114,35 +110,14 @@ function UserDetailForm(props, ref) {
             },
           ]}
         >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          name="role"
-          label="Rôle"
-          rules={[
-            {
-              required: true,
-              message: "Définir le rôle de l'utilisateur.",
-            },
-          ]}
-        >
-          <Select>
-            {roles.slice(0, 3).map(role => {
-              return (
-                <Select.Option value={role} key={role}>
-                  {role}
-                </Select.Option>
-              );
-            })}
-          </Select>
+          <Input suffix="€" />
         </Form.Item>
       </Form>
     </div>
   );
 }
 
-export default UserDetailForm = forwardRef(UserDetailForm);
+export default ExamenDetailForm = forwardRef(ExamenDetailForm);
 
-UserDetailForm.propTypes = {};
-UserDetailForm.defaultProps = {};
+ExamenDetailForm.propTypes = {};
+ExamenDetailForm.defaultProps = {};

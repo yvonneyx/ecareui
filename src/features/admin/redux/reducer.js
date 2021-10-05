@@ -11,12 +11,20 @@ import { reducer as getUsersListReducer } from './getUsersList';
 import { reducer as addUserReducer } from './addUser';
 import { reducer as deleteUserReducer } from './deleteUser';
 import { reducer as updateUserReducer } from './updateUser';
+import { reducer as addExamenReducer } from './addExamen';
+import { reducer as deleteExamenReducer } from './deleteExamen';
+import { reducer as updateExamenReducer } from './updateExamen';
+import { reducer as getExamensListReducer } from './getExamensList';
 
 const reducers = [
   getUsersListReducer,
   addUserReducer,
   deleteUserReducer,
   updateUserReducer,
+  addExamenReducer,
+  deleteExamenReducer,
+  updateExamenReducer,
+  getExamensListReducer,
 ];
 
 export default function reducer(state = initialState, action) {
