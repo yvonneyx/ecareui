@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 // import PropTypes from 'prop-types';
 import { Modal, Button } from 'antd';
-import { UserDetailForm, ExamenDetailForm, DptDetailForm } from './';
+import { UserDetailForm, ExamenDetailForm, DptDetailForm, CoorDetailForm } from './';
 import _ from 'lodash';
 import {
   useAddUser,
@@ -18,6 +18,7 @@ export default function ModalContainer(props) {
   const userFormRef = useRef(null);
   const examenFormRef = useRef(null);
   const dptFormRef = useRef(null);
+  const coorFormRef = useRef(null);
   const { addUserPending } = useAddUser();
   const { updateUserPending } = useUpdateUser();
   const { addExamenPending } = useAddExamen();
@@ -36,6 +37,8 @@ export default function ModalContainer(props) {
       case 'dpt':
         dptFormRef.current && dptFormRef.current.onFinish();
         break;
+      case 'coordinateur':
+        coorFormRef.current && coorFormRef.current.onFinish();
       default:
         break;
     }
@@ -54,6 +57,10 @@ export default function ModalContainer(props) {
       ? _.isEmpty(data)
         ? 'Ajouter un nouvel examen medical'
         : 'Modifier cet examen medical'
+      : name === 'coordinateur'
+      ? _.isEmpty(data)
+        ? 'Ajouter un nouvel coordinateur'
+        : 'Modifier cet coordinateur'
       : _.isEmpty(data)
       ? 'Ajouter un nouvel département médical'
       : 'Modifier cet département médical';
@@ -96,6 +103,7 @@ export default function ModalContainer(props) {
         {name === 'user' && <UserDetailForm data={data} ref={userFormRef} {...props} />}
         {name === 'examen' && <ExamenDetailForm data={data} ref={examenFormRef} {...props} />}
         {name === 'dpt' && <DptDetailForm data={data} ref={dptFormRef} {...props} />}
+        {name === 'coordinateur' && <CoorDetailForm data={data} ref={coorFormRef} {...props} />}
       </Modal>
     </div>
   );

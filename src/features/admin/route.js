@@ -1,7 +1,7 @@
 // This is the JSON way to define React Router rules in a Rekit app.
 // Learn more from: http://rekit.js.org/docs/routing.html
 
-import { Layout, UserMngPage, ExamenMngPage, DptMngPage } from './';
+import { Layout, UserMngPage, ExamenMngPage, DptMngPage, CoorMngPage } from './';
 
 export default {
   path: 'admin',
@@ -10,5 +10,6 @@ export default {
     { path: 'gestion-des-utilisateurs', component: UserMngPage, isIndex: true },
     { path: 'gestion-des-examens', component: ExamenMngPage },
     { path: 'gestion-des-departements', component: DptMngPage },
+    { path: 'gestion-des-coordinateurs', component: CoorMngPage },
   ],
 };
