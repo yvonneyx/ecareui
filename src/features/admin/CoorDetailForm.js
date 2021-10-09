@@ -2,15 +2,12 @@ import React, { useImperativeHandle, forwardRef } from 'react';
 // import PropTypes from 'prop-types';
 import { Form, Input, message, notification, InputNumber } from 'antd';
 import _ from 'lodash';
-import { useAddDpt, useUpdateDpt } from './redux/hooks';
-import TextArea from 'antd/lib/input/TextArea';
+import { useUpdateCoor } from './redux/hooks';
 
 var CoorDetailForm = function(props, ref) {
   const { data, onModalVisibleChange, handleVersionUpdate } = props;
   const [form] = Form.useForm();
-  const mode = _.isEmpty(data) ? 'new' : 'update';
-  // const { addDpt } = useAddDpt();
-  // const { updateDpt } = useUpdateDpt();
+  const { updateCoor } = useUpdateCoor();
 
   useImperativeHandle(ref, () => ({
     onFinish: () => {
@@ -30,51 +27,31 @@ var CoorDetailForm = function(props, ref) {
   }));
 
   const onFinish = values => {
-    if (mode === 'new') {
-      console.log(typeof Number(values.coordinateurTelephone))
-      debugger;
-      // addDpt({
-      //   departementNom: values.name,
-      //   departementDescription: values.desc,
-      // })
-      //   .then(() => {
-      //     onModalVisibleChange(false);
-      //     message.success('Ajouté avec succès', 5);
-      //     handleVersionUpdate();
-      //   })
-      //   .catch(() => {
-      //     onModalVisibleChange(false);
-      //     message.error('Échec de la création', 5);
-      //   });
-    }
-    if (mode === 'update') {
-      // updateDpt({
-      //   departementId: values.id,
-      //   departementNom: values.name,
-      //   departementDescription: values.desc,
-      // })
-      //   .then(() => {
-      //     onModalVisibleChange(false);
-      //     message.success('Mise à jour terminée', 5);
-      //     handleVersionUpdate();
-      //   })
-      //   .catch(() => {
-      //     onModalVisibleChange(false);
-      //     message.error('Mise à jour a échoué', 5);
-      //   });
-    }
+    updateCoor({
+      coordinateurId: data.coordinateurId,
+      coordinateurNom: values.coordinateurNom,
+      coordinateurTelephone: values.coordinateurTelephone,
+    })
+      .then(() => {
+        onModalVisibleChange(false);
+        message.success('Mise à jour terminée', 5);
+        handleVersionUpdate();
+      })
+      .catch(() => {
+        onModalVisibleChange(false);
+        message.error('Mise à jour a échoué', 5);
+      });
   };
 
   const initialValues = {
-    id: data.departementId,
-    name: data.departementNom,
-    desc: data.departementDescription,
+    coordinateurNom: data.coordinateurNom,
+    coordinateurTelephone: data.coordinateurTelephone,
   };
 
   return (
     <div className="admin-coor-detail-form">
       <Form
-        name="dpt-detail-form"
+        name="coor-detail-form"
         form={form}
         labelCol={{
           span: 8,
@@ -84,24 +61,7 @@ var CoorDetailForm = function(props, ref) {
         }}
         initialValues={initialValues}
       >
-        {mode === 'update' && (
-          <Form.Item label="User ID" name="userId">
-            <span className="ant-form-text">{data.userId}</span>
-            <span className="ant-form-text inline-label">Coordinateur ID:</span>
-            <span className="ant-form-text">{data.coordinateurId}</span>
-          </Form.Item>
-        )}
-
-        <Form.Item
-          label="Nom"
-          name="coordinateurNom"
-          rules={[
-            {
-              required: true,
-              message: 'Veuillez saisir le nom du coordinateur!',
-            },
-          ]}
-        >
+        <Form.Item label="Nom et prénom" name="coordinateurNom">
           <Input />
         </Form.Item>
 
@@ -112,12 +72,10 @@ var CoorDetailForm = function(props, ref) {
             ({ getFieldValue }) => ({
               validator(_, value) {
                 const regex = new RegExp('^[0-9]{1,10}$');
-                if (regex.test(value)) {
+                if (!value || regex.test(value)) {
                   return Promise.resolve();
                 }
-                return Promise.reject(
-                  new Error('Veuillez saisir votre numéro de téléphone portable à huit chiffres!'),
-                );
+                return Promise.reject(new Error('Veuillez saisir un numéro de téléphone exact!'));
               },
             }),
           ]}

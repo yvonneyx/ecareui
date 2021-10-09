@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 // import PropTypes from 'prop-types';
 import {
   Table,
@@ -13,7 +13,12 @@ import {
   Spin,
 } from 'antd';
 import { ModalWrapper } from './';
-import { UserDeleteOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons';
+import {
+  UserDeleteOutlined,
+  EditOutlined,
+  ExclamationCircleFilled,
+  AlignLeftOutlined,
+} from '@ant-design/icons';
 import { roles, showDate, antIcon } from '../../common/constants';
 import { useDeleteUser, useGetUsersList } from './redux/hooks';
 import _ from 'lodash';
@@ -29,6 +34,7 @@ export default function UserMngPage() {
   const { deleteUser, deleteUserPending } = useDeleteUser();
   const { usersList, getUsersList, getUsersListPending, getUsersListError } = useGetUsersList();
   const [version, setVersion] = useState('');
+  const searchInput = useRef();
 
   useEffect(() => {
     getUsersList();
@@ -76,6 +82,7 @@ export default function UserMngPage() {
   const onResetClick = () => {
     setSearchKey('');
     setSelectedRole('');
+    if (searchInput.current) searchInput.current.state.value = '';
   };
 
   const onModalVisibleChange = visible => {
@@ -84,22 +91,34 @@ export default function UserMngPage() {
 
   const columns = [
     {
-      title: 'ID',
+      title: 'UID',
       dataIndex: 'userId',
       key: 'userId',
-      width: 80,
+      width: 40,
     },
     {
-      title: 'Nom',
+      title: 'Rôle',
+      dataIndex: 'userType',
+      key: 'userType',
+      width: 140,
+      render: role => {
+        let color = role === 0 ? '#5E454B' : role === 1 ? '#5B8A72' : '#D57E7E';
+        return (
+          <Tag className="usertype-tag" color={color}>
+            {roles[role]}
+          </Tag>
+        );
+      },
+    },
+    {
+      title: "Nom d'utilisateur",
       dataIndex: 'userNom',
       key: 'userNom',
-      width: 160,
     },
     {
       title: 'Mot de passe',
       dataIndex: 'userPassword',
       key: 'userPassword',
-      width: 240,
       ellipsis: true,
     },
     {
@@ -117,18 +136,10 @@ export default function UserMngPage() {
       render: time => showDate(time),
     },
     {
-      title: 'Rôle',
-      dataIndex: 'userType',
-      key: 'userType',
-      render: role => {
-        let color = role === 0 ? 'geekblue' : role === 1 ? 'cyan' : 'gold';
-        return <Tag color={color}>{roles[role]}</Tag>;
-      },
-    },
-    {
       title: 'Opération',
       dataIndex: 'operation',
       key: 'operation',
+      width: 120,
       render: (text, record) => {
         return (
           <Space size="middle">
@@ -153,6 +164,16 @@ export default function UserMngPage() {
                 <UserDeleteOutlined />
               </Popconfirm>
             </Typography.Link>
+            {record.userType === 1 && (
+              <Typography.Link href={`/admin/gestion-des-infirmieres/${record.userId}`}>
+                <AlignLeftOutlined />
+              </Typography.Link>
+            )}
+            {record.userType === 2 && (
+              <Typography.Link href={`/admin/gestion-des-coordinateurss/${record.userId}`}>
+                <AlignLeftOutlined />
+              </Typography.Link>
+            )}
           </Space>
         );
       },
@@ -199,9 +220,10 @@ export default function UserMngPage() {
           </Select>
           <Search
             className="search-bar"
-            placeholder="Rechercher nom d'utilisateur.."
+            placeholder="Rechercher par nom d'utilisateur.."
             onSearch={onSearch}
             enterButton
+            ref={searchInput}
           />
         </div>
         <div className="admin-user-mng-page-table-header-right">

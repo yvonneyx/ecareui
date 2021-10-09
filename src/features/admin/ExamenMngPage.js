@@ -1,20 +1,11 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 // import PropTypes from 'prop-types';
-import {
-  Table,
-  Input,
-  Button,
-  Typography,
-  Space,
-  Popconfirm,
-  message,
-  Spin,
-} from 'antd';
+import { Table, Input, Button, Typography, Space, Popconfirm, message, Spin } from 'antd';
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons';
 import _ from 'lodash';
 import { showDate, antIcon } from '../../common/constants';
 import ModalWrapper from './ModalWrapper';
-import { useGetExamensList, useDeleteExamen } from './redux/hooks';
+import { useGetExamensList, useDeleteExamen, useGetDptsList } from './redux/hooks';
 
 const { Search } = Input;
 
@@ -30,10 +21,18 @@ export default function ExamenMngPage(props) {
     getExamensListError,
   } = useGetExamensList();
   const { deleteExamen } = useDeleteExamen();
+  const { dptsList, getDptsList, getDptsListPending } = useGetDptsList();
+  const searchInput = useRef();
 
   useEffect(() => {
     getExamensList();
   }, [getExamensList, version]);
+
+  useEffect(() => {
+    if (_.isEmpty(dptsList)) {
+      getDptsList();
+    }
+  }, [getDptsList, dptsList]);
 
   const emToShow = useMemo(() => {
     let temp;
@@ -70,6 +69,7 @@ export default function ExamenMngPage(props) {
 
   const onResetClick = () => {
     setSearchKey('');
+    if (searchInput.current) searchInput.current.state.value = '';
   };
 
   const onModalVisibleChange = visible => {
@@ -81,10 +81,10 @@ export default function ExamenMngPage(props) {
       title: 'ID',
       dataIndex: 'examenMedicalId',
       key: 'examenMedicalId',
-      width: 80,
+      width: 35,
     },
     {
-      title: 'Nom',
+      title: "Nom d'examen medical",
       dataIndex: 'examenMedicalNom',
       key: 'examenMedicalNom',
       ellipsis: true,
@@ -97,17 +97,28 @@ export default function ExamenMngPage(props) {
       render: text => <span>{text}€</span>,
     },
     {
+      title: 'Département concerné',
+      dataIndex: 'departementId',
+      key: 'departementId',
+      render: dptId => (
+        <span>
+          {dptsList &&
+            (dptsList.filter(dpt => dpt.departementId === dptId)[0] || []).departementNom}
+        </span>
+      ),
+    },
+    {
       title: 'Heure de création',
       dataIndex: 'createdTime',
       key: 'createdTime',
-      width: 220,
+      width: 180,
       render: time => showDate(time),
     },
     {
       title: 'Heure mise à jour',
       dataIndex: 'updatedTime',
       key: 'updatedTime',
-      width: 220,
+      width: 180,
       render: time => showDate(time),
     },
     {
@@ -171,6 +182,7 @@ export default function ExamenMngPage(props) {
         onModalVisibleChange={onModalVisibleChange}
         data={currentLine}
         handleVersionUpdate={handleVersionUpdate}
+        dptsList={dptsList}
       />
 
       <div className="admin-examen-mng-page-table-header">
@@ -180,6 +192,7 @@ export default function ExamenMngPage(props) {
             placeholder="Rechercher par nom d'examen medical.."
             onSearch={onSearch}
             enterButton
+            ref={searchInput}
           />
         </div>
         <div className="admin-examen-mng-page-table-header-right">
@@ -188,7 +201,11 @@ export default function ExamenMngPage(props) {
           </Button>
         </div>
       </div>
-      <Spin tip="Chargement en cours..." spinning={getExamensListPending} indicator={antIcon}>
+      <Spin
+        tip="Chargement en cours..."
+        spinning={getExamensListPending || getDptsListPending}
+        indicator={antIcon}
+      >
         <Table size="middle" columns={columns} dataSource={emToShow} pagination={paginationProps} />
         <div className="admin-examen-mng-page-footer">
           {!getExamensListError ? (

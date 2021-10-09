@@ -1,38 +1,41 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 // import PropTypes from 'prop-types';
 import { Table, Input, Button, Typography, Space, Popconfirm, message, Spin } from 'antd';
-import { ModalWrapper } from './';
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons';
-import { showDate, antIcon } from '../../common/constants';
-import { useDeleteCoor, useGetCoorsList } from './redux/hooks';
-import { useLocation } from 'react-router-dom';
 import _ from 'lodash';
+import { showDate, antIcon } from '../../common/constants';
+import ModalWrapper from './ModalWrapper';
+import { useGetPatientsList, useDeletePatient } from './redux/hooks';
 
 const { Search } = Input;
 
-export default function CoorMngPage(param) {
-  const location = useLocation();
-  const searchUserId = location.pathname.split('/')[3];
+export default function PatientMngPage(props) {
   const [searchKey, setSearchKey] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentLine, setCurrentLine] = useState({});
   const [version, setVersion] = useState('');
-  const { coorsList, getCoorsList, getCoorsListPending, getCoorsListError } = useGetCoorsList();
-  const { deleteCoor } = useDeleteCoor();
-  const searchInput = React.useRef();
+  const {
+    patientsList,
+    getPatientsList,
+    getPatientsListPending,
+    getPatientsListError,
+  } = useGetPatientsList();
+  const { deletePatient } = useDeletePatient();
+  const searchInput = useRef();
 
   useEffect(() => {
-    getCoorsList();
-  }, [getCoorsList, version]);
+    getPatientsList();
+  }, [getPatientsList, version]);
 
-  useEffect(() => {
-    if (!_.isEmpty(searchUserId)) {
-      setSearchKey(searchUserId);
-      if (searchInput.current) {
-        searchInput.current.state.value = searchUserId;
-      }
+  const emToShow = useMemo(() => {
+    let temp;
+    if (_.isEmpty(patientsList)) return null;
+    temp = patientsList.filter(data => data.isDeleted === 'N');
+    if (!_.isEmpty(searchKey)) {
+      temp = temp.filter(data => _.includes(_.lowerCase(data.patientNom), _.lowerCase(searchKey)));
     }
-  }, [searchUserId]);
+    return temp;
+  }, [patientsList, searchKey]);
 
   const handleVersionUpdate = () => {
     setVersion(new Date());
@@ -42,22 +45,9 @@ export default function CoorMngPage(param) {
     setSearchKey(value);
   };
 
-  const usersToShow = useMemo(() => {
-    if (_.isEmpty(coorsList)) return null;
-    let temp = coorsList.filter(data => data.isDeleted === 'N');
-    if (searchKey) {
-      temp = temp.filter(
-        data =>
-          _.includes(_.lowerCase(data.coordinateurNom), _.lowerCase(searchKey)) ||
-          _.includes(_.lowerCase(data.coordinateurId), _.lowerCase(searchKey)),
-      );
-    }
-    return temp;
-  }, [coorsList, searchKey]);
-
   const deleteConfirm = rc => {
-    deleteCoor({
-      coordinateurId: rc.coordinateurId,
+    deletePatient({
+      patientId: rc.patientId,
     })
       .then(() => {
         handleVersionUpdate();
@@ -79,39 +69,53 @@ export default function CoorMngPage(param) {
 
   const columns = [
     {
-      title: 'UID',
-      dataIndex: 'userId',
-      key: 'userId',
+      title: 'ID',
+      dataIndex: 'patientId',
+      key: 'patientId',
       width: 25,
     },
     {
-      title: 'CID',
-      dataIndex: 'coordinateurId',
-      key: 'coordinateurId',
-      width: 25,
-    },
-    {
-      title: 'Nom et Prénom',
-      dataIndex: 'coordinateurNom',
-      key: 'coordinateurNom',
+      title: 'Nom et prénom',
+      dataIndex: 'patientNom',
+      key: 'patientNom',
+      width: 120,
     },
     {
       title: 'Téléphone',
-      dataIndex: 'coordinateurTelephone',
-      key: 'coordinateurTelephone',
+      dataIndex: 'patientTelephone',
+      key: 'patientTelephone',
+      width: 120,
+    },
+    {
+      title: 'Addresse',
+      dataIndex: 'patientAddresse',
+      key: 'patientAddresse',
+    },
+    {
+      title: 'Date de naissance',
+      dataIndex: 'patientNaissance',
+      key: 'patientNaissance',
+      width: 140,
+    },
+    {
+      title: 'Sexe',
+      dataIndex: 'patientSexe',
+      key: 'patientSexe',
+      width: 80,
+      render: text => <span>{text === 0 ? 'Male' : 'Female'}</span>,
     },
     {
       title: 'Heure de création',
       dataIndex: 'createdTime',
       key: 'createdTime',
-      width: 180,
+      width: 160,
       render: time => showDate(time),
     },
     {
       title: 'Heure mise à jour',
       dataIndex: 'updatedTime',
       key: 'updatedTime',
-      width: 180,
+      width: 160,
       render: time => showDate(time),
     },
     {
@@ -133,12 +137,13 @@ export default function CoorMngPage(param) {
             <Typography.Link>
               <Popconfirm
                 icon={<ExclamationCircleFilled style={{ color: 'var(--first-color)' }} />}
-                title="Êtes-vous sûr de supprimer cet coordinateur?"
+                title="Êtes-vous sûr de supprimer cet examen medical?"
                 onConfirm={() => {
                   deleteConfirm(record);
                 }}
                 okText="Oui, je confirme"
                 cancelText="Non"
+                placement="left"
               >
                 <DeleteOutlined />
               </Popconfirm>
@@ -151,54 +156,57 @@ export default function CoorMngPage(param) {
 
   const paginationProps = {
     pageSize: 8,
-    total: usersToShow && usersToShow.length,
+    total: (emToShow && emToShow.length) || 0,
   };
 
   return (
-    <div className="admin-coor-mng-page">
-      <div className="admin-coor-mng-page-header">
-        <h1>Coordinateurs</h1>
+    <div className="admin-patient-mng-page">
+      <div className="admin-patient-mng-page-header">
+        <h1>Patients</h1>
+        <Button
+          type="primary"
+          onClick={() => {
+            setIsModalVisible(true);
+            setCurrentLine({});
+          }}
+        >
+          Ajouter un nouvel patient
+        </Button>
       </div>
       <ModalWrapper
-        name="coordinateur"
+        name="patient"
         visible={isModalVisible}
         onModalVisibleChange={onModalVisibleChange}
         data={currentLine}
         handleVersionUpdate={handleVersionUpdate}
       />
 
-      <div className="admin-coor-mng-page-table-header">
-        <div className="admin-coor-mng-page-table-header-left">
+      <div className="admin-patient-mng-page-table-header">
+        <div className="admin-patient-mng-page-table-header-left">
           <Search
             className="search-bar"
-            placeholder="Rechercher nom du coordinateur ou UID.."
+            placeholder="Rechercher par nom de patient.."
             onSearch={onSearch}
             enterButton
             ref={searchInput}
           />
         </div>
-        <div className="admin-coor-mng-page-table-header-right">
+        <div className="admin-patient-mng-page-table-header-right">
           <Button className="reset-btn" onClick={onResetClick}>
             Réinitialiser
           </Button>
         </div>
       </div>
-      <Spin tip="Chargement en cours..." spinning={getCoorsListPending} indicator={antIcon}>
-        <Table
-          size="middle"
-          columns={columns}
-          dataSource={usersToShow}
-          pagination={paginationProps}
-          rowKey={record => record.userId}
-        />
-        <div className="admin-coor-mng-page-footer">
-          {!getCoorsListError ? (
-            _.isEmpty(usersToShow) ? (
+      <Spin tip="Chargement en cours..." spinning={getPatientsListPending} indicator={antIcon}>
+        <Table size="middle" columns={columns} dataSource={emToShow} pagination={paginationProps} />
+        <div className="admin-patient-mng-page-footer">
+          {!getPatientsListError ? (
+            _.isEmpty(emToShow) ? (
               'Pas de résultat répond aux critères de recherche'
-            ) : usersToShow.length === 1 ? (
-              'Seul 1 coordinateur répond répond aux critères de recherche'
+            ) : emToShow.length === 1 ? (
+              'Seul 1 examen medical répond aux critères de recherche'
             ) : (
-              `${usersToShow.length} coordinateurs répondent aux critères de recherche`
+              `${emToShow.length} patients répondent aux critères de recherche`
             )
           ) : (
             <div className="error">Échec du chargement des données</div>
@@ -209,5 +217,5 @@ export default function CoorMngPage(param) {
   );
 }
 
-CoorMngPage.propTypes = {};
-CoorMngPage.defaultProps = {};
+PatientMngPage.propTypes = {};
+PatientMngPage.defaultProps = {};

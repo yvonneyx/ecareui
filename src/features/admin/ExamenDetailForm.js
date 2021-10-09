@@ -1,15 +1,24 @@
-import React, { useImperativeHandle, forwardRef } from 'react';
+import React, { useImperativeHandle, forwardRef, useMemo } from 'react';
 // import PropTypes from 'prop-types';
-import { Form, Input, message, notification } from 'antd';
+import { Form, Input, message, notification, Select } from 'antd';
 import _ from 'lodash';
 import { useAddExamen, useUpdateExamen } from './redux/hooks';
 
 var ExamenDetailForm = function(props, ref) {
-  const { data, onModalVisibleChange, handleVersionUpdate } = props;
+  const { data, onModalVisibleChange, handleVersionUpdate, dptsList } = props;
   const [form] = Form.useForm();
   const mode = _.isEmpty(data) ? 'new' : 'update';
   const { addExamen } = useAddExamen();
   const { updateExamen } = useUpdateExamen();
+
+  const dptsOption = useMemo(() => {
+    return (dptsList || []).map(dpt => {
+      return {
+        value: dpt.departementId,
+        name: dpt.departementNom,
+      };
+    });
+  }, [dptsList]);
 
   useImperativeHandle(ref, () => ({
     onFinish: () => {
@@ -33,6 +42,7 @@ var ExamenDetailForm = function(props, ref) {
       addExamen({
         examenMedicalNom: values.name,
         examenMedicalPrix: values.price,
+        departementId: values.departementId,
       })
         .then(() => {
           onModalVisibleChange(false);
@@ -49,6 +59,7 @@ var ExamenDetailForm = function(props, ref) {
         examenMedicalId: values.id,
         examenMedicalNom: values.name,
         examenMedicalPrix: values.price,
+        departementId: values.departementId,
       })
         .then(() => {
           onModalVisibleChange(false);
@@ -74,10 +85,10 @@ var ExamenDetailForm = function(props, ref) {
         name="examen-detail-form"
         form={form}
         labelCol={{
-          span: 8,
+          span: 10,
         }}
         wrapperCol={{
-          span: 16,
+          span: 14,
         }}
         initialValues={initialValues}
       >
@@ -111,6 +122,34 @@ var ExamenDetailForm = function(props, ref) {
           ]}
         >
           <Input suffix="€" />
+        </Form.Item>
+
+        <Form.Item
+          label="Département concerné"
+          name="departementId"
+          rules={[
+            {
+              required: true,
+              message: 'Veuillez choisir le département concerné',
+            },
+          ]}
+        >
+          <Select
+            showSearch
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+            initialValues={data.departementId}
+          >
+            {dptsOption.map(dpt => {
+              return (
+                <Select.Option value={dpt.value} key={dpt.value}>
+                  {dpt.name}
+                </Select.Option>
+              );
+            })}
+            }
+          </Select>
         </Form.Item>
       </Form>
     </div>

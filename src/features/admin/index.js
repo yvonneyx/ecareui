@@ -10,3 +10,7 @@ export { default as DptMngPage } from './DptMngPage';
 export { default as DptDetailForm } from './DptDetailForm';
 export { default as CoorMngPage } from './CoorMngPage';
 export { default as CoorDetailForm } from './CoorDetailForm';
+export { default as PatientDetailForm } from './PatientDetailForm';
+export { default as PatientMngPage } from './PatientMngPage';
+export { default as InfirMngPage } from './InfirMngPage';
+export { default as InfirDetailForm } from './InfirDetailForm';

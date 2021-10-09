@@ -1,9 +1,18 @@
 @import '../../styles/mixins';
 
-.admin-coor-mng-page {
+.admin-patient-mng-page {
   &-header {
     margin-bottom: 1.5rem;
     font-weight: var(--font-medium);
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      height: 40px;
+      border-radius: 10px;
+	  font-size: 13px;
+	  
+    }
   }
 
   &-table-header {
@@ -18,16 +27,8 @@
     box-shadow: var(--box-shadow);
 
     &-left {
-      .role-selector {
-        width: 200px;
-        .ant-select-selector {
-          border-radius: 9px;
-        }
-      }
-
       .search-bar {
-        margin-left: var(--mb-0-25);
-        width: 380px;
+        width: 400px;
 
         .ant-input {
           border-radius: 10px 0 0 10px;
@@ -41,17 +42,14 @@
 
   .ant-table {
     box-shadow: var(--box-shadow);
-    &-thead {
-      font-size: 12px;
-    }
+  }
 
-    &-tbody {
-      font-size: 13px;
-	}
-	
-	.table-column-extra{
-		font-size: 12px;
-	}
+  .ant-table-thead {
+    font-size: 12px;
+  }
+
+  .ant-table-tbody {
+    font-size: 13px;
   }
 
   &-footer {
@@ -59,6 +57,6 @@
     bottom: 30px;
     font-size: 12px;
     color: var(--first-color);
-    font-weight: 200;
+    font-weight: 100;
   }
 }

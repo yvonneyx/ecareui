@@ -4,26 +4,38 @@ import { Table, Input, Button, Typography, Space, Popconfirm, message, Spin } fr
 import { ModalWrapper } from './';
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons';
 import { showDate, antIcon } from '../../common/constants';
-import { useDeleteCoor, useGetCoorsList } from './redux/hooks';
+import { useGetInfirmieresList, useDeleteInfirmiere, useGetDptsList } from './redux/hooks';
 import { useLocation } from 'react-router-dom';
 import _ from 'lodash';
 
 const { Search } = Input;
 
-export default function CoorMngPage(param) {
+export default function InfirMngPage() {
   const location = useLocation();
   const searchUserId = location.pathname.split('/')[3];
   const [searchKey, setSearchKey] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentLine, setCurrentLine] = useState({});
   const [version, setVersion] = useState('');
-  const { coorsList, getCoorsList, getCoorsListPending, getCoorsListError } = useGetCoorsList();
-  const { deleteCoor } = useDeleteCoor();
+  const {
+    infirmieresList,
+    getInfirmieresList,
+    getInfirmieresListPending,
+    getInfirmieresListError,
+  } = useGetInfirmieresList();
+  const { deleteInfirmiere } = useDeleteInfirmiere();
   const searchInput = React.useRef();
+  const { dptsList, getDptsList, getDptsListPending } = useGetDptsList();
 
   useEffect(() => {
-    getCoorsList();
-  }, [getCoorsList, version]);
+    getInfirmieresList();
+  }, [getInfirmieresList, version]);
+
+  useEffect(() => {
+    if (_.isEmpty(dptsList)) {
+      getDptsList();
+    }
+  }, [getDptsList, dptsList]);
 
   useEffect(() => {
     if (!_.isEmpty(searchUserId)) {
@@ -43,20 +55,20 @@ export default function CoorMngPage(param) {
   };
 
   const usersToShow = useMemo(() => {
-    if (_.isEmpty(coorsList)) return null;
-    let temp = coorsList.filter(data => data.isDeleted === 'N');
+    if (_.isEmpty(infirmieresList)) return null;
+    let temp = infirmieresList.filter(data => data.isDeleted === 'N');
     if (searchKey) {
       temp = temp.filter(
         data =>
-          _.includes(_.lowerCase(data.coordinateurNom), _.lowerCase(searchKey)) ||
-          _.includes(_.lowerCase(data.coordinateurId), _.lowerCase(searchKey)),
+          _.includes(_.lowerCase(data.infirmiereNom), _.lowerCase(searchKey)) ||
+          _.includes(_.lowerCase(data.userId), _.lowerCase(searchKey)),
       );
     }
     return temp;
-  }, [coorsList, searchKey]);
+  }, [infirmieresList, searchKey]);
 
   const deleteConfirm = rc => {
-    deleteCoor({
+    deleteInfirmiere({
       coordinateurId: rc.coordinateurId,
     })
       .then(() => {
@@ -85,20 +97,30 @@ export default function CoorMngPage(param) {
       width: 25,
     },
     {
-      title: 'CID',
-      dataIndex: 'coordinateurId',
-      key: 'coordinateurId',
+      title: 'IID',
+      dataIndex: 'infirmiereId',
+      key: 'infirmiereId',
       width: 25,
     },
     {
       title: 'Nom et Prénom',
-      dataIndex: 'coordinateurNom',
-      key: 'coordinateurNom',
+      dataIndex: 'infirmiereNom',
+      key: 'infirmiereNom',
     },
     {
       title: 'Téléphone',
-      dataIndex: 'coordinateurTelephone',
-      key: 'coordinateurTelephone',
+      dataIndex: 'infirmiereTelephone',
+      key: 'infirmiereTelephone',
+    },
+    {
+      title: 'Département concerné',
+      dataIndex: 'departementId',
+      key: 'departementId',
+      render: dptId => (
+        <span>
+          {dptsList && dptsList.filter(dpt => dpt.departementId === dptId)[0].departementNom}
+        </span>
+      ),
     },
     {
       title: 'Heure de création',
@@ -155,35 +177,40 @@ export default function CoorMngPage(param) {
   };
 
   return (
-    <div className="admin-coor-mng-page">
-      <div className="admin-coor-mng-page-header">
-        <h1>Coordinateurs</h1>
+    <div className="admin-infir-mng-page">
+      <div className="admin-infir-mng-page-header">
+        <h1>Infirmières</h1>
       </div>
       <ModalWrapper
-        name="coordinateur"
+        name="infirmiere"
         visible={isModalVisible}
         onModalVisibleChange={onModalVisibleChange}
         data={currentLine}
         handleVersionUpdate={handleVersionUpdate}
+        dptsList={dptsList}
       />
 
-      <div className="admin-coor-mng-page-table-header">
-        <div className="admin-coor-mng-page-table-header-left">
+      <div className="admin-infir-mng-page-table-header">
+        <div className="admin-infir-mng-page-table-header-left">
           <Search
             className="search-bar"
-            placeholder="Rechercher nom du coordinateur ou UID.."
+            placeholder="Rechercher par nom d'infirmière ou UID.."
             onSearch={onSearch}
             enterButton
             ref={searchInput}
           />
         </div>
-        <div className="admin-coor-mng-page-table-header-right">
+        <div className="admin-infir-mng-page-table-header-right">
           <Button className="reset-btn" onClick={onResetClick}>
             Réinitialiser
           </Button>
         </div>
       </div>
-      <Spin tip="Chargement en cours..." spinning={getCoorsListPending} indicator={antIcon}>
+      <Spin
+        tip="Chargement en cours..."
+        spinning={getInfirmieresListPending || getDptsListPending}
+        indicator={antIcon}
+      >
         <Table
           size="middle"
           columns={columns}
@@ -191,8 +218,8 @@ export default function CoorMngPage(param) {
           pagination={paginationProps}
           rowKey={record => record.userId}
         />
-        <div className="admin-coor-mng-page-footer">
-          {!getCoorsListError ? (
+        <div className="admin-infir-mng-page-footer">
+          {!getInfirmieresListError ? (
             _.isEmpty(usersToShow) ? (
               'Pas de résultat répond aux critères de recherche'
             ) : usersToShow.length === 1 ? (
@@ -209,5 +236,5 @@ export default function CoorMngPage(param) {
   );
 }
 
-CoorMngPage.propTypes = {};
-CoorMngPage.defaultProps = {};
+InfirMngPage.propTypes = {};
+InfirMngPage.defaultProps = {};

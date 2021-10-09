@@ -1,7 +1,14 @@
 import React, { useRef } from 'react';
 // import PropTypes from 'prop-types';
 import { Modal, Button } from 'antd';
-import { UserDetailForm, ExamenDetailForm, DptDetailForm, CoorDetailForm } from './';
+import {
+  UserDetailForm,
+  ExamenDetailForm,
+  DptDetailForm,
+  CoorDetailForm,
+  InfirDetailForm,
+  PatientDetailForm,
+} from './';
 import _ from 'lodash';
 import {
   useAddUser,
@@ -10,6 +17,10 @@ import {
   useUpdateExamen,
   useAddDpt,
   useUpdateDpt,
+  useAddPatient,
+  useUpdatePatient,
+  useUpdateCoor,
+  useUpdateInfirmiere,
 } from './redux/hooks';
 
 export default function ModalContainer(props) {
@@ -19,12 +30,18 @@ export default function ModalContainer(props) {
   const examenFormRef = useRef(null);
   const dptFormRef = useRef(null);
   const coorFormRef = useRef(null);
+  const infirmFormRef = useRef(null);
+  const patientFormRef = useRef(null);
   const { addUserPending } = useAddUser();
   const { updateUserPending } = useUpdateUser();
   const { addExamenPending } = useAddExamen();
   const { updateExamenPending } = useUpdateExamen();
   const { addDptPending } = useAddDpt();
   const { updateDptPending } = useUpdateDpt();
+  const { addPatientPending } = useAddPatient();
+  const { updatePatientPending } = useUpdatePatient();
+  const { updateCoorPending } = useUpdateCoor();
+  const { updateInfirmierePending } = useUpdateInfirmiere();
 
   const handleOk = e => {
     switch (name) {
@@ -39,6 +56,10 @@ export default function ModalContainer(props) {
         break;
       case 'coordinateur':
         coorFormRef.current && coorFormRef.current.onFinish();
+      case 'infirmiere':
+        infirmFormRef.current && infirmFormRef.current.onFinish();
+      case 'patient':
+        patientFormRef.current && patientFormRef.current.onFinish();
       default:
         break;
     }
@@ -55,15 +76,19 @@ export default function ModalContainer(props) {
         : 'Modifier cet utilisateur'
       : name === 'examen'
       ? _.isEmpty(data)
-        ? 'Ajouter un nouvel examen medical'
-        : 'Modifier cet examen medical'
+        ? 'Ajouter un nouvel examen médical'
+        : 'Modifier cet examen médical'
       : name === 'coordinateur'
+      ? 'Modifier ce coordinateur'
+      : name === 'infirmiere'
+      ? 'Modifier cet infirmiere'
+      : name === 'patient'
       ? _.isEmpty(data)
-        ? 'Ajouter un nouvel coordinateur'
-        : 'Modifier cet coordinateur'
+        ? 'Ajouter un nouveau patient'
+        : 'Modifier ce patient'
       : _.isEmpty(data)
-      ? 'Ajouter un nouvel département médical'
-      : 'Modifier cet département médical';
+      ? 'Ajouter un nouveau département médical'
+      : 'Modifier ce département médical';
 
   return (
     <div className="admin-modal">
@@ -87,23 +112,35 @@ export default function ModalContainer(props) {
               addExamenPending ||
               updateExamenPending ||
               addDptPending ||
-              updateDptPending
+              updateDptPending ||
+              addPatientPending ||
+              updatePatientPending ||
+              updateCoorPending ||
+              updateInfirmierePending
             }
           >
             {mode === 'new'
-              ? addUserPending || addExamenPending || addDptPending
+              ? addUserPending || addExamenPending || addDptPending || addPatientPending
                 ? 'En cours..'
                 : 'Créer'
-              : updateUserPending || updateExamenPending || addDptPending
+              : updateUserPending ||
+                updateExamenPending ||
+                updateDptPending ||
+                updatePatientPending ||
+                updateCoorPending ||
+                updateInfirmierePending
               ? 'En cours..'
               : 'Modifier'}
           </Button>,
         ]}
       >
+        <div className="modal-tip-obligatoire">* Champs obligatoires</div>
         {name === 'user' && <UserDetailForm data={data} ref={userFormRef} {...props} />}
         {name === 'examen' && <ExamenDetailForm data={data} ref={examenFormRef} {...props} />}
         {name === 'dpt' && <DptDetailForm data={data} ref={dptFormRef} {...props} />}
         {name === 'coordinateur' && <CoorDetailForm data={data} ref={coorFormRef} {...props} />}
+        {name === 'infirmiere' && <InfirDetailForm data={data} ref={infirmFormRef} {...props} />}
+        {name === 'patient' && <PatientDetailForm data={data} ref={patientFormRef} {...props} />}
       </Modal>
     </div>
   );
