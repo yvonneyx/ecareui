@@ -4,7 +4,7 @@ import { Table, Input, Button, Typography, Space, Popconfirm, message, Spin } fr
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons';
 import _ from 'lodash';
 import { showDate, antIcon } from '../../common/constants';
-import ModalWrapper from './ModalWrapper';
+import ModalWrapper from '../common/ModalWrapper';
 import { useGetExamensList, useDeleteExamen, useGetDptsList } from './redux/hooks';
 
 const { Search } = Input;

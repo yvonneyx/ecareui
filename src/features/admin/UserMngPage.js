@@ -12,7 +12,7 @@ import {
   message,
   Spin,
 } from 'antd';
-import { ModalWrapper } from './';
+import { ModalWrapper } from '../common';
 import {
   UserDeleteOutlined,
   EditOutlined,

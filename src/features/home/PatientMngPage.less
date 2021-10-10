@@ -1,0 +1,62 @@
+@import '../../styles/mixins';
+
+.home-patient-mng-page {
+  &-header {
+    margin-bottom: 1.5rem;
+    font-weight: var(--font-medium);
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      height: 40px;
+      border-radius: 10px;
+	  font-size: 13px;
+	  
+    }
+  }
+
+  &-table-header {
+    background-color: var(--white-color);
+    height: 48px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    box-shadow: var(--box-shadow);
+
+    &-left {
+      .search-bar {
+        width: 400px;
+
+        .ant-input {
+          border-radius: 10px 0 0 10px;
+        }
+        .ant-input-search-button {
+          border-radius: 0 10px 10px 0 !important;
+        }
+      }
+    }
+  }
+
+  .ant-table {
+    box-shadow: var(--box-shadow);
+  }
+
+  .ant-table-thead {
+    font-size: 12px;
+  }
+
+  .ant-table-tbody {
+    font-size: 13px;
+  }
+
+  &-footer {
+    position: fixed;
+    bottom: 30px;
+    font-size: 12px;
+    color: var(--first-color);
+    font-weight: 100;
+  }
+}

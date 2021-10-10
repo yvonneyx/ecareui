@@ -31,14 +31,13 @@ function renderRouteConfigV3(routes, contextPath) {
         children: [],
       };
     }
-    debugger;
-    if (item.protected && item.role && item.role !== role) {
-      item = {
-        ...item,
-        component: () => <Redirect to="/common/unauthorized" />,
-        children: [],
-      };
-    }
+    // if (item.protected && item.role && item.role !== role) {
+    //   item = {
+    //     ...item,
+    //     component: () => <Redirect to="/common/unauthorized" />,
+    //     children: [],
+    //   };
+    // }
 
     let newContextPath;
     if (/^\//.test(item.path)) {

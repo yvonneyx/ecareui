@@ -1,0 +1,1 @@
+export { useGetOrdonnancesList } from './getOrdonnancesList';

@@ -4,7 +4,7 @@ import { Input, Button, Popconfirm, message, Spin, Card } from 'antd';
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons';
 import _ from 'lodash';
 import { antIcon } from '../../common/constants';
-import ModalWrapper from './ModalWrapper';
+import ModalWrapper from '../common/ModalWrapper';
 import { useGetDptsList, useDeleteDpt } from './redux/hooks';
 
 const { Meta } = Card;

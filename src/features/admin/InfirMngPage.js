@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 // import PropTypes from 'prop-types';
 import { Table, Input, Button, Typography, Space, Popconfirm, message, Spin } from 'antd';
-import { ModalWrapper } from './';
+import { ModalWrapper } from '../common';
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons';
 import { showDate, antIcon } from '../../common/constants';
 import { useGetInfirmieresList, useDeleteInfirmiere, useGetDptsList } from './redux/hooks';

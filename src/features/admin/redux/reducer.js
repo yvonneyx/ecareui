@@ -19,10 +19,6 @@ import { reducer as addDptReducer } from './addDpt';
 import { reducer as getDptsListReducer } from './getDptsList';
 import { reducer as deleteDptReducer } from './deleteDpt';
 import { reducer as updateDptReducer } from './updateDpt';
-import { reducer as addPatientReducer } from './addPatient';
-import { reducer as getPatientsListReducer } from './getPatientsList';
-import { reducer as deletePatientReducer } from './deletePatient';
-import { reducer as updatePatientReducer } from './updatePatient';
 import { reducer as updateCoorReducer } from './updateCoor';
 import { reducer as getCoorsListReducer } from './getCoorsList';
 import { reducer as deleteCoorReducer } from './deleteCoor';
@@ -43,10 +39,6 @@ const reducers = [
   getDptsListReducer,
   deleteDptReducer,
   updateDptReducer,
-  addPatientReducer,
-  getPatientsListReducer,
-  deletePatientReducer,
-  updatePatientReducer,
   updateCoorReducer,
   getCoorsListReducer,
   deleteCoorReducer,
