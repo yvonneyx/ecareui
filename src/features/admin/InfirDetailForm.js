@@ -1,7 +1,6 @@
 import React, { useImperativeHandle, forwardRef, useMemo } from 'react';
 // import PropTypes from 'prop-types';
 import { Form, Input, message, notification, Select } from 'antd';
-import _ from 'lodash';
 import { useUpdateInfirmiere } from './redux/hooks';
 
 var InfirDetailForm = function(props, ref) {

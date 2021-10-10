@@ -4,7 +4,7 @@ import React from 'react';
 export default function UserSimpleProfile({ props }) {
   return (
     <div className="home-user-simple-profile">
-      <div className="home-user-simple-profile-type">Administrateur</div>
+      <div className="home-user-simple-profile-type">Coordinateur</div>
       <div className="home-user-simple-profile-name">Krystal Jung</div>
     </div>
   );

@@ -14,3 +14,5 @@ export { default as PatientDetailForm } from './PatientDetailForm';
 export { default as PatientMngPage } from './PatientMngPage';
 export { default as InfirMngPage } from './InfirMngPage';
 export { default as InfirDetailForm } from './InfirDetailForm';
+export { default as VsMngPage } from './VsMngPage';
+export { default as VsDetailForm } from './VsDetailForm';

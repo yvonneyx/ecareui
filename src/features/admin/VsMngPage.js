@@ -9,7 +9,7 @@ import { useGetPatientsList, useDeletePatient } from './redux/hooks';
 
 const { Search } = Input;
 
-export default function PatientMngPage(props) {
+export default function VsMngPage(props) {
   const [searchKey, setSearchKey] = useState('');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentLine, setCurrentLine] = useState({});
@@ -160,38 +160,29 @@ export default function PatientMngPage(props) {
   };
 
   return (
-    <div className="admin-patient-mng-page">
-      <div className="admin-patient-mng-page-header">
-        <h1>Patients</h1>
-        <Button
-          type="primary"
-          onClick={() => {
-            setIsModalVisible(true);
-            setCurrentLine({});
-          }}
-        >
-          Ajouter un nouvel patient
-        </Button>
+    <div className="admin-vs-mng-page">
+      <div className="admin-vs-mng-page-header">
+        <h1>Visites</h1>
       </div>
       <ModalWrapper
-        name="patient"
+        name="visite"
         visible={isModalVisible}
         onModalVisibleChange={onModalVisibleChange}
         data={currentLine}
         handleVersionUpdate={handleVersionUpdate}
       />
 
-      <div className="admin-patient-mng-page-table-header">
-        <div className="admin-patient-mng-page-table-header-left">
+      <div className="admin-vs-mng-page-table-header">
+        <div className="admin-vs-mng-page-table-header-left">
           <Search
             className="search-bar"
-            placeholder="Rechercher par nom de patient.."
+            placeholder="Rechercher par id.."
             onSearch={onSearch}
             enterButton
             ref={searchInput}
           />
         </div>
-        <div className="admin-patient-mng-page-table-header-right">
+        <div className="admin-vs-mng-page-table-header-right">
           <Button className="reset-btn" onClick={onResetClick}>
             Réinitialiser
           </Button>
@@ -199,14 +190,14 @@ export default function PatientMngPage(props) {
       </div>
       <Spin tip="Chargement en cours..." spinning={getPatientsListPending} indicator={antIcon}>
         <Table size="middle" columns={columns} dataSource={emToShow} pagination={paginationProps} />
-        <div className="admin-patient-mng-page-footer">
+        <div className="admin-vs-mng-page-footer">
           {!getPatientsListError ? (
             _.isEmpty(emToShow) ? (
               'Pas de résultat répond aux critères de recherche'
             ) : emToShow.length === 1 ? (
-              'Seul 1 patient répond aux critères de recherche'
+              'Seul 1 visite répond aux critères de recherche'
             ) : (
-              `${emToShow.length} patients répondent aux critères de recherche`
+              `${emToShow.length} visites répondent aux critères de recherche`
             )
           ) : (
             <div className="error">Échec du chargement des données</div>
@@ -217,5 +208,5 @@ export default function PatientMngPage(props) {
   );
 }
 
-PatientMngPage.propTypes = {};
-PatientMngPage.defaultProps = {};
+VsMngPage.propTypes = {};
+VsMngPage.defaultProps = {};

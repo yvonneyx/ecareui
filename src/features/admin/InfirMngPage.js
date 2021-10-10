@@ -223,9 +223,9 @@ export default function InfirMngPage() {
             _.isEmpty(usersToShow) ? (
               'Pas de résultat répond aux critères de recherche'
             ) : usersToShow.length === 1 ? (
-              'Seul 1 coordinateur répond répond aux critères de recherche'
+              'Seul 1 infirmière répond répond aux critères de recherche'
             ) : (
-              `${usersToShow.length} coordinateurs répondent aux critères de recherche`
+              `${usersToShow.length} infirmières répondent aux critères de recherche`
             )
           ) : (
             <div className="error">Échec du chargement des données</div>

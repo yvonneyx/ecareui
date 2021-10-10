@@ -1,7 +1,6 @@
 import React, { useImperativeHandle, forwardRef } from 'react';
 // import PropTypes from 'prop-types';
-import { Form, Input, message, notification, InputNumber } from 'antd';
-import _ from 'lodash';
+import { Form, Input, message, notification } from 'antd';
 import { useUpdateCoor } from './redux/hooks';
 
 var CoorDetailForm = function(props, ref) {

@@ -56,10 +56,13 @@ export default function ModalContainer(props) {
         break;
       case 'coordinateur':
         coorFormRef.current && coorFormRef.current.onFinish();
+        break;
       case 'infirmiere':
         infirmFormRef.current && infirmFormRef.current.onFinish();
+        break;
       case 'patient':
         patientFormRef.current && patientFormRef.current.onFinish();
+        break;
       default:
         break;
     }

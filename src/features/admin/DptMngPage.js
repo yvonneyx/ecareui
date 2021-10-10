@@ -6,7 +6,6 @@ import _ from 'lodash';
 import { antIcon } from '../../common/constants';
 import ModalWrapper from './ModalWrapper';
 import { useGetDptsList, useDeleteDpt } from './redux/hooks';
-import store from '../../common/store';
 
 const { Meta } = Card;
 const { Search } = Input;
