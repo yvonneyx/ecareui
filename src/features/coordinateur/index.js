@@ -3,3 +3,7 @@ export { default as SidePanel } from './SidePanel';
 export { default as PatientMngWrapper } from './PatientMngWrapper';
 export { default as NouvelleOrdonnance } from './NouvelleOrdonnance';
 export { default as NouvelleVisite } from './NouvelleVisite';
+export { default as VsMngWrapper } from './VsMngWrapper';
+export { default as OrdMngWrapper } from './OrdMngWrapper';
+export { default as SingleVsDtlWrapper } from './SingleVsDtlWrapper';
+export { default as OrdWithVsDtlWrapper } from './OrdWithVsDtlWrapper';

@@ -6,6 +6,7 @@ import homeReducer from '../features/home/redux/reducer';
 import commonReducer from '../features/common/redux/reducer';
 import adminReducer from '../features/admin/redux/reducer';
 import coordinateurReducer from '../features/coordinateur/redux/reducer';
+import infirmiereReducer from '../features/infirmiere/redux/reducer';
 
 // NOTE 1: DO NOT CHANGE the 'reducerMap' name and the declaration pattern.
 // This is used for Rekit cmds to register new features, remove features, etc.
@@ -18,6 +19,7 @@ const reducerMap = {
   common: commonReducer,
   admin: adminReducer,
   coordinateur: coordinateurReducer,
+  infirmiere: infirmiereReducer,
 };
 
 export default combineReducers(reducerMap);

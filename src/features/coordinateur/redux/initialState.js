@@ -6,8 +6,9 @@
 
 // NOTE: initialState constant is necessary so that Rekit could auto add initial state when creating async actions.
 const initialState = {
-  getOrdonnancesListPending: false,
-  getOrdonnancesListError: null,
+  infirmieres: [],
+  findInfirmieresByDptIdPending: false,
+  findInfirmieresByDptIdError: null,
 };
 
 export default initialState;

@@ -1,10 +1,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import { Menu } from 'antd';
-import {
-  UserOutlined,
-  SolutionOutlined,
-} from '@ant-design/icons';
+import { UserOutlined, SolutionOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import UserSimpleProfile from '../home/UserSimpleProfile';
 
@@ -33,14 +30,20 @@ export default function SidePanel(props) {
       <div className="coordinateur-side-panel-logo" />
       <UserSimpleProfile />
       <Menu mode="inline" selectedKeys={[pathname]} openKeys={openKeys} onOpenChange={onOpenChange}>
-      <Menu.Item key="/coordinateur/nouvelle-ordonnance" icon={<UserOutlined />}>
-          <Link to="/coordinateur/nouvelle-ordonnance"></Link>
+        <Menu.Item key="/coordinateur/nouvelle-visite" icon={<UserOutlined />}>
+          <Link to="/coordinateur/nouvelle-visite">Nouvelle visite</Link>
         </Menu.Item>
-        <Menu.Item key="/coordinateur/gestion-des-patients" icon={<UserOutlined />}>
-          <Link to="/coordinateur/gestion-des-patients">Gestion des patients</Link>
+        <Menu.Item key="/coordinateur/nouvelle-ordonnance" icon={<UserOutlined />}>
+          <Link to="/coordinateur/nouvelle-ordonnance">Nouvelle ordonnance</Link>
+        </Menu.Item>
+        <Menu.Item key="/coordinateur/gestion-des-ordonnances" icon={<UserOutlined />}>
+          <Link to="/coordinateur/gestion-des-ordonnances">Gestion des ordonnances</Link>
         </Menu.Item>
         <Menu.Item key="/coordinateur/gestion-des-visites" icon={<SolutionOutlined />}>
           <Link to="/coordinateur/gestion-des-visites">Gestion des visites</Link>
+        </Menu.Item>
+        <Menu.Item key="/coordinateur/gestion-des-patients" icon={<UserOutlined />}>
+          <Link to="/coordinateur/gestion-des-patients">Gestion des patients</Link>
         </Menu.Item>
       </Menu>
     </div>

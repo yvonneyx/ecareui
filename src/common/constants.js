@@ -25,4 +25,38 @@ export const showDate = time => {
   );
 };
 
+export const showDateInline = time => {
+  return (
+    <span>
+      {_.upperFirst(
+        moment(time)
+          .locale('fr')
+          .format('MMMM Do YYYY h:mm:ss a'),
+      )}
+    </span>
+  );
+};
+
+export const showOnlyDate = time => {
+  return (
+    <span>
+      {_.upperFirst(
+        moment(time)
+          .locale('fr')
+          .format('MMMM Do YYYY'),
+      )}
+    </span>
+  );
+};
+
+export const showOnlyTime = time => {
+  return (
+    <span>
+      {moment(time)
+        .locale('fr')
+        .format('h:mm:ss a')}
+    </span>
+  );
+};
+
 export const antIcon = <LoadingOutlined style={{ color: 'var(--first-color)' }} spin />;

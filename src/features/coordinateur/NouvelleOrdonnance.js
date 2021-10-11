@@ -4,10 +4,12 @@ import React from 'react';
 export default function NouvelleOrdonnance() {
   return (
     <div className="coordinateur-nouvelle-ordonnance">
-      Component content: coordinateur/NouvelleOrdonnance
+      <div className="coordinateur-nouvelle-ordonnance-header">
+        <h1>Coordinateurs</h1>
+      </div>
     </div>
   );
-};
+}
 
 NouvelleOrdonnance.propTypes = {};
 NouvelleOrdonnance.defaultProps = {};

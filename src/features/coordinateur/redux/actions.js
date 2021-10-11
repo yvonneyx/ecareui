@@ -1,1 +1,4 @@
-export { getOrdonnancesList, dismissGetOrdonnancesListError } from './getOrdonnancesList';
+export {
+  findInfirmieresByDptId,
+  dismissFindInfirmieresByDptIdError,
+} from './findInfirmieresByDptId';

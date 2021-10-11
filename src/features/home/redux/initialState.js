@@ -10,6 +10,20 @@ const initialState = {
   getPatientsListError: null,
   updatePatientPending: false,
   updatePatientError: null,
+  addVisitePending: false,
+  addVisiteError: null,
+  deleteVisitePending: false,
+  deleteVisiteError: null,
+  updateVisitePending: false,
+  updateVisiteError: null,
+  getVisitesListPending: false,
+  getVisitesListError: null,
+  findVssByOrdIdPending: false,
+  findVssByOrdIdError: null,
+  getOrdonnancesListPending: false,
+  getOrdonnancesListError: null,
+  updateOrdonnancePending: false,
+  updateOrdonnanceError: null,
 };
 
 export default initialState;

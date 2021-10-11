@@ -8,7 +8,7 @@ import {
   CoorDetailForm,
   InfirDetailForm,
 } from '../admin';
-import { PatientDetailForm } from '../home';
+import { PatientDetailForm, VsDetailForm } from '../home';
 import _ from 'lodash';
 import {
   useAddUser,
@@ -31,6 +31,7 @@ export default function ModalContainer(props) {
   const coorFormRef = useRef(null);
   const infirmFormRef = useRef(null);
   const patientFormRef = useRef(null);
+  const vsFormRef = useRef(null);
   const { addUserPending } = useAddUser();
   const { updateUserPending } = useUpdateUser();
   const { addExamenPending } = useAddExamen();
@@ -60,6 +61,9 @@ export default function ModalContainer(props) {
         infirmFormRef.current && infirmFormRef.current.onFinish();
         break;
       case 'patient':
+        patientFormRef.current && patientFormRef.current.onFinish();
+        break;
+      case 'visite':
         patientFormRef.current && patientFormRef.current.onFinish();
         break;
       default:
@@ -143,6 +147,7 @@ export default function ModalContainer(props) {
         {name === 'coordinateur' && <CoorDetailForm data={data} ref={coorFormRef} {...props} />}
         {name === 'infirmiere' && <InfirDetailForm data={data} ref={infirmFormRef} {...props} />}
         {name === 'patient' && <PatientDetailForm data={data} ref={patientFormRef} {...props} />}
+        {name === 'visite' && <VsDetailForm data={data} ref={vsFormRef} {...props} />}
       </Modal>
     </div>
   );

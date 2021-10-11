@@ -4,6 +4,13 @@ import { reducer as addPatientReducer } from './addPatient';
 import { reducer as deletePatientReducer } from './deletePatient';
 import { reducer as getPatientsListReducer } from './getPatientsList';
 import { reducer as updatePatientReducer } from './updatePatient';
+import { reducer as addVisiteReducer } from './addVisite';
+import { reducer as deleteVisiteReducer } from './deleteVisite';
+import { reducer as updateVisiteReducer } from './updateVisite';
+import { reducer as getVisitesListReducer } from './getVisitesList';
+import { reducer as findVssByOrdIdReducer } from './findVssByOrdId';
+import { reducer as getOrdonnancesListReducer } from './getOrdonnancesList';
+import { reducer as updateOrdonnanceReducer } from './updateOrdonnance';
 
 const reducers = [
   loginReducer,
@@ -11,6 +18,13 @@ const reducers = [
   deletePatientReducer,
   getPatientsListReducer,
   updatePatientReducer,
+  addVisiteReducer,
+  deleteVisiteReducer,
+  updateVisiteReducer,
+  getVisitesListReducer,
+  findVssByOrdIdReducer,
+  getOrdonnancesListReducer,
+  updateOrdonnanceReducer,
 ];
 
 export default function reducer(state = initialState, action) {

@@ -7,10 +7,10 @@
 // https://medium.com/@nate_wang/a-new-approach-for-managing-redux-actions-91c26ce8b5da.
 
 import initialState from './initialState';
-import { reducer as getOrdonnancesListReducer } from './getOrdonnancesList';
+import { reducer as findInfirmieresByDptIdReducer } from './findInfirmieresByDptId';
 
 const reducers = [
-  getOrdonnancesListReducer,
+  findInfirmieresByDptIdReducer,
 ];
 
 export default function reducer(state = initialState, action) {

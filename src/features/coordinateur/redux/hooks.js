@@ -1,1 +1,1 @@
-export { useGetOrdonnancesList } from './getOrdonnancesList';
+export { useFindInfirmieresByDptId } from './findInfirmieresByDptId';

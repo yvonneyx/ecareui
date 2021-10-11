@@ -1,10 +1,10 @@
 import { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
-  COORDINATEUR_GET_ORDONNANCES_LIST_BEGIN,
-  COORDINATEUR_GET_ORDONNANCES_LIST_SUCCESS,
-  COORDINATEUR_GET_ORDONNANCES_LIST_FAILURE,
-  COORDINATEUR_GET_ORDONNANCES_LIST_DISMISS_ERROR,
+  HOME_GET_ORDONNANCES_LIST_BEGIN,
+  HOME_GET_ORDONNANCES_LIST_SUCCESS,
+  HOME_GET_ORDONNANCES_LIST_FAILURE,
+  HOME_GET_ORDONNANCES_LIST_DISMISS_ERROR,
 } from './constants';
 import axios from 'axios';
 import { serverUrl, config } from '../../../common/globalConfig';
@@ -12,7 +12,7 @@ import { serverUrl, config } from '../../../common/globalConfig';
 export function getOrdonnancesList(args = {}) {
   return (dispatch) => { // optionally you can have getState as the second argument
     dispatch({
-      type: COORDINATEUR_GET_ORDONNANCES_LIST_BEGIN,
+      type: HOME_GET_ORDONNANCES_LIST_BEGIN,
     });
 
     const promise = new Promise((resolve, reject) => {
@@ -20,7 +20,7 @@ export function getOrdonnancesList(args = {}) {
       doRequest.then(
         (res) => {
           dispatch({
-            type: COORDINATEUR_GET_ORDONNANCES_LIST_SUCCESS,
+            type: HOME_GET_ORDONNANCES_LIST_SUCCESS,
             data: res.data,
           });
           resolve(res);
@@ -28,7 +28,7 @@ export function getOrdonnancesList(args = {}) {
         // Use rejectHandler as the second argument so that render errors won't be caught.
         (err) => {
           dispatch({
-            type: COORDINATEUR_GET_ORDONNANCES_LIST_FAILURE,
+            type: HOME_GET_ORDONNANCES_LIST_FAILURE,
             data: { error: err },
           });
           reject(err);
@@ -42,7 +42,7 @@ export function getOrdonnancesList(args = {}) {
 
 export function dismissGetOrdonnancesListError() {
   return {
-    type: COORDINATEUR_GET_ORDONNANCES_LIST_DISMISS_ERROR,
+    type: HOME_GET_ORDONNANCES_LIST_DISMISS_ERROR,
   };
 }
 
@@ -51,9 +51,9 @@ export function useGetOrdonnancesList() {
 
   const { ordonnancesList, getOrdonnancesListPending, getOrdonnancesListError } = useSelector(
     state => ({
-      ordonnancesList: state.coordinateur.ordonnancesList,
-      getOrdonnancesListPending: state.coordinateur.getOrdonnancesListPending,
-      getOrdonnancesListError: state.coordinateur.getOrdonnancesListError,
+      ordonnancesList: state.home.ordonnancesList,
+      getOrdonnancesListPending: state.home.getOrdonnancesListPending,
+      getOrdonnancesListError: state.home.getOrdonnancesListError,
     }),
     shallowEqual,
   );
@@ -77,7 +77,7 @@ export function useGetOrdonnancesList() {
 
 export function reducer(state, action) {
   switch (action.type) {
-    case COORDINATEUR_GET_ORDONNANCES_LIST_BEGIN:
+    case HOME_GET_ORDONNANCES_LIST_BEGIN:
       // Just after a request is sent
       return {
         ...state,
@@ -85,7 +85,7 @@ export function reducer(state, action) {
         getOrdonnancesListError: null,
       };
 
-    case COORDINATEUR_GET_ORDONNANCES_LIST_SUCCESS:
+    case HOME_GET_ORDONNANCES_LIST_SUCCESS:
       // The request is success
       return {
         ...state,
@@ -94,7 +94,7 @@ export function reducer(state, action) {
         getOrdonnancesListError: null,
       };
 
-    case COORDINATEUR_GET_ORDONNANCES_LIST_FAILURE:
+    case HOME_GET_ORDONNANCES_LIST_FAILURE:
       // The request is failed
       return {
         ...state,
@@ -102,7 +102,7 @@ export function reducer(state, action) {
         getOrdonnancesListError: action.data.error,
       };
 
-    case COORDINATEUR_GET_ORDONNANCES_LIST_DISMISS_ERROR:
+    case HOME_GET_ORDONNANCES_LIST_DISMISS_ERROR:
       // Dismiss the request failure error
       return {
         ...state,
