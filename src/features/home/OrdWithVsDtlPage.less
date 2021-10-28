@@ -5,12 +5,24 @@
     margin-bottom: 1.5rem;
   }
 
-  &-content{
-    &-basic-info h3{
-      // font-weight: 700;
+  &-content {
+    &-basic-info {
+      margin-bottom: var(--mb-2);
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      border-bottom: 2px solid var(--first-color);
+      box-shadow: var(--box-shadow);
+      height: 40px;
+      align-items: center;
+
+      div {
+        font-size: 18px;
+        height: fit-content;
+        font-weight: bold;
+      }
     }
 
-    &-subtitle{
+    &-subtitle {
       margin-top: 30px;
     }
   }

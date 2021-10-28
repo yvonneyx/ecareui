@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
   COORDINATEUR_FIND_INFIRMIERES_BY_DPT_ID_BEGIN,

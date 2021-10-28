@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { Form, Input, Button, notification } from 'antd';
 import { useLogin } from './redux/hooks';

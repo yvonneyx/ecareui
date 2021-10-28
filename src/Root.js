@@ -58,7 +58,7 @@ function renderRouteConfigV3(routes, contextPath, cookies) {
     } else if (item.protected && item.path !== role) {
       item = {
         ...item,
-        component: () => <Redirect to="/common/unauthorized" />,
+        component: () => <Redirect to="/common/403" />,
         children: [],
       };
     }

@@ -29,8 +29,8 @@ export default function OrdWithVsDtlPage(props) {
           (ordRecord.isDeleted === 'N' ? (
             <div className="home-ord-with-vs-dtl-page-content">
               <div className="home-ord-with-vs-dtl-page-content-basic-info">
-                <h3>Patient: {ordRecord.patientNom}</h3>
-                <h3>Examen médical: {ordRecord.examenMedicalNom}</h3>
+                <div>Patient: {ordRecord.patientNom}</div>
+                <div>Examen médical: {ordRecord.examenMedicalNom}</div>
               </div>
               <OrdDetailForm data={ordRecord} />
               <h2 className="home-ord-with-vs-dtl-page-content-subtitle">{`Liste des visites correspondant à l'ordonnance ${ordonnanceId}`}</h2>

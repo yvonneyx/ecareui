@@ -213,7 +213,6 @@ export default function InfirMngPage() {
       >
         <Table
           size="middle"
-          rowKey="userId"
           columns={columns}
           dataSource={usersToShow}
           pagination={paginationProps}

@@ -5,18 +5,30 @@
   width: fit-content;
   overflow: scroll;
   width: 260px;
+  position: relative;
 
   &-logo {
     display: block;
     width: 64px;
     height: 64px;
     margin: 40px auto 30px;
-    // background-color: var(--first-color);
-    // border-radius: 32px;
 
-    img{
+    img {
       height: 64px;
       width: 64px;
     }
+  }
+
+  .logout {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--first-color);
+    text-transform: capitalize;
+  }
+
+  .logout:hover{
+    text-decoration: underline;
   }
 }

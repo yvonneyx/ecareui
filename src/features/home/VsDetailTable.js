@@ -1,15 +1,11 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 // import PropTypes from 'prop-types';
-import { Table, Input, Button, Typography, Space, Popconfirm, message, Spin } from 'antd';
+import { Table, Typography, Space, Popconfirm, message, Spin } from 'antd';
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons';
 import _ from 'lodash';
 import {
-  showDate,
-  antIcon,
   showOnlyDate,
   showOnlyTime,
-  showOnlySimpleDate,
-  showOnlySimpleTime,
 } from '../../common/constants';
 import ModalWrapper from '../common/ModalWrapper';
 import { useGetPatientsList, useDeletePatient } from '../home/redux/hooks';

@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 // import PropTypes from 'prop-types';
-import { Form, Input, Button, Radio, DatePicker, Row, Col } from 'antd';
-import { showDateInline, showOnlyDate, showOnlyTime } from '../../common/constants';
+import { Form, Input, Row, Col } from 'antd';
+import { showDateInline } from '../../common/constants';
 import _ from 'lodash';
 
 export default function OrdDetailForm(props) {

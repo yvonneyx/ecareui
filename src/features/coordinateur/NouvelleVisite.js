@@ -7,14 +7,16 @@ import { useFindInfirmieresByDptId } from './redux/hooks';
 import { useAddVisite, useUpdateOrdonnance } from '../home/redux/hooks';
 import { antIcon } from '../../common/constants';
 import { Link } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 export default function NouvelleVisite() {
+  const [cookies, setCookie] = useCookies(['UID', 'UNAME', 'UROLE']);
   const [selectedOrd, setSelectedOrd] = useState({});
   const [visiteDate, setVisiteDate] = useState(null);
   const [selectedInfirm, setSelectedInfirm] = useState('');
   const [newVisiteId, setNewVisiteId] = useState('1');
   const [version, setVersion] = useState(null);
-  const [needReset, setNeedReset] = useState(false)
+  const [needReset, setNeedReset] = useState(false);
   const {
     infirmieres,
     findInfirmieresByDptId,
@@ -52,10 +54,10 @@ export default function NouvelleVisite() {
       visiteDate: new Date(visiteDate),
       visiteHeureDebut: new Date(visiteDate),
       visiteEtat: 0,
-      coordinateurId: 1, // todo: login
+      coordinateurId: cookies.UID,
       patientId: selectedOrd[0].patientId,
       infirmiereId: selectedInfirm,
-      modificateurRecent: 1, //todo: pass userId
+      modificateurRecent: cookies.UID,
     }).then(res => {
       setNewVisiteId(res.data.ext.newVisite.visiteId);
       // notification['success']({

@@ -1,16 +1,13 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import { Result, Button } from 'antd';
+import { Button } from 'antd';
 
 export default function Unauthorized() {
   return (
     <div className="common-unauthorized">
-      <Result
-        status="403"
-        title="403"
-        subTitle="Désolé, vous n'êtes pas autorisé à accéder à cette page."
-        extra={<Button type="primary">Retour Accueil</Button>}
-      />
+      <img src={require('../../images/undraw_authentication.svg')} alt="403"/>
+      <div>Désolé, vous n'êtes pas autorisé à accéder à cette page.</div>
+      <Button type="primary">Retour Accueil</Button>
     </div>
   );
 }

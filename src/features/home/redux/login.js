@@ -50,10 +50,8 @@ export function dismissLoginError() {
 export function useLogin() {
   const dispatch = useDispatch();
 
-  const { loggedUserInfo, isLogined, loginPending, loginError } = useSelector(
+  const { loginPending, loginError } = useSelector(
     state => ({
-      loginUserInfo: state.home.loggedUserInfo,
-      isLogined: state.home.isLogined,
       loginPending: state.home.loginPending,
       loginError: state.home.loginError,
     }),
@@ -69,8 +67,6 @@ export function useLogin() {
   }, [dispatch]);
 
   return {
-    loggedUserInfo,
-    isLogined,
     login: boundAction,
     loginPending,
     loginError,
@@ -83,7 +79,6 @@ export function reducer(state, action) {
     case HOME_LOGIN_BEGIN:
       return {
         ...state,
-        isLogined: false,
         loginPending: true,
         loginError: null,
       };
@@ -91,12 +86,6 @@ export function reducer(state, action) {
     case HOME_LOGIN_SUCCESS:
       return {
         ...state,
-        loggedUserInfo: {
-          id: action.data.userId,
-          name: action.data.userNom,
-          role: action.data.userType,
-        },
-        isLogined: true,
         loginPending: false,
         loginError: null,
       };
@@ -104,7 +93,6 @@ export function reducer(state, action) {
     case HOME_LOGIN_FAILURE:
       return {
         ...state,
-        isLogined: false,
         loginPending: false,
         loginError: action.data.error,
       };

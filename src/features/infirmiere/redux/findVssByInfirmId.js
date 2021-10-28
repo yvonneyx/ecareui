@@ -22,7 +22,7 @@ export function findVssByInfirmId(args = {}) {
         (res) => {
           dispatch({
             type: INFIRMIERE_FIND_VSS_BY_INFIRM_ID_SUCCESS,
-            data: res.data,
+            data: res.data.ext,
           });
           resolve(res);
         },
@@ -90,7 +90,7 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
-        vssByInfirmId: action.data.ext.visites,
+        vssByInfirmId: action.data && action.data.visites,
         findVssByInfirmIdPending: false,
         findVssByInfirmIdError: null,
       };

@@ -13,10 +13,12 @@ import {
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import UserSimpleProfile from '../home/UserSimpleProfile';
+import { useCookies } from 'react-cookie';
 
 const { SubMenu } = Menu;
 
 export default function SidePanel(props) {
+  const [, , removeCookie] = useCookies(['UID', 'UNAME', 'UROLE']);
   const [openKeys, setOpenKeys] = React.useState(['sub1']);
   let pathname = window.location.pathname;
   const rootSubmenuKeys = ['sub1'];
@@ -24,6 +26,12 @@ export default function SidePanel(props) {
   if (pathname === '/admin') {
     pathname = '/admin/gestion-des-utilisateurs';
   }
+
+  const removeCookies = () => {
+    removeCookie('UID', { path: '/' });
+    removeCookie('UNAME', { path: '/' });
+    removeCookie('UROLE', { path: '/' });
+  };
 
   const onOpenChange = keys => {
     const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
@@ -36,7 +44,9 @@ export default function SidePanel(props) {
 
   return (
     <div className="admin-side-panel">
-      <div className="admin-side-panel-logo"><img src={require('../../images/logo1.png')} /></div>
+      <div className="admin-side-panel-logo">
+        <img src={require('../../images/logo1.png')} />
+      </div>
       <UserSimpleProfile />
       <Menu mode="inline" selectedKeys={[pathname]} openKeys={openKeys} onOpenChange={onOpenChange}>
         <SubMenu key="sub1" title="Gestion du personnel" icon={<TeamOutlined />}>
@@ -67,6 +77,9 @@ export default function SidePanel(props) {
           <Link to="/admin/gestion-des-visites">Gestion des visites</Link>
         </Menu.Item>
       </Menu>
+      <a className="logout" onClick={removeCookies}>
+        Se déconnecter
+      </a>
     </div>
   );
 }

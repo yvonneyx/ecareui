@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 // import PropTypes from 'prop-types';
-import { Table, Input, Button, Typography, Space, Popconfirm, message, Spin } from 'antd';
-import { DeleteOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons';
+import { Input, Button, Spin } from 'antd';
 import _ from 'lodash';
-import { showDate, antIcon } from '../../common/constants';
+import { antIcon } from '../../common/constants';
 import ModalWrapper from '../common/ModalWrapper';
 import { useGetVisitesList, useDeletePatient } from '../home/redux/hooks';
 import { VsDetailTable } from './';

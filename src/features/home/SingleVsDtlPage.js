@@ -5,6 +5,7 @@ import VsDetailForm from './VsDetailForm';
 import { Button, Form, Col, Row, Input, Divider, Spin } from 'antd';
 import { useUpdateVisite, useFindVsByVsId } from './redux/hooks';
 import { antIcon } from '../../common/constants';
+import { useCookies } from 'react-cookie';
 
 export default function SingleVsDtlPage(props) {
   const { visiteId, target } = props;
@@ -12,6 +13,7 @@ export default function SingleVsDtlPage(props) {
   const { updateVisite, updateVisitePending, updateVisiteError } = useUpdateVisite();
   const [foundVs, setFoundVs] = useState({});
   const [rcForm] = Form.useForm();
+  const [cookies, ] = useCookies(['UID', 'UNAME', 'UROLE']);
 
   useEffect(() => {
     findVsByVsId({
@@ -30,7 +32,7 @@ export default function SingleVsDtlPage(props) {
         visiteDate: new Date(),
         visiteHeureDebut: new Date(),
         visiteEtat: 1,
-        modificateurRecent: 1, //todo: loggedId - userId
+        modificateurRecent: cookies.UID,
       });
     } else if (vsStatus === 'done') {
       updateVisite({
@@ -38,7 +40,7 @@ export default function SingleVsDtlPage(props) {
         visiteHeureFin: new Date(),
         visiteEtat: 2,
         visiteObservation: rc.observation,
-        modificateurRecent: 1, //todo: loggedId - userId
+        modificateurRecent: cookies.UID,
       });
     }
   };

@@ -2,11 +2,13 @@ import React, { useEffect, useMemo } from 'react';
 import { useFindVssByInfirmId } from './redux/hooks';
 // import PropTypes from 'prop-types';
 import { VsDetailTable } from '../home';
-import { showDate, antIcon } from '../../common/constants';
+import { antIcon } from '../../common/constants';
 import { Spin } from 'antd';
+import { useCookies } from 'react-cookie';
 
 export default function VsSummaryPage() {
-  let loggedId = '1'; // todo: infirmiereId
+  const [cookies, ] = useCookies(['UID', 'UNAME', 'UROLE']);
+  let loggedId = cookies.UID; 
 
   const {
     vssByInfirmId,
@@ -39,18 +41,18 @@ export default function VsSummaryPage() {
       <Spin tip="Chargement en cours..." spinning={findVssByInfirmIdPending} indicator={antIcon}>
         {!findVssByInfirmIdError ? (
           <div className="infirmiere-vs-summary-page-content">
-            <h2>Pas commencé</h2>
-            <VsDetailTable
-              target="infirmiere"
-              dataSource={vssToDoList}
-              size="small"
-              pageSize={5}
-              showQuickStartAndDetail={true}
-            />
             <h2>En cours</h2>
             <VsDetailTable
               target="infirmiere"
               dataSource={vssDoingList}
+              size="small"
+              pageSize={5}
+              showQuickStartAndDetail={true}
+            />
+            <h2>Pas commencé</h2>
+            <VsDetailTable
+              target="infirmiere"
+              dataSource={vssToDoList}
               size="small"
               pageSize={5}
               showQuickStartAndDetail={true}

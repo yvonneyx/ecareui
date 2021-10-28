@@ -4,10 +4,10 @@ import { Menu } from 'antd';
 import { UserOutlined, SolutionOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import UserSimpleProfile from '../home/UserSimpleProfile';
-
-const { SubMenu } = Menu;
+import { useCookies } from 'react-cookie';
 
 export default function SidePanel(props) {
+  const [, , removeCookie] = useCookies(['UID', 'UNAME', 'UROLE']);
   const [openKeys, setOpenKeys] = React.useState(['sub1']);
   let pathname = window.location.pathname;
   const rootSubmenuKeys = ['sub1'];
@@ -15,6 +15,12 @@ export default function SidePanel(props) {
   if (pathname === '/coordinateur') {
     pathname = '/coordinateur/gestion-des-utilisateurs';
   }
+
+  const removeCookies = () => {
+    removeCookie('UID', { path: '/' });
+    removeCookie('UNAME', { path: '/' });
+    removeCookie('UROLE', { path: '/' });
+  };
 
   const onOpenChange = keys => {
     const latestOpenKey = keys.find(key => openKeys.indexOf(key) === -1);
@@ -46,6 +52,9 @@ export default function SidePanel(props) {
           <Link to="/coordinateur/gestion-des-patients">Gestion des patients</Link>
         </Menu.Item>
       </Menu>
+      <a className="logout" onClick={removeCookies}>
+        Se déconnecter
+      </a>
     </div>
   );
 }

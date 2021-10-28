@@ -5,7 +5,5 @@ import { Unauthorized } from './';
 export default {
   path: 'common',
   name: 'Common',
-  childRoutes: [
-    { path: 'unauthorized', component: Unauthorized },
-  ],
+  childRoutes: [{ path: '403', component: Unauthorized }],
 };
