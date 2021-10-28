@@ -100,7 +100,7 @@ export default function DptMngPage(props) {
           </Button>
         </div>
       </div>
-      <Spin tip="Chargement en cours..." spinning={false} indicator={antIcon}>
+      <Spin tip="Chargement en cours..." spinning={getDptsListPending} indicator={antIcon}>
         <div className="admin-dpt-mng-page-card-container">
           {!_.isEmpty(dptToShow) &&
             dptToShow.map(data => {

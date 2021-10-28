@@ -10,3 +10,5 @@ export { useGetVisitesList } from './getVisitesList';
 export { useFindVssByOrdId } from './findVssByOrdId';
 export { useGetOrdonnancesList } from './getOrdonnancesList';
 export { useUpdateOrdonnance } from './updateOrdonnance';
+export { useFindVsByVsId } from './findVsByVsId';
+export { useFindOrdByOrdId } from './findOrdByOrdId';

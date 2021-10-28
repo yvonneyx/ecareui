@@ -12,3 +12,4 @@ export { default as InfirMngPage } from './InfirMngPage';
 export { default as InfirDetailForm } from './InfirDetailForm';
 export { default as PatientMngWrapper } from './PatientMngWrapper';
 export { default as VsMngWrapper } from './VsMngWrapper';
+export { default as OrdMngWrapper } from './OrdMngWrapper';

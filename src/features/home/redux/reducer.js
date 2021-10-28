@@ -11,6 +11,8 @@ import { reducer as getVisitesListReducer } from './getVisitesList';
 import { reducer as findVssByOrdIdReducer } from './findVssByOrdId';
 import { reducer as getOrdonnancesListReducer } from './getOrdonnancesList';
 import { reducer as updateOrdonnanceReducer } from './updateOrdonnance';
+import { reducer as findVsByVsIdReducer } from './findVsByVsId';
+import { reducer as findOrdByOrdIdReducer } from './findOrdByOrdId';
 
 const reducers = [
   loginReducer,
@@ -25,6 +27,8 @@ const reducers = [
   findVssByOrdIdReducer,
   getOrdonnancesListReducer,
   updateOrdonnanceReducer,
+  findVsByVsIdReducer,
+  findOrdByOrdIdReducer,
 ];
 
 export default function reducer(state = initialState, action) {

@@ -206,7 +206,7 @@ export default function ExamenMngPage(props) {
         spinning={getExamensListPending || getDptsListPending}
         indicator={antIcon}
       >
-        <Table size="middle" columns={columns} dataSource={emToShow} pagination={paginationProps} />
+        <Table size="middle" rowKey="examenMedicalId" columns={columns} dataSource={emToShow} pagination={paginationProps} />
         <div className="admin-examen-mng-page-footer">
           {!getExamensListError ? (
             _.isEmpty(emToShow) ? (

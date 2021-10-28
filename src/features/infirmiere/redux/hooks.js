@@ -1,0 +1,1 @@
+export { useFindVssByInfirmId } from './findVssByInfirmId';

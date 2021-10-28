@@ -14,6 +14,7 @@ export default function NouvelleVisite() {
   const [selectedInfirm, setSelectedInfirm] = useState('');
   const [newVisiteId, setNewVisiteId] = useState('1');
   const [version, setVersion] = useState(null);
+  const [needReset, setNeedReset] = useState(false)
   const {
     infirmieres,
     findInfirmieresByDptId,
@@ -57,16 +58,16 @@ export default function NouvelleVisite() {
       modificateurRecent: 1, //todo: pass userId
     }).then(res => {
       setNewVisiteId(res.data.ext.newVisite.visiteId);
-      notification['success']({
-        message: 'En a créé un avec succès',
-        description: (
-          <Typography.Link type="text" href="/1">
-            Cliquez ici pour accéder à la page de détails.
-          </Typography.Link>
-        ),
-        duration: 3,
-      });
-
+      // notification['success']({
+      //   message: 'En a créé un avec succès',
+      //   description: (
+      //     <Typography.Link type="text" href="/1">
+      //       Cliquez ici pour accéder à la page de détails.
+      //     </Typography.Link>
+      //   ),
+      //   duration: 3,
+      // });
+      setNeedReset(true);
       updateOrdonnance({
         ...selectedOrd[0],
         ordonnanceEtat: 1,
@@ -88,6 +89,7 @@ export default function NouvelleVisite() {
         showNotStarted={true}
         defaultpageSize={5}
         version={version}
+        needShowDtl={false}
       />
       <h2>
         Infirmières dans les services correspondants de l'examen médical: [
@@ -122,12 +124,18 @@ export default function NouvelleVisite() {
 
       <Button
         type="primary"
-        className="coordinateur-nouvelle-visite-confirm-btn"
+        className="coordinateur-nouvelle-visite-confirm-btn slide-btn"
         onClick={triggerAddVsEvent}
-        disabled={addVisitePending}
+        disabled={addVisitePending || needReset}
       >
         {!addVisitePending ? 'Confirmer et créer une nouvelle visite' : 'En cours'}
       </Button>
+
+      {true && (
+        <div>
+          En a créé un avec succès. <a>Cliquez ici pour accéder à la page de détails.</a>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
   HOME_UPDATE_VISITE_BEGIN,
@@ -6,6 +6,8 @@ import {
   HOME_UPDATE_VISITE_FAILURE,
   HOME_UPDATE_VISITE_DISMISS_ERROR,
 } from './constants';
+import axios from 'axios';
+import { serverUrl, config } from '../../../common/globalConfig';
 
 export function updateVisite(args = {}) {
   return (dispatch) => { // optionally you can have getState as the second argument
@@ -14,7 +16,8 @@ export function updateVisite(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const requestJSON = JSON.stringify({ ...args });
+      const doRequest = axios.post(`${serverUrl}/Visite/change`, requestJSON, config);
       doRequest.then(
         (res) => {
           dispatch({

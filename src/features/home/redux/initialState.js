@@ -24,6 +24,10 @@ const initialState = {
   getOrdonnancesListError: null,
   updateOrdonnancePending: false,
   updateOrdonnanceError: null,
+  findVsByVsIdPending: false,
+  findVsByVsIdError: null,
+  findOrdByOrdIdPending: false,
+  findOrdByOrdIdError: null,
 };
 
 export default initialState;

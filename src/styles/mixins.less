@@ -71,3 +71,31 @@
 
   --box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
 }
+
+
+.slide-btn{
+  position: relative;
+  padding:  0 40px;
+  transition: all ease 0.3s;
+  box-shadow: var(--box-shadow);
+}
+
+.slide-btn::after{
+  position: absolute;
+  top: 50%;
+  right: 0.6em;
+  transform: translateY(-50%);
+  content: "»";
+  font-size: 1.2em;
+  transition: all ease 0.3s;
+  opacity: 0;
+}
+
+.slide-btn:hover{
+  padding: 0 60px 0 20px;
+}
+
+.slide-btn:hover::after{
+  right: 1.2em;
+  opacity: 1;
+}

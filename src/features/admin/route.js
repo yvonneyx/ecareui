@@ -10,6 +10,7 @@ import {
   InfirMngPage,
   PatientMngWrapper,
   VsMngWrapper,
+  OrdMngWrapper,
 } from './';
 
 export default {
@@ -23,5 +24,6 @@ export default {
     { path: 'gestion-des-infirmieres/:userId?', component: InfirMngPage, protected: true, role: 'admin' },
     { path: 'gestion-des-patients', component: PatientMngWrapper, protected: true, role: 'admin' },
     { path: 'gestion-des-visites', component: VsMngWrapper },
+    { path: 'gestion-des-ordonnances', component: OrdMngWrapper },
   ],
 };

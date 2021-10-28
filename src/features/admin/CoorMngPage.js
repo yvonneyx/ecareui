@@ -186,6 +186,7 @@ export default function CoorMngPage(param) {
       <Spin tip="Chargement en cours..." spinning={getCoorsListPending} indicator={antIcon}>
         <Table
           size="middle"
+          rowKey="userId"
           columns={columns}
           dataSource={usersToShow}
           pagination={paginationProps}

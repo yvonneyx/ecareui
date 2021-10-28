@@ -65,6 +65,10 @@ var InfirDetailForm = function(props, ref) {
         }}
         initialValues={data}
       >
+        <Form.Item label="ID" name="infirmiereId">
+          <span className="ant-form-text">{data.infirmiereId}</span>
+        </Form.Item>
+
         <Form.Item label="Nom et prénom" name="infirmiereNom">
           <Input />
         </Form.Item>

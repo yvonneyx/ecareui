@@ -198,7 +198,7 @@ export default function PatientMngPage(props) {
         </div>
       </div>
       <Spin tip="Chargement en cours..." spinning={getPatientsListPending} indicator={antIcon}>
-        <Table size="middle" columns={columns} dataSource={emToShow} pagination={paginationProps} />
+        <Table rowKey="patientId" size="middle" columns={columns} dataSource={emToShow} pagination={paginationProps} />
         <div className="home-patient-mng-page-footer">
           {!getPatientsListError ? (
             _.isEmpty(emToShow) ? (

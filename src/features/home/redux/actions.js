@@ -10,3 +10,5 @@ export { getVisitesList, dismissGetVisitesListError } from './getVisitesList';
 export { findVssByOrdId, dismissFindVssByOrdIdError } from './findVssByOrdId';
 export { getOrdonnancesList, dismissGetOrdonnancesListError } from './getOrdonnancesList';
 export { updateOrdonnance, dismissUpdateOrdonnanceError } from './updateOrdonnance';
+export { findVsByVsId, dismissFindVsByVsIdError } from './findVsByVsId';
+export { findOrdByOrdId, dismissFindOrdByOrdIdError } from './findOrdByOrdId';

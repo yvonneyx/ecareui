@@ -36,6 +36,17 @@ export const showDateInline = time => {
     </span>
   );
 };
+export const showSimpleDateInline = time => {
+  return (
+    <span>
+      {_.upperFirst(
+        moment(time)
+          .locale('fr')
+          .format('MM/DD/YYYY HH:mm:ss'),
+      )}
+    </span>
+  );
+};
 
 export const showOnlyDate = time => {
   return (
@@ -59,4 +70,39 @@ export const showOnlyTime = time => {
   );
 };
 
+export const showOnlySimpleDate = time => {
+  return (
+    <span>
+      {_.upperFirst(
+        moment(time)
+          .locale('fr')
+          .format('MM/DD/YYYY'),
+      )}
+    </span>
+  );
+};
+
+export const showOnlySimpleTime = time => {
+  return (
+    <span>
+      {moment(time)
+        .locale('fr')
+        .format('HH:mm:ss')}
+    </span>
+  );
+};
+
 export const antIcon = <LoadingOutlined style={{ color: 'var(--first-color)' }} spin />;
+
+export const numFr = [
+  'première',
+  'deuxième',
+  'troisième',
+  'quatrième',
+  'cinquième',
+  'sixième',
+  'septième',
+  'huitième',
+  'neuvième',
+  'dixième',
+];

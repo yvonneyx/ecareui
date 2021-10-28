@@ -1,57 +1,59 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import { Form, Input, Button, Radio, DatePicker, Row, Col } from 'antd';
-import { showDateInline, showOnlyDate, showOnlyTime } from '../../common/constants';
+import { showSimpleDateInline, showOnlyDate, showOnlyTime } from '../../common/constants';
+import _ from 'lodash';
+
 export default function VsDetailForm(props) {
   const { data } = props;
   const [form] = Form.useForm();
-  console.log(data);
 
-  // coordinateurId: 1
-  // createdTime: "2021-10-10T20:25:53.000+00:00"
-  // infirmiereId: 1
-  // isDeleted: "N"
-  // modificateurRecent: 1
-  // ordonnanceId: 1
-  // patientId: 1
-  // updatedTime: "2021-10-10T20:25:53.000+00:00"
-  // visiteDate: "2021-10-09T22:00:00.000+00:00"
-  // visiteEtat: 0
-  // visiteHeureDebut: "2021-10-10T19:09:23.000+00:00"
-  // visiteHeureFin: null
-  // visiteId: 8
-  // visiteObservation: null
+  const renderOnlyDate = v => {
+    return !_.isEmpty(v) ? showOnlyDate(v) : '--';
+  };
+
+  const renderOnlyTime = v => {
+    return !_.isEmpty(v) ? showOnlyTime(v) : '--';
+  };
+
+  const renderEtat = v => {
+    return v === 0 ? (
+      <span style={{ color: '#D57E7E', fontWeight: '700' }}>Pas commencé</span>
+    ) : v === 1 ? (
+      <span style={{ color: '#5B8A72', fontWeight: '700' }}>En cours</span>
+    ) : (
+      <span style={{ color: '#5E454B', fontWeight: '700' }}>Fini</span>
+    );
+  };
 
   const formProps = [
-    {
-      type: Input,
-      label: 'Infirmière Id',
-      value: data.infirmiereId,
-      span: 8,
-    },
-    {
-      type: Input,
-      label: 'Coordinateur Id',
-      value: data.coordinateurId,
-      span: 16,
-    },
-    { type: Input, label: 'Date de visite', value: showOnlyDate(data.visiteDate), span: 8 },
-    { type: Input, label: 'Heure de début', value: showOnlyTime(data.visiteHeureDebut), span: 8 },
+    { type: Input, label: 'Date de visite', value: renderOnlyDate(data.visiteDate), span: 8 },
+    { type: Input, label: 'Heure de début', value: renderOnlyTime(data.visiteHeureDebut), span: 8 },
     {
       type: Input,
       label: 'Heure de fin',
-      value: showOnlyTime(data.visiteHeureFin) || '--',
+      value: renderOnlyTime(data.visiteHeureFin),
       span: 8,
     },
-    { type: Input, label: 'Etat', value: data.visiteEtat, span: 8 },
+    { type: Input, label: 'État', value: renderEtat(data.visiteEtat), span: 8 },
     {
       type: Input,
       label: 'Obersation',
       value: data.visiteObservation || '--',
       span: 16,
     },
-    { type: Input, label: 'Heure de création', value: showDateInline(data.createdTime), span: 8 },
-    { type: Input, label: 'Heure mise à jour', value: showDateInline(data.updatedTime), span: 8 },
+    {
+      type: Input,
+      label: 'Heure de création',
+      value: showSimpleDateInline(data.createdTime),
+      span: 8,
+    },
+    {
+      type: Input,
+      label: 'Heure mise à jour',
+      value: showSimpleDateInline(data.updatedTime),
+      span: 8,
+    },
     { type: Input, label: 'Dernière modification par', value: data.modificateurRecent, span: 8 },
   ];
 
@@ -73,19 +75,18 @@ export default function VsDetailForm(props) {
   //   },
   // };
 
-
   // {...formItemLayout}
   // {...(item.span === 16 && specialItemLayout)}
   return (
     <div className="home-vs-detail-form">
-      <Form layout="horizontal" form={form} >
+      <Form layout="horizontal" form={form}>
         <Row gutter={24}>
           {formProps.map(item => {
             return (
-              <Col span={item.span}>
-                <Form.Item label={item.label} >
+              <Col span={item.span} key={item.label}>
+                <Form.Item label={item.label}>
                   {/* <item.type value={item.value} /> */}
-                  <span>{item.value}</span>
+                  {item.value}
                 </Form.Item>
               </Col>
             );

@@ -8,7 +8,13 @@ export default function OrdMngPage() {
       <div className="home-ord-mng-page-header">
         <h1>Gestion des ordonnances</h1>
       </div>
-      <OrdDetailTable needRadio={false} showNotStarted={false} defaultpageSize={10} needExpand={true} />
+      <OrdDetailTable
+        needRadio={false}
+        showNotStarted={false}
+        defaultpageSize={10}
+        needExpand={true}
+        needShowDtl={false}
+      />
     </div>
   );
 }

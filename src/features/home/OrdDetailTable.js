@@ -4,11 +4,11 @@ import { Table, Spin, Input, Space, Button, Typography } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Highlighter from 'react-highlight-words';
 import { useGetOrdonnancesList } from './redux/hooks';
-import { showDate, antIcon } from '../../common/constants';
+import { showSimpleDateInline, antIcon } from '../../common/constants';
 import { VsDetailTable, VsDetailForm, VsDetailForms } from '../home';
 
 export default function OrdDetailTable(props, ref) {
-  const { needRadio, showNotStarted, defaultpageSize, version, needExpand } = props;
+  const { needRadio, showNotStarted, defaultpageSize, version, needExpand, needShowDtl } = props;
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = React.useRef(null);
@@ -82,9 +82,9 @@ export default function OrdDetailTable(props, ref) {
     onFilter: (value, record) =>
       record[dataIndex]
         ? record[dataIndex]
-          .toString()
-          .toLowerCase()
-          .includes(value.toLowerCase())
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase())
         : '',
     onFilterDropdownVisibleChange: visible => {
       if (visible) {
@@ -102,8 +102,8 @@ export default function OrdDetailTable(props, ref) {
           textToHighlight={text ? text.toString() : ''}
         />
       ) : (
-          text
-        ),
+        text
+      ),
   });
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -140,13 +140,13 @@ export default function OrdDetailTable(props, ref) {
       title: 'état',
       dataIndex: 'ordonnanceEtat',
       key: 'ordonnanceEtat',
-      width: 160,
+      width: 150,
       render: text => {
         return text === 0 ? 'Pas commencé' : text === 1 ? 'En cours' : 'Fini';
       },
     },
     {
-      title: 'Total',
+      title: 'fois restantes',
       dataIndex: 'ordonnanceCount',
       key: 'ordonnanceCount',
       width: 100,
@@ -164,11 +164,11 @@ export default function OrdDetailTable(props, ref) {
       dataIndex: 'createdTime',
       key: 'createdTime',
       width: 180,
-      render: time => showDate(time),
+      render: time => showSimpleDateInline(time),
     },
   ];
 
-  if (needExpand) {
+  if (needShowDtl) {
     columns.push({
       title: '',
       dataIndex: 'operation',
@@ -177,7 +177,9 @@ export default function OrdDetailTable(props, ref) {
       render: (text, record) => {
         return (
           <Space size="middle">
-            <Typography.Link href={`/ordonnance/${record.ordonnanceId}`}>Voir les détails</Typography.Link>
+            <Typography.Link href={`/ordonnance/${record.ordonnanceId}`}>
+              Voir les détails
+            </Typography.Link>
           </Space>
         );
       },
@@ -186,7 +188,7 @@ export default function OrdDetailTable(props, ref) {
 
   const expandable = {
     expandedRowRender: record => <VsDetailForms ordRecord={record} size="small" />,
-    // rowExpandable: record => record.name !== 'Not Expandable',
+    rowExpandable: record => record.ordonnanceEtat !== 0,
   };
 
   const paginationProps = {
@@ -210,6 +212,9 @@ export default function OrdDetailTable(props, ref) {
           expandable={needExpand && expandable}
         />
       </Spin>
+      <div className="home-ord-detail-table-footer">
+        {getOrdonnancesListError && <div className="error">Échec du chargement des données</div>}
+      </div>
     </div>
   );
 }

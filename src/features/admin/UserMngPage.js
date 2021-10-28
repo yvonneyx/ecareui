@@ -96,30 +96,33 @@ export default function UserMngPage() {
       key: 'userId',
       width: 40,
     },
-    {
-      title: 'Rôle',
-      dataIndex: 'userType',
-      key: 'userType',
-      width: 140,
-      render: role => {
-        let color = role === 0 ? '#5E454B' : role === 1 ? '#5B8A72' : '#D57E7E';
-        return (
-          <Tag className="usertype-tag" color={color}>
-            {roles[role]}
-          </Tag>
-        );
-      },
-    },
+
     {
       title: "Nom d'utilisateur",
       dataIndex: 'userNom',
       key: 'userNom',
+      width: 180,
     },
     {
       title: 'Mot de passe',
       dataIndex: 'userPassword',
       key: 'userPassword',
       ellipsis: true,
+      width: 180,
+    },
+    {
+      title: 'Rôle',
+      dataIndex: 'userType',
+      key: 'userType',
+      width: 180,
+      render: role => {
+        let color = role === 0 ? '#5E454B' : role === 1 ? '#5B8A72' : '#D57E7E';
+        return (
+          <div className={`usertype-tag usertype-tag-${role}`} color={color}>
+            {roles[role]}
+          </div>
+        );
+      },
     },
     {
       title: 'Heure de création',
@@ -170,7 +173,7 @@ export default function UserMngPage() {
               </Typography.Link>
             )}
             {record.userType === 2 && (
-              <Typography.Link href={`/admin/gestion-des-coordinateurss/${record.userId}`}>
+              <Typography.Link href={`/admin/gestion-des-coordinateurs/${record.userId}`}>
                 <AlignLeftOutlined />
               </Typography.Link>
             )}
@@ -239,6 +242,7 @@ export default function UserMngPage() {
       >
         <Table
           size="middle"
+          rowKey="userId"
           columns={columns}
           dataSource={usersToShow}
           pagination={paginationProps}

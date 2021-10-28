@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import {
   HOME_DELETE_VISITE_BEGIN,
@@ -6,6 +6,8 @@ import {
   HOME_DELETE_VISITE_FAILURE,
   HOME_DELETE_VISITE_DISMISS_ERROR,
 } from './constants';
+import axios from 'axios';
+import { serverUrl, config } from '../../../common/globalConfig';
 
 export function deleteVisite(args = {}) {
   return (dispatch) => { // optionally you can have getState as the second argument
@@ -14,7 +16,8 @@ export function deleteVisite(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const requestJSON = JSON.stringify({ ...args });
+      const doRequest = axios.post(`${serverUrl}/Visite/remove`, requestJSON, config);
       doRequest.then(
         (res) => {
           dispatch({

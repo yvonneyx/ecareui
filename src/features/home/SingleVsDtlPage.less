@@ -1,5 +1,48 @@
 @import '../../styles/mixins';
 
 .home-single-vs-dtl-page {
+  &-header {
+    margin-bottom: 1.5rem;
+  }
 
+  &-content {
+    position: relative;
+
+    &-basic-info h3 {
+    }
+
+    &-btn {
+      display: block;
+      margin: 40px auto;
+    }
+  }
+
+  .visite-record {
+    margin-top: 25px;
+    padding: 20px 50px;
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: var(--box-shadow);
+    .ant-form-item-label {
+      font-weight: bold;
+    }
+
+    input {
+      // background-color: var(--light-color);
+      background-color: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  .btn-error {
+    margin: 0 auto;
+    font-size: 14px;
+    font-weight: 200;
+  }
+
+  &-footer {
+    position: fixed;
+    bottom: 30px;
+    font-size: 12px;
+    color: var(--first-color);
+    font-weight: 200;
+  }
 }

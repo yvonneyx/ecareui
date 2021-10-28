@@ -6,7 +6,8 @@ import {
   MedicineBoxOutlined,
   AppstoreAddOutlined,
   TeamOutlined,
-  SolutionOutlined,
+  BookOutlined,
+  FieldTimeOutlined,
   UserSwitchOutlined,
   IdcardOutlined,
 } from '@ant-design/icons';
@@ -59,7 +60,10 @@ export default function SidePanel(props) {
         <Menu.Item key="/admin/gestion-des-patients" icon={<UserOutlined />}>
           <Link to="/admin/gestion-des-patients">Gestion des patients</Link>
         </Menu.Item>
-        <Menu.Item key="/admin/gestion-des-visites" icon={<SolutionOutlined />}>
+        <Menu.Item key="/admin/gestion-des-ordonnances" icon={<BookOutlined />}>
+          <Link to="/admin/gestion-des-ordonnances">Gestion des ordonnances</Link>
+        </Menu.Item>
+        <Menu.Item key="/admin/gestion-des-visites" icon={<FieldTimeOutlined />}>
           <Link to="/admin/gestion-des-visites">Gestion des visites</Link>
         </Menu.Item>
       </Menu>
