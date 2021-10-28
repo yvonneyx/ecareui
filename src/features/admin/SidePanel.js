@@ -36,7 +36,7 @@ export default function SidePanel(props) {
 
   return (
     <div className="admin-side-panel">
-      <div className="admin-side-panel-logo" />
+      <div className="admin-side-panel-logo"><img src={require('../../images/logo1.png')} /></div>
       <UserSimpleProfile />
       <Menu mode="inline" selectedKeys={[pathname]} openKeys={openKeys} onOpenChange={onOpenChange}>
         <SubMenu key="sub1" title="Gestion du personnel" icon={<TeamOutlined />}>

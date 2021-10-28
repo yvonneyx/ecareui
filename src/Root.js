@@ -9,35 +9,20 @@ import store from './common/store';
 import routeConfig from './common/routeConfig';
 import history from './common/history';
 import useForceUpdate from 'use-force-update';
-
-let isLogined = true;
-let role = 'admin';
+import { useCookies } from 'react-cookie';
+import _ from 'lodash';
 
 setConfig({
   logLevel: 'debug',
 });
 
-function renderRouteConfigV3(routes, contextPath) {
+function renderRouteConfigV3(routes, contextPath, cookies) {
   // Resolve route config object in React Router v3.
   const children = []; // children component list
 
   const renderRoute = (item, routeContextPath) => {
-    // isLogined = store.getState().home.isLogined;
-    // role = store.getState().home.role;
-    if (!isLogined && item.protected) {
-      item = {
-        ...item,
-        component: () => <Redirect to="/login" />,
-        children: [],
-      };
-    }
-    // if (item.protected && item.role && item.role !== role) {
-    //   item = {
-    //     ...item,
-    //     component: () => <Redirect to="/common/unauthorized" />,
-    //     children: [],
-    //   };
-    // }
+    let roles = ['admin', 'infirmiere', 'coordinateur'];
+    let role = !_.isEmpty(cookies) && roles[cookies.UROLE];
 
     let newContextPath;
     if (/^\//.test(item.path)) {
@@ -46,8 +31,9 @@ function renderRouteConfigV3(routes, contextPath) {
       newContextPath = `${routeContextPath}/${item.path}`;
     }
     newContextPath = newContextPath.replace(/\/+/g, '/');
+
     if (item.component && item.childRoutes) {
-      const childRoutes = renderRouteConfigV3(item.childRoutes, newContextPath);
+      const childRoutes = renderRouteConfigV3(item.childRoutes, newContextPath, cookies);
       children.push(
         <Route
           key={newContextPath}
@@ -62,6 +48,20 @@ function renderRouteConfigV3(routes, contextPath) {
     } else if (item.childRoutes) {
       item.childRoutes.forEach(r => renderRoute(r, newContextPath));
     }
+
+    if (_.isEmpty(cookies) && item.protected) {
+      item = {
+        ...item,
+        component: () => <Redirect to="/login" />,
+        children: [],
+      };
+    } else if (item.protected && item.path !== role) {
+      item = {
+        ...item,
+        component: () => <Redirect to="/common/unauthorized" />,
+        children: [],
+      };
+    }
   };
 
   routes.forEach(item => renderRoute(item, contextPath));
@@ -71,6 +71,7 @@ function renderRouteConfigV3(routes, contextPath) {
 }
 
 function Root() {
+  const [cookies, setCookie] = useCookies(['UID', 'UNAME', 'UROLE']);
   const forceUpdate = useForceUpdate();
   useEffect(() => {
     store.subscribe(() => {
@@ -78,7 +79,7 @@ function Root() {
     }, []);
   });
 
-  const children = renderRouteConfigV3(routeConfig, '/');
+  const children = renderRouteConfigV3(routeConfig, '/', cookies);
 
   return (
     <Provider store={store}>

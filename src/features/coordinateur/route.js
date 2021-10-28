@@ -15,8 +15,9 @@ import {
 export default {
   path: 'coordinateur',
   component: Layout,
+  protected: true,
   childRoutes: [
-    { path: 'gestion-des-patients', component: PatientMngWrapper, protected: true, role: 'coor' },
+    { path: 'gestion-des-patients', component: PatientMngWrapper },
     { path: 'nouvelle-ordonnance', component: NouvelleOrdonnance },
     { path: 'nouvelle-visite', component: NouvelleVisite },
     { path: 'gestion-des-visites', component: VsMngWrapper },

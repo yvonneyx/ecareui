@@ -6,9 +6,10 @@ import { Layout, SingleVsDtlWrapper, OrdWithVsDtlWrapper, VsSummaryPage } from '
 export default {
   path: 'infirmiere',
   component: Layout,
+  protected: true,
   childRoutes: [
     { path: 'ordonnance/:ordonnanceId/visite/:visiteId', component: SingleVsDtlWrapper },
     { path: 'ordonnance/:ordonnanceId', component: OrdWithVsDtlWrapper },
-    { path: 'visite-summary', component: VsSummaryPage },
+    { path: 'visite-summary', component: VsSummaryPage, isIndex: true },
   ],
 };

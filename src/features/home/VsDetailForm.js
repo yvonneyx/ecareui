@@ -38,7 +38,7 @@ export default function VsDetailForm(props) {
     { type: Input, label: 'État', value: renderEtat(data.visiteEtat), span: 8 },
     {
       type: Input,
-      label: 'Obersation',
+      label: 'Obversation',
       value: data.visiteObservation || '--',
       span: 16,
     },
@@ -54,7 +54,7 @@ export default function VsDetailForm(props) {
       value: showSimpleDateInline(data.updatedTime),
       span: 8,
     },
-    { type: Input, label: 'Dernière modification par', value: data.modificateurRecent, span: 8 },
+    { type: Input, label: 'Dernière modification par', value: data.modificateurRecentNom, span: 8 },
   ];
 
   // const formItemLayout = {

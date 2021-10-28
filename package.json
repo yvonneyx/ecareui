@@ -55,6 +55,7 @@
     "prettier": "^1.16.3",
     "react": "^16.8.6",
     "react-app-polyfill": "^0.2.0",
+    "react-cookie": "^4.1.1",
     "react-dev-utils": "^7.0.1",
     "react-dom": "^16.8.6",
     "react-highlight-words": "^0.17.0",

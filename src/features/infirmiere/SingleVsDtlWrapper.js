@@ -9,7 +9,12 @@ export default function SingleVsDtlWrapper(props) {
 
   return (
     <div className="infirmiere-single-vs-dtl-wrapper">
-      <SingleVsDtlPage ordonnanceId={ordonnanceId} visiteId={visiteId} userType={userType}/>
+      <SingleVsDtlPage
+        ordonnanceId={ordonnanceId}
+        visiteId={visiteId}
+        userType={userType}
+        target="infirmiere"
+      />
     </div>
   );
 }

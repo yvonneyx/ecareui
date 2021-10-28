@@ -6,7 +6,7 @@ export default {
     {
       path: 'welcome-page',
       component: WelcomePage,
-      protected: true,
+      // protected: true,
       role: 'admin',
     },
     { path: 'login', component: Login, isIndex: true },

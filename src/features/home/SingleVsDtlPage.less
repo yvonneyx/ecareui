@@ -8,7 +8,20 @@
   &-content {
     position: relative;
 
-    &-basic-info h3 {
+    &-basic-info {
+      margin-bottom: var(--mb-2);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-bottom: 2px solid var(--first-color);
+      box-shadow: var(--box-shadow);
+      height: 40px;
+      align-items: center;
+
+      div {
+        font-size: 18px;
+        height: fit-content;
+        font-weight: bold;
+      }
     }
 
     &-btn {

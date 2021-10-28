@@ -6,6 +6,8 @@ import {
   HOME_LOGIN_FAILURE,
   HOME_LOGIN_DISMISS_ERROR,
 } from './constants';
+import axios from 'axios';
+import { serverUrl, config } from '../../../common/globalConfig';
 
 export function login(args = {}) {
   return (dispatch) => { // optionally you can have getState as the second argument
@@ -14,12 +16,13 @@ export function login(args = {}) {
     });
 
     const promise = new Promise((resolve, reject) => {
-      const doRequest = args.error ? Promise.reject(new Error()) : Promise.resolve();
+      const requestJSON = JSON.stringify({ ...args });
+      const doRequest = axios.post(`${serverUrl}/User/login`, requestJSON, config);
       doRequest.then(
         (res) => {
           dispatch({
             type: HOME_LOGIN_SUCCESS,
-            data: res,
+            data: res.data.ext.user,
           });
           resolve(res);
         },
@@ -47,8 +50,9 @@ export function dismissLoginError() {
 export function useLogin() {
   const dispatch = useDispatch();
 
-  const { isLogined, loginPending, loginError } = useSelector(
+  const { loggedUserInfo, isLogined, loginPending, loginError } = useSelector(
     state => ({
+      loginUserInfo: state.home.loggedUserInfo,
       isLogined: state.home.isLogined,
       loginPending: state.home.loginPending,
       loginError: state.home.loginError,
@@ -65,6 +69,7 @@ export function useLogin() {
   }, [dispatch]);
 
   return {
+    loggedUserInfo,
     isLogined,
     login: boundAction,
     loginPending,
@@ -76,31 +81,35 @@ export function useLogin() {
 export function reducer(state, action) {
   switch (action.type) {
     case HOME_LOGIN_BEGIN:
-      // Just after a request is sent
       return {
         ...state,
+        isLogined: false,
         loginPending: true,
         loginError: null,
       };
 
     case HOME_LOGIN_SUCCESS:
-      // The request is success
       return {
         ...state,
+        loggedUserInfo: {
+          id: action.data.userId,
+          name: action.data.userNom,
+          role: action.data.userType,
+        },
+        isLogined: true,
         loginPending: false,
         loginError: null,
       };
 
     case HOME_LOGIN_FAILURE:
-      // The request is failed
       return {
         ...state,
+        isLogined: false,
         loginPending: false,
         loginError: action.data.error,
       };
 
     case HOME_LOGIN_DISMISS_ERROR:
-      // Dismiss the request failure error
       return {
         ...state,
         loginError: null,

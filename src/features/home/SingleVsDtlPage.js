@@ -7,7 +7,7 @@ import { useUpdateVisite, useFindVsByVsId } from './redux/hooks';
 import { antIcon } from '../../common/constants';
 
 export default function SingleVsDtlPage(props) {
-  const { visiteId } = props;
+  const { visiteId, target } = props;
   const { findVsByVsId, findVsByVsIdPending, findVsByVsIdError } = useFindVsByVsId();
   const { updateVisite, updateVisitePending, updateVisiteError } = useUpdateVisite();
   const [foundVs, setFoundVs] = useState({});
@@ -17,6 +17,7 @@ export default function SingleVsDtlPage(props) {
     findVsByVsId({
       visiteId: visiteId,
     }).then(res => {
+      console.log(res.data.ext.visite);
       setFoundVs(res.data.ext.visite);
     });
   }, [findVsByVsId, visiteId]);
@@ -52,9 +53,9 @@ export default function SingleVsDtlPage(props) {
         {foundVs && foundVs.isDeleted === 'N' ? (
           <div className="home-single-vs-dtl-page-content">
             <div className="home-single-vs-dtl-page-content-basic-info">
-              <h3>Infirmiere: {foundVs.infirmiereId}</h3>
-              <h3>Patient: {foundVs.patientId}</h3>
-              <h3>Coordinateur: {foundVs.coordinateurId}</h3>
+              {target !== 'infirmiere' && <div>Infirmiere: {foundVs.infirmiereNom}</div>}
+              <div>Patient: {foundVs.patientNom}</div>
+              <div>Coordinateur: {foundVs.coordinateurNom}</div>
             </div>
             <VsDetailForm data={foundVs} />
             {foundVs.visiteEtat === 0 && (

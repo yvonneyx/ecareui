@@ -1,5 +1,5 @@
 const initialState = {
-  isLogined: true,
+  isLogined: false,
   loginPending: false,
   loginError: null,
   addPatientPending: false,
