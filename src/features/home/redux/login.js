@@ -22,7 +22,7 @@ export function login(args = {}) {
         (res) => {
           dispatch({
             type: HOME_LOGIN_SUCCESS,
-            data: res.data.ext.user,
+            data: res.data.ext,
           });
           resolve(res);
         },

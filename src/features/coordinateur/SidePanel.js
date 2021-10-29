@@ -33,7 +33,7 @@ export default function SidePanel(props) {
 
   return (
     <div className="coordinateur-side-panel">
-      <div className="coordinateur-side-panel-logo" />
+      <div className="coordinateur-side-panel-logo"><img src={require('../../images/logo1.png')} /></div>
       <UserSimpleProfile />
       <Menu mode="inline" selectedKeys={[pathname]} openKeys={openKeys} onOpenChange={onOpenChange}>
         <Menu.Item key="/coordinateur/nouvelle-visite" icon={<UserOutlined />}>

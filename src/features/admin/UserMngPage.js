@@ -103,13 +103,13 @@ export default function UserMngPage() {
       key: 'userNom',
       width: 180,
     },
-    {
-      title: 'Mot de passe',
-      dataIndex: 'userPassword',
-      key: 'userPassword',
-      ellipsis: true,
-      width: 180,
-    },
+    // {
+    //   title: 'Mot de passe',
+    //   dataIndex: 'userPassword',
+    //   key: 'userPassword',
+    //   ellipsis: true,
+    //   width: 180,
+    // },
     {
       title: 'Rôle',
       dataIndex: 'userType',

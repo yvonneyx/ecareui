@@ -14,3 +14,7 @@ export { default as OrdWithVsDtlPage } from './OrdWithVsDtlPage';
 export { default as SingleVsDtlPage } from './SingleVsDtlPage';
 export { default as OrdVsBreadcrumb } from './OrdVsBreadcrumb';
 export { default as OrdDetailForm } from './OrdDetailForm';
+export { default as VsPatientPeForm } from './VsPatientPeForm';
+export { default as VsPatientEmForm } from './VsPatientEmForm';
+export { default as VsPatientConForm } from './VsPatientConForm';
+export { default as VsPatientEmForms } from './VsPatientEmForms';

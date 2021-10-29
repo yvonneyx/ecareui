@@ -16,7 +16,7 @@ export default function NouvelleVisite() {
   const [selectedInfirm, setSelectedInfirm] = useState('');
   const [newVisiteId, setNewVisiteId] = useState('1');
   const [version, setVersion] = useState(null);
-  const [needReset, setNeedReset] = useState(false);
+  const [reset, setReset] = useState(true);
   const {
     infirmieres,
     findInfirmieresByDptId,
@@ -60,16 +60,7 @@ export default function NouvelleVisite() {
       modificateurRecent: cookies.UID,
     }).then(res => {
       setNewVisiteId(res.data.ext.newVisite.visiteId);
-      // notification['success']({
-      //   message: 'En a créé un avec succès',
-      //   description: (
-      //     <Typography.Link type="text" href="/1">
-      //       Cliquez ici pour accéder à la page de détails.
-      //     </Typography.Link>
-      //   ),
-      //   duration: 3,
-      // });
-      setNeedReset(true);
+      setReset(true);
       updateOrdonnance({
         ...selectedOrd[0],
         ordonnanceEtat: 1,
@@ -104,7 +95,7 @@ export default function NouvelleVisite() {
         indicator={antIcon}
       >
         <div className="infirmiere-part classic-part">
-          Les infirmières suivantes peuvent prendre des dispositions:{' '}
+          <b>Les infirmières suivantes peuvent prendre des dispositions: </b>{' '}
           {!_.isEmpty(infirmieres)
             ? infirmieres.map(infirm => (
                 <Tag.CheckableTag
@@ -128,14 +119,15 @@ export default function NouvelleVisite() {
         type="primary"
         className="coordinateur-nouvelle-visite-confirm-btn slide-btn"
         onClick={triggerAddVsEvent}
-        disabled={addVisitePending || needReset}
+        disabled={addVisitePending || reset}
       >
         {!addVisitePending ? 'Confirmer et créer une nouvelle visite' : 'En cours'}
       </Button>
 
-      {true && (
+      {reset && (
         <div>
           En a créé un avec succès. <a>Cliquez ici pour accéder à la page de détails.</a>
+          {/* todo: jump to vs detail page */}
         </div>
       )}
     </div>

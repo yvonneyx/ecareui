@@ -130,12 +130,12 @@ var UserDetailForm = function(props, ref) {
         }}
         initialValues={initialValues}
       >
-         {mode === 'update' && (
+        {mode === 'update' && (
           <Form.Item label="ID" name="id">
             <span className="ant-form-text">{data.userId}</span>
           </Form.Item>
         )}
-        
+
         <Form.Item
           label="Nom d'utilisateur"
           name="username"

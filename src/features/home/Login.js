@@ -16,13 +16,21 @@ export default function Login(props) {
       userPassword: values.password,
       userType: radioValue,
     }).then(res => {
-      let loggedUser = res.data.ext.user;
-      let role = loggedUser.userType;
-      let jumpTo = role === 0 ? '/admin' : role === 1 ? '/infirmiere' : '/coordinateur';
-      setCookie('UID', loggedUser.userId, { path: '/' });
-      setCookie('UNAME', loggedUser.userNom, { path: '/' });
-      setCookie('UROLE', role, { path: '/' });
-      props.history.push(jumpTo);
+      if (!_.isEmpty(res.data.ext)) {
+        let loggedUser = res.data.ext.user;
+        let role = loggedUser.userType;
+        let jumpTo = role === 0 ? '/admin' : role === 1 ? '/infirmiere' : '/coordinateur';
+        setCookie('UID', loggedUser.userId, { path: '/' });
+        setCookie('UNAME', loggedUser.userNom, { path: '/' });
+        setCookie('UROLE', role, { path: '/' });
+        props.history.push(jumpTo);
+      } else {
+        notification['error']({
+          message: 'Échec de la connexion.',
+          description:
+            "Veuillez vérifier que votre identité, nom d'utilisateur et mot de passe sont corrects.",
+        });
+      }
     });
   };
 

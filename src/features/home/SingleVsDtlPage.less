@@ -43,6 +43,25 @@
       // background-color: var(--light-color);
       background-color: rgba(255, 255, 255, 0.8);
     }
+
+    .readonly-row {
+      .ant-form-item {
+        margin-bottom: 0px;
+      }
+    }
+
+    .btns-container{
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 10px;
+      margin-bottom: var(--mb-1);
+
+      .ant-btn{
+        border-radius: 4px;
+        box-shadow: var(--box-shadow);
+        background-color: #fafafa;
+      }
+    }
   }
 
   .btn-error {

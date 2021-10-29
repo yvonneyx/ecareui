@@ -1,19 +1,26 @@
 import React, { useEffect, useState } from 'react';
 // import PropTypes from 'prop-types';
-import { OrdVsBreadcrumb } from './';
-import VsDetailForm from './VsDetailForm';
-import { Button, Form, Col, Row, Input, Divider, Spin } from 'antd';
+import {
+  OrdVsBreadcrumb,
+  VsPatientPeForm,
+  VsDetailForm,
+  VsPatientEmForm,
+  VsPatientConForm,
+} from './';
+import { Button, Form, Divider, Spin } from 'antd';
 import { useUpdateVisite, useFindVsByVsId } from './redux/hooks';
 import { antIcon } from '../../common/constants';
 import { useCookies } from 'react-cookie';
+import { EditOutlined, SaveOutlined, ReadOutlined } from '@ant-design/icons';
 
 export default function SingleVsDtlPage(props) {
   const { visiteId, target } = props;
   const { findVsByVsId, findVsByVsIdPending, findVsByVsIdError } = useFindVsByVsId();
   const { updateVisite, updateVisitePending, updateVisiteError } = useUpdateVisite();
   const [foundVs, setFoundVs] = useState({});
+  const [editable, setEditable] = useState(false);
   const [rcForm] = Form.useForm();
-  const [cookies, ] = useCookies(['UID', 'UNAME', 'UROLE']);
+  const [cookies] = useCookies(['UID', 'UNAME', 'UROLE']);
 
   useEffect(() => {
     findVsByVsId({
@@ -51,6 +58,7 @@ export default function SingleVsDtlPage(props) {
       <div className="home-single-vs-dtl-page-header">
         <h1>{`Détails de la visite ${foundVs.visiteId}`}</h1>
       </div>
+
       <Spin tip="Chargement en cours..." spinning={findVsByVsIdPending} indicator={antIcon}>
         {foundVs && foundVs.isDeleted === 'N' ? (
           <div className="home-single-vs-dtl-page-content">
@@ -76,15 +84,25 @@ export default function SingleVsDtlPage(props) {
             )}
             {foundVs.visiteEtat === 1 && (
               <div>
-                <Form layout="horizontal" className="visite-record" form={rcForm}>
-                  <Row gutter={24}>
-                    <Col span={24} key="ob">
-                      <Form.Item label="Conclusion de l'observation" name="observation">
-                        <Input />
-                      </Form.Item>
-                    </Col>
-                  </Row>
-                </Form>
+                <div className="visite-record">
+                  <div className="btns-container">
+                    {!editable && (
+                      <Button onClick={() => setEditable(true)} icon={<EditOutlined />}>
+                        Mode Édition
+                      </Button>
+                    )}
+                    {editable && (
+                      <Button onClick={() => setEditable(false)} icon={<ReadOutlined />}>
+                        Mode Lecture seule
+                      </Button>
+                    )}
+                    <Button icon={<SaveOutlined />}>Enregistrer</Button>
+                  </div>
+                  <VsPatientPeForm visiteId={foundVs.visiteId} editable={editable} />
+                  <VsPatientEmForm visiteId={foundVs.visiteId} editable={editable} />
+                  <VsPatientConForm editable={editable} />
+                  {updateVisiteError && <div className="error btn-error">Mise à jour a échoué</div>}
+                </div>
                 <Button
                   type="primary"
                   size="large"
@@ -92,9 +110,8 @@ export default function SingleVsDtlPage(props) {
                   onClick={() => doUpdateVisite(foundVs.visiteId, 'done')}
                   loading={updateVisitePending}
                 >
-                  Mettre fin à la surveillance et soumettre les résultats de l'observation
+                  Mettre fin à la surveillance
                 </Button>
-                {updateVisiteError && <div className="error btn-error">Mise à jour a échoué</div>}
               </div>
             )}
             {foundVs.visiteEtat === 2 && (
