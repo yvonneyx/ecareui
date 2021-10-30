@@ -16,7 +16,7 @@ export default function NouvelleVisite() {
   const [selectedInfirm, setSelectedInfirm] = useState('');
   const [newVisiteId, setNewVisiteId] = useState('1');
   const [version, setVersion] = useState(null);
-  const [reset, setReset] = useState(true);
+  const [reset, setReset] = useState(false);
   const {
     infirmieres,
     findInfirmieresByDptId,
@@ -126,8 +126,19 @@ export default function NouvelleVisite() {
 
       {reset && (
         <div>
-          En a créé un avec succès. <a>Cliquez ici pour accéder à la page de détails.</a>
+          En a créé un avec succès.{' '}
+          <Button type="link">Cliquez ici pour accéder à la page de détails.</Button>
           {/* todo: jump to vs detail page */}
+          Ou{' '}
+          <Button
+            type="link"
+            onClick={() => {
+              setReset(false);
+            }}
+          >
+            continuer à créer une nouvelle visite
+          </Button>
+          .
         </div>
       )}
     </div>

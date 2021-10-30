@@ -49,19 +49,19 @@ function renderRouteConfigV3(routes, contextPath, cookies) {
       item.childRoutes.forEach(r => renderRoute(r, newContextPath));
     }
 
-    // if (_.isEmpty(cookies) && item.protected) {
-    //   item = {
-    //     ...item,
-    //     component: () => <Redirect to="/login" />,
-    //     children: [],
-    //   };
-    // } else if (item.protected && item.path !== role) {
-    //   item = {
-    //     ...item,
-    //     component: () => <Redirect to="/common/403" />,
-    //     children: [],
-    //   };
-    // }
+    if (_.isEmpty(cookies) && item.protected) {
+      item = {
+        ...item,
+        component: () => <Redirect to="/login" />,
+        children: [],
+      };
+    } else if (item.protected && item.path !== role) {
+      item = {
+        ...item,
+        component: () => <Redirect to="/common/403" />,
+        children: [],
+      };
+    }
   };
 
   routes.forEach(item => renderRoute(item, contextPath));

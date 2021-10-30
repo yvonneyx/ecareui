@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 // import PropTypes from 'prop-types';
 import {
   OrdVsBreadcrumb,
@@ -7,32 +7,59 @@ import {
   VsPatientEmForm,
   VsPatientConForm,
 } from './';
-import { Button, Form, Divider, Spin } from 'antd';
-import { useUpdateVisite, useFindVsByVsId } from './redux/hooks';
+import { Button, Form, Modal, Spin } from 'antd';
+import {
+  useUpdateVisite,
+  useFindVsByVsId,
+  useUpdatePeByVsIdAndPid,
+  useAddPeByVsIdAndPid,
+  useUpdateEmByVsId,
+  useAddEmByVsId,
+  useFindOrdByOrdId,
+  useUpdateOrdonnance,
+} from './redux/hooks';
 import { antIcon } from '../../common/constants';
 import { useCookies } from 'react-cookie';
 import { EditOutlined, SaveOutlined, ReadOutlined } from '@ant-design/icons';
-
+import _ from 'lodash';
 export default function SingleVsDtlPage(props) {
   const { visiteId, target } = props;
   const { findVsByVsId, findVsByVsIdPending, findVsByVsIdError } = useFindVsByVsId();
   const { updateVisite, updateVisitePending, updateVisiteError } = useUpdateVisite();
+  const { findOrdByOrdId } = useFindOrdByOrdId();
+  const { updateOrdonnance } = useUpdateOrdonnance();
+  const { updatePeByVsIdAndPid } = useUpdatePeByVsIdAndPid();
+  const { addPeByVsIdAndPid } = useAddPeByVsIdAndPid();
+  const { updateEmByVsId } = useUpdateEmByVsId();
+  const { addEmByVsId } = useAddEmByVsId();
   const [foundVs, setFoundVs] = useState({});
   const [editable, setEditable] = useState(false);
+  const [shouldSave, setShouldSave] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [version, setVersion] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
   const [rcForm] = Form.useForm();
+  const peFormRef = useRef(null);
+  const emFormRef = useRef(null);
+  const conFormRef = useRef(null);
+
   const [cookies] = useCookies(['UID', 'UNAME', 'UROLE']);
+
+  let peVersion = 0;
 
   useEffect(() => {
     findVsByVsId({
       visiteId: visiteId,
     }).then(res => {
-      console.log(res.data.ext.visite);
       setFoundVs(res.data.ext.visite);
     });
-  }, [findVsByVsId, visiteId]);
+  }, [findVsByVsId, visiteId, version]);
 
-  const doUpdateVisite = (vsId, vsStatus) => {
+  const hanldeUpdateVisite = (vsId, vsStatus) => {
     const rc = rcForm.getFieldsValue();
+    if (shouldSave) {
+      onCommit();
+    }
     if (vsStatus === 'doing') {
       updateVisite({
         visiteId: vsId,
@@ -40,16 +67,101 @@ export default function SingleVsDtlPage(props) {
         visiteHeureDebut: new Date(),
         visiteEtat: 1,
         modificateurRecent: cookies.UID,
+      }).then(() => {
+        setVersion(new Date());
       });
     } else if (vsStatus === 'done') {
+      let newCount;
       updateVisite({
         visiteId: vsId,
         visiteHeureFin: new Date(),
         visiteEtat: 2,
         visiteObservation: rc.observation,
         modificateurRecent: cookies.UID,
+      }).then(() => {
+        setVersion(new Date());
+      });
+      findOrdByOrdId({
+        ordonnanceId: foundVs.ordonnanceId,
+      }).then(res => {
+        newCount = res.data.ext.ordonnance.ordonnanceCount - 1;
+        updateOrdonnance({
+          ordonnanceId: foundVs.ordonnanceId,
+          ordonnanceCount: newCount,
+        });
       });
     }
+  };
+
+  const onCommit = () => {
+    let peValues = peFormRef.current && peFormRef.current.getFieldsValue();
+    let emPartValues = emFormRef.current && emFormRef.current.getFieldsValue();
+    let hasPaid = emFormRef.current && emFormRef.current.hasPaid;
+    let conValues = conFormRef.current && conFormRef.current.getFieldsValue();
+
+    peFormRef.current && peFormRef.current.setPeData(peValues);
+    emFormRef.current &&
+      emFormRef.current.setEmData({ ...emPartValues, examenMedicalPayee: hasPaid });
+    conFormRef.current && conFormRef.current.setConData(conValues);
+  };
+
+  const onSave = () => {
+    let peValues = peFormRef.current && peFormRef.current.getFieldsValue();
+    let emPartValues = emFormRef.current && emFormRef.current.getFieldsValue();
+    let hasPaid = emFormRef.current && emFormRef.current.hasPaid;
+    let patientDetailId = peFormRef.current && peFormRef.current.patientDetailId;
+    let visiteDetailId = emFormRef.current && emFormRef.current.visiteDetailId;
+    let conValues = conFormRef.current && conFormRef.current.getFieldsValue();
+    // patient physical exam record
+
+    if (patientDetailId) {
+      updatePeByVsIdAndPid({
+        patientDetailId: patientDetailId,
+        patientId: foundVs.patientId,
+        visiteId: foundVs.visiteId,
+        ...peValues,
+      });
+    } else {
+      addPeByVsIdAndPid({
+        patientId: foundVs.patientId,
+        visiteId: foundVs.visiteId,
+        ...peValues,
+      });
+    }
+
+    // examen medical record
+    if (visiteDetailId) {
+      updateEmByVsId({
+        visiteDetailId: visiteDetailId,
+        visiteId: foundVs.visiteId,
+        ...emPartValues,
+        examenMedicalId: foundVs.examId,
+        examenMedicalPayee: hasPaid ? 'Y' : 'N',
+      });
+    } else {
+      addEmByVsId({
+        visiteId: foundVs.visiteId,
+        ...emPartValues,
+        examenMedicalId: foundVs.examId,
+        examenMedicalPayee: hasPaid ? 'Y' : 'N',
+      });
+    }
+
+    if (conValues.observation !== foundVs.visiteObservation) {
+      setLoading(false);
+      updateVisite({
+        visiteId: foundVs.visiteId,
+        visiteObservation: conValues.observation,
+        modificateurRecent: cookies.UID,
+      }).then(() => {
+        setLoading(true);
+      });
+    }
+    setShouldSave(false);
+  };
+
+  const hideModal = () => {
+    setModalVisible(false);
   };
 
   return (
@@ -74,7 +186,7 @@ export default function SingleVsDtlPage(props) {
                   type="primary"
                   size="large"
                   className="home-single-vs-dtl-page-content-btn slide-btn"
-                  onClick={() => doUpdateVisite(foundVs.visiteId, 'doing')}
+                  onClick={() => hanldeUpdateVisite(foundVs.visiteId, 'doing')}
                   loading={updateVisitePending}
                 >
                   Démarrer la surveillance
@@ -87,36 +199,79 @@ export default function SingleVsDtlPage(props) {
                 <div className="visite-record">
                   <div className="btns-container">
                     {!editable && (
-                      <Button onClick={() => setEditable(true)} icon={<EditOutlined />}>
+                      <Button
+                        onClick={() => {
+                          setEditable(true);
+                          setShouldSave(true);
+                        }}
+                        icon={<EditOutlined />}
+                      >
                         Mode Édition
                       </Button>
                     )}
                     {editable && (
-                      <Button onClick={() => setEditable(false)} icon={<ReadOutlined />}>
+                      <Button
+                        onClick={() => {
+                          setEditable(false);
+                          onCommit();
+                        }}
+                        icon={<ReadOutlined />}
+                      >
                         Mode Lecture seule
                       </Button>
                     )}
-                    <Button icon={<SaveOutlined />}>Enregistrer</Button>
+                    {shouldSave && (
+                      <Button icon={<SaveOutlined />} onClick={onSave}>
+                        Enregistrer
+                      </Button>
+                    )}
                   </div>
-                  <VsPatientPeForm visiteId={foundVs.visiteId} editable={editable} />
-                  <VsPatientEmForm visiteId={foundVs.visiteId} editable={editable} />
-                  <VsPatientConForm editable={editable} />
+                  <VsPatientPeForm
+                    foundVs={foundVs}
+                    editable={editable}
+                    ref={peFormRef}
+                    version={peVersion}
+                  />
+                  <VsPatientEmForm foundVs={foundVs} editable={editable} ref={emFormRef} />
+                  <VsPatientConForm
+                    ref={conFormRef}
+                    visiteObservation={foundVs.visiteObservation}
+                    editable={editable}
+                  />
                   {updateVisiteError && <div className="error btn-error">Mise à jour a échoué</div>}
                 </div>
                 <Button
                   type="primary"
                   size="large"
                   className="home-single-vs-dtl-page-content-btn slide-btn"
-                  onClick={() => doUpdateVisite(foundVs.visiteId, 'done')}
-                  loading={updateVisitePending}
+                  onClick={() => {
+                    setModalVisible(true);
+                  }}
+                  loading={updateVisitePending && loading}
                 >
                   Mettre fin à la surveillance
                 </Button>
+                <Modal
+                  title="Mettre fin à la surveillance"
+                  visible={modalVisible}
+                  onOk={() => {
+                    hideModal();
+                    hanldeUpdateVisite(foundVs.visiteId, 'done');
+                  }}
+                  onCancel={hideModal}
+                  okText="Confirmer"
+                  cancelText="Annuler"
+                >
+                  Veuillez noter que confirmer que l'examen du patient a été complètement terminé et
+                  que le paiement a été effectué. Toutes les informations ne peuvent pas être
+                  modifiées après la soumission.
+                </Modal>
               </div>
             )}
             {foundVs.visiteEtat === 2 && (
-              <div>
-                <Divider />
+              <div className="visite-record">
+                <VsPatientPeForm foundVs={foundVs} editable={false} />
+                <VsPatientEmForm foundVs={foundVs} editable={false} />
               </div>
             )}
           </div>

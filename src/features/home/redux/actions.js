@@ -12,3 +12,9 @@ export { getOrdonnancesList, dismissGetOrdonnancesListError } from './getOrdonna
 export { updateOrdonnance, dismissUpdateOrdonnanceError } from './updateOrdonnance';
 export { findVsByVsId, dismissFindVsByVsIdError } from './findVsByVsId';
 export { findOrdByOrdId, dismissFindOrdByOrdIdError } from './findOrdByOrdId';
+export { findVsDtlByVsId, dismissFindVsDtlByVsIdError } from './findVsDtlByVsId';
+export { findPatientDtlByVsId, dismissFindPatientDtlByVsIdError } from './findPatientDtlByVsId';
+export { updatePeByVsIdAndPid, dismissUpdatePeByVsIdAndPidError } from './updatePeByVsIdAndPid';
+export { addPeByVsIdAndPid, dismissAddPeByVsIdAndPidError } from './addPeByVsIdAndPid';
+export { addEmByVsId, dismissAddEmByVsIdError } from './addEmByVsId';
+export { updateEmByVsId, dismissUpdateEmByVsIdError } from './updateEmByVsId';

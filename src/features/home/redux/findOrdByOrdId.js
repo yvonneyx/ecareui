@@ -10,7 +10,8 @@ import axios from 'axios';
 import { serverUrl, config } from '../../../common/globalConfig';
 
 export function findOrdByOrdId(args = {}) {
-  return (dispatch) => { // optionally you can have getState as the second argument
+  return dispatch => {
+    // optionally you can have getState as the second argument
     dispatch({
       type: HOME_FIND_ORD_BY_ORD_ID_BEGIN,
     });
@@ -19,7 +20,7 @@ export function findOrdByOrdId(args = {}) {
       const requestJSON = JSON.stringify({ ...args });
       const doRequest = axios.post(`${serverUrl}/Ordonnance/find`, requestJSON, config);
       doRequest.then(
-        (res) => {
+        res => {
           dispatch({
             type: HOME_FIND_ORD_BY_ORD_ID_SUCCESS,
             data: res.data,
@@ -27,7 +28,7 @@ export function findOrdByOrdId(args = {}) {
           resolve(res);
         },
         // Use rejectHandler as the second argument so that render errors won't be caught.
-        (err) => {
+        err => {
           dispatch({
             type: HOME_FIND_ORD_BY_ORD_ID_FAILURE,
             data: { error: err },
@@ -58,9 +59,12 @@ export function useFindOrdByOrdId() {
     shallowEqual,
   );
 
-  const boundAction = useCallback((...args) => {
-    return dispatch(findOrdByOrdId(...args));
-  }, [dispatch]);
+  const boundAction = useCallback(
+    (...args) => {
+      return dispatch(findOrdByOrdId(...args));
+    },
+    [dispatch],
+  );
 
   const boundDismissError = useCallback(() => {
     return dispatch(dismissFindOrdByOrdIdError());

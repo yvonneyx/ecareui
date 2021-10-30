@@ -28,6 +28,18 @@ const initialState = {
   findVsByVsIdError: null,
   findOrdByOrdIdPending: false,
   findOrdByOrdIdError: null,
+  findVsDtlByVsIdPending: false,
+  findVsDtlByVsIdError: null,
+  findPatientDtlByVsIdPending: false,
+  findPatientDtlByVsIdError: null,
+  updatePeByVsIdAndPidPending: false,
+  updatePeByVsIdAndPidError: null,
+  addPeByVsIdAndPidPending: false,
+  addPeByVsIdAndPidError: null,
+  addEmByVsIdPending: false,
+  addEmByVsIdError: null,
+  updateEmByVsIdPending: false,
+  updateEmByVsIdError: null,
 };
 
 export default initialState;

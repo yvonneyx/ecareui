@@ -44,7 +44,7 @@ export default function VsDetailTable(props) {
       findVssByOrdId({
         ordonnanceId: ordRecord.ordonnanceId,
       }).then(res => {
-        setDataToShow(res.data.ext.visites);
+        setDataToShow(res.data.ext && res.data.ext.visites);
       });
     }
   }, [findVssByOrdId, ordRecord]);

@@ -13,6 +13,12 @@ import { reducer as getOrdonnancesListReducer } from './getOrdonnancesList';
 import { reducer as updateOrdonnanceReducer } from './updateOrdonnance';
 import { reducer as findVsByVsIdReducer } from './findVsByVsId';
 import { reducer as findOrdByOrdIdReducer } from './findOrdByOrdId';
+import { reducer as findVsDtlByVsIdReducer } from './findVsDtlByVsId';
+import { reducer as findPatientDtlByVsIdReducer } from './findPatientDtlByVsId';
+import { reducer as updatePeByVsIdAndPidReducer } from './updatePeByVsIdAndPid';
+import { reducer as addPeByVsIdAndPidReducer } from './addPeByVsIdAndPid';
+import { reducer as addEmByVsIdReducer } from './addEmByVsId';
+import { reducer as updateEmByVsIdReducer } from './updateEmByVsId';
 
 const reducers = [
   loginReducer,
@@ -29,6 +35,12 @@ const reducers = [
   updateOrdonnanceReducer,
   findVsByVsIdReducer,
   findOrdByOrdIdReducer,
+  findVsDtlByVsIdReducer,
+  findPatientDtlByVsIdReducer,
+  updatePeByVsIdAndPidReducer,
+  addPeByVsIdAndPidReducer,
+  addEmByVsIdReducer,
+  updateEmByVsIdReducer,
 ];
 
 export default function reducer(state = initialState, action) {
