@@ -6,6 +6,7 @@ import {
   VsDetailForm,
   VsPatientEmForm,
   VsPatientConForm,
+  VsRdvContainer,
 } from './';
 import { Button, Form, Modal, Spin } from 'antd';
 import {
@@ -39,6 +40,7 @@ export default function SingleVsDtlPage(props) {
   const [version, setVersion] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [showRdv, setShowRdv] = useState(false);
+  const [restVssCount, setRestVssCount] = useState(null);
   const peFormRef = useRef(null);
   const emFormRef = useRef(null);
   const conFormRef = useRef(null);
@@ -91,7 +93,10 @@ export default function SingleVsDtlPage(props) {
           ordonnanceCount: newRestVssCount,
         });
         if (newRestVssCount !== 0) {
+          setRestVssCount(newRestVssCount);
           setShowRdv(true);
+        } else {
+          //update ordonnance
         }
       });
     }
@@ -293,9 +298,12 @@ export default function SingleVsDtlPage(props) {
               </div>
             )}
             {foundVs.visiteEtat === 2 && (
-              <div className="visite-record">
-                <VsPatientPeForm foundVs={foundVs} editable={false} />
-                <VsPatientEmForm foundVs={foundVs} editable={false} />
+              <div>
+                <div className="visite-record">
+                  <VsPatientPeForm foundVs={foundVs} editable={false} />
+                  <VsPatientEmForm foundVs={foundVs} editable={false} />
+                </div>
+                {showRdv && <VsRdvContainer restVssCount={restVssCount} data={foundVs} />}
               </div>
             )}
           </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 // import PropTypes from 'prop-types';
-import { OrdVsBreadcrumb, OrdDetailForm, VsDetailTable } from './';
+import { OrdVsBreadcrumb, OrdDetailForm, VsDetailTable, VsRdvContainer } from './';
 import { useFindOrdByOrdId } from './redux/hooks';
 import { Spin } from 'antd';
 import { antIcon } from '../../common/constants';
@@ -10,12 +10,15 @@ export default function OrdWithVsDtlPage(props) {
   const { ordonnanceId } = props;
   const { findOrdByOrdId, findOrdByOrdIdPending, findOrdByOrdIdError } = useFindOrdByOrdId();
   const [ordRecord, setOrdRecord] = useState({});
+  const [showRdv, setShowRdv] = useState(false);
+  const [prevCoorId, setPrevCoorId] = useState(null);
+  const [version, setVersion] = useState(null);
 
   useEffect(() => {
     findOrdByOrdId({ ordonnanceId: ordonnanceId }).then(res => {
       setOrdRecord(res.data.ext.ordonnance);
     });
-  }, [findOrdByOrdId, ordonnanceId]);
+  }, [findOrdByOrdId, ordonnanceId, version]);
 
   return (
     <div className="home-ord-with-vs-dtl-page">
@@ -40,8 +43,17 @@ export default function OrdWithVsDtlPage(props) {
                 size="small"
                 pageSize={5}
                 showQuickStartAndDetail={true}
-                // needShowDtl={true}
+                setShowRdv={setShowRdv}
+                setPrevCoorId={setPrevCoorId}
               />
+              {showRdv && (
+                <VsRdvContainer
+                  restVssCount={ordRecord.ordonnanceCount}
+                  data={ordRecord}
+                  prevCoorId={prevCoorId}
+                  setVersion={setVersion}
+                />
+              )}
             </div>
           ) : (
             <div className="error">

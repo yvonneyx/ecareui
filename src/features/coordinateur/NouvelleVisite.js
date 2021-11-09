@@ -58,7 +58,7 @@ export default function NouvelleVisite() {
       coordinateurId: cookies.UCID,
       patientId: selectedOrd[0].patientId,
       infirmiereId: selectedInfirm,
-      modificateurRecent: cookies.UCID,
+      modificateurRecent: cookies.UID,
     }).then(res => {
       setNewVisiteId(res.data.ext.newVisite.visiteId);
       setReset(true);

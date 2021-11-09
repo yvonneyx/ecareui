@@ -1,0 +1,35 @@
+@import '../../styles/mixins';
+
+.home-vs-rdv-container {
+  margin-top: 25px;
+  padding: 20px 50px;
+  background-color: var(--first-color-shadow);
+  box-shadow: var(--box-shadow);
+  border-radius: 12px;
+
+  &-subtitle {
+    font-weight: 600;
+    margin-top: 18px;
+  }
+
+  .ant-picker.ant-picker-borderless {
+    background-color: rgba(255, 255, 255, 0.85) !important;
+  }
+
+  &-btn {
+    width: 100%;
+    box-shadow: var(--box-shadow);
+    height: 34px;
+    text-transform: uppercase;
+    margin-top: 28px;
+    border-radius: 2px;
+  }
+
+  &-tip {
+    width: 100%;
+    text-align: center;
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--first-color);
+  }
+}

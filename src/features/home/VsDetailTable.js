@@ -21,9 +21,12 @@ export default function VsDetailTable(props) {
     showQuickStartAndDetail,
     showSimpleColumns,
     target,
+    setShowRdv,
+    setPrevCoorId,
   } = props;
   const { findVssByOrdId, findVssByOrdIdPending, findVssByOrdIdError } = useFindVssByOrdId();
   const [dataToShow, setDataToShow] = useState(null);
+  const [allVssFinished, setAllVssFinished] = useState(false);
 
   const deleteConfirm = rc => {
     // deletePatient({
@@ -43,10 +46,23 @@ export default function VsDetailTable(props) {
       findVssByOrdId({
         ordonnanceId: ordRecord.ordonnanceId,
       }).then(res => {
-        setDataToShow(res.data.ext && res.data.ext.visites);
+        let visites = res.data.ext && res.data.ext.visites;
+        setDataToShow(visites);
       });
     }
   }, [findVssByOrdId, ordRecord]);
+
+  useEffect(() => {
+    if (!_.isEmpty(dataToShow)) {
+      setShowRdv(
+        _.isEqual(
+          _.filter(dataToShow, vs => vs.visiteEtat === 2),
+          dataToShow,
+        ),
+      );
+      setPrevCoorId(dataToShow[0].coordinateurId);
+    }
+  }, [dataToShow, setShowRdv, setPrevCoorId]);
 
   const columns = [
     {
