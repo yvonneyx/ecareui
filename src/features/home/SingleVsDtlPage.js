@@ -38,7 +38,7 @@ export default function SingleVsDtlPage(props) {
   const [loading, setLoading] = useState(true);
   const [version, setVersion] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [rcForm] = Form.useForm();
+  const [showRdv, setShowRdv] = useState(false);
   const peFormRef = useRef(null);
   const emFormRef = useRef(null);
   const conFormRef = useRef(null);
@@ -56,7 +56,8 @@ export default function SingleVsDtlPage(props) {
   }, [findVsByVsId, visiteId, version]);
 
   const hanldeUpdateVisite = (vsId, vsStatus) => {
-    const rc = rcForm.getFieldsValue();
+    let conValues = conFormRef.current && conFormRef.current.getFieldsValue();
+
     if (shouldSave) {
       onCommit();
     }
@@ -71,12 +72,11 @@ export default function SingleVsDtlPage(props) {
         setVersion(new Date());
       });
     } else if (vsStatus === 'done') {
-      let newCount;
       updateVisite({
         visiteId: vsId,
         visiteHeureFin: new Date(),
         visiteEtat: 2,
-        visiteObservation: rc.observation,
+        visiteObservation: conValues.observation,
         modificateurRecent: cookies.UID,
       }).then(() => {
         setVersion(new Date());
@@ -84,11 +84,15 @@ export default function SingleVsDtlPage(props) {
       findOrdByOrdId({
         ordonnanceId: foundVs.ordonnanceId,
       }).then(res => {
-        newCount = res.data.ext.ordonnance.ordonnanceCount - 1;
+        let restVssCount = res.data.ext.ordonnance.ordonnanceCount;
+        let newRestVssCount = restVssCount - 1;
         updateOrdonnance({
           ordonnanceId: foundVs.ordonnanceId,
-          ordonnanceCount: newCount,
+          ordonnanceCount: newRestVssCount,
         });
+        if (newRestVssCount !== 0) {
+          setShowRdv(true);
+        }
       });
     }
   };
@@ -107,20 +111,27 @@ export default function SingleVsDtlPage(props) {
 
   const onSave = () => {
     let peValues = peFormRef.current && peFormRef.current.getFieldsValue();
+    let pePrevValues = peFormRef.current && peFormRef.current.pePrevValues;
+
     let emPartValues = emFormRef.current && emFormRef.current.getFieldsValue();
     let hasPaid = emFormRef.current && emFormRef.current.hasPaid;
+    let emPrevValues = emFormRef.current && emFormRef.current.emPrevValues;
+
     let patientDetailId = peFormRef.current && peFormRef.current.patientDetailId;
     let visiteDetailId = emFormRef.current && emFormRef.current.visiteDetailId;
     let conValues = conFormRef.current && conFormRef.current.getFieldsValue();
+
     // patient physical exam record
 
     if (patientDetailId) {
-      updatePeByVsIdAndPid({
-        patientDetailId: patientDetailId,
-        patientId: foundVs.patientId,
-        visiteId: foundVs.visiteId,
-        ...peValues,
-      });
+      if (!_.isEqual(pePrevValues, peValues)) {
+        updatePeByVsIdAndPid({
+          patientDetailId: patientDetailId,
+          patientId: foundVs.patientId,
+          visiteId: foundVs.visiteId,
+          ...peValues,
+        });
+      }
     } else {
       addPeByVsIdAndPid({
         patientId: foundVs.patientId,
@@ -130,14 +141,25 @@ export default function SingleVsDtlPage(props) {
     }
 
     // examen medical record
+    const emPartPrevValues =
+      !_.isEmpty(emPrevValues) &&
+      _.pick(emPrevValues, [
+        'examenMedicalNom',
+        'examenMedicalResult',
+        'examenMedicalStatus',
+        'examenMedicalPayee',
+      ]);
+
     if (visiteDetailId) {
-      updateEmByVsId({
-        visiteDetailId: visiteDetailId,
-        visiteId: foundVs.visiteId,
-        ...emPartValues,
-        examenMedicalId: foundVs.examId,
-        examenMedicalPayee: hasPaid ? 'Y' : 'N',
-      });
+      if (!_.isEqual(emPartPrevValues, { ...emPartValues, examenMedicalPayee: hasPaid })) {
+        updateEmByVsId({
+          visiteDetailId: visiteDetailId,
+          visiteId: foundVs.visiteId,
+          ...emPartValues,
+          examenMedicalId: foundVs.examId,
+          examenMedicalPayee: hasPaid ? 'Y' : 'N',
+        });
+      }
     } else {
       addEmByVsId({
         visiteId: foundVs.visiteId,
@@ -158,6 +180,7 @@ export default function SingleVsDtlPage(props) {
       });
     }
     setShouldSave(false);
+    document.getElementById('read-only-btn').click();
   };
 
   const hideModal = () => {
@@ -216,6 +239,7 @@ export default function SingleVsDtlPage(props) {
                           onCommit();
                         }}
                         icon={<ReadOutlined />}
+                        id="read-only-btn"
                       >
                         Mode Lecture seule
                       </Button>
@@ -263,8 +287,8 @@ export default function SingleVsDtlPage(props) {
                   cancelText="Annuler"
                 >
                   Veuillez noter que confirmer que l'examen du patient a été complètement terminé et
-                  que le paiement a été effectué. Toutes les informations ne peuvent pas être
-                  modifiées après la soumission.
+                  que le paiement a été effectué.{' '}
+                  <b>Toutes les informations ne peuvent pas être modifiées après la soumission.</b>
                 </Modal>
               </div>
             )}

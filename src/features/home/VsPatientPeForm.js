@@ -20,6 +20,7 @@ var VsPatientPeForm = function(props, ref) {
     setPeData: e => {
       setData(e);
     },
+    pePrevValues: data,
     patientDetailId: patientDetailId,
   }));
 
@@ -48,9 +49,6 @@ var VsPatientPeForm = function(props, ref) {
       }
     });
   }, [findPatientDtlByVsId, foundVs, version]);
-
-  console.log('pe', {...data});
-  console.log(form.getFieldsValue());
 
   const formProps = !_.isEmpty(data) && [
     {

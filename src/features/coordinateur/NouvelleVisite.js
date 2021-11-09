@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 
 export default function NouvelleVisite() {
-  const [cookies, setCookie] = useCookies(['UID', 'UNAME', 'UROLE']);
+  const [cookies, setCookie] = useCookies(['UID', 'UCID', 'UNAME', 'UROLE']);
   const [selectedOrd, setSelectedOrd] = useState({});
   const [visiteDate, setVisiteDate] = useState(null);
   const [selectedInfirm, setSelectedInfirm] = useState('');
@@ -51,13 +51,14 @@ export default function NouvelleVisite() {
 
   const triggerAddVsEvent = () => {
     addVisite({
+      ordonnanceId: selectedOrd[0].ordonnanceId,
       visiteDate: new Date(visiteDate),
       visiteHeureDebut: new Date(visiteDate),
       visiteEtat: 0,
-      coordinateurId: cookies.UID,
+      coordinateurId: cookies.UCID,
       patientId: selectedOrd[0].patientId,
       infirmiereId: selectedInfirm,
-      modificateurRecent: cookies.UID,
+      modificateurRecent: cookies.UCID,
     }).then(res => {
       setNewVisiteId(res.data.ext.newVisite.visiteId);
       setReset(true);
@@ -95,7 +96,7 @@ export default function NouvelleVisite() {
         indicator={antIcon}
       >
         <div className="infirmiere-part classic-part">
-          <b>Les infirmières suivantes peuvent prendre des dispositions: </b>{' '}
+          Les infirmières suivantes peuvent prendre des dispositions:{' '}
           {!_.isEmpty(infirmieres)
             ? infirmieres.map(infirm => (
                 <Tag.CheckableTag

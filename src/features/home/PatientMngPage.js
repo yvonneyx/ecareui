@@ -104,13 +104,13 @@ export default function PatientMngPage(props) {
       width: 80,
       render: text => <span>{text === 0 ? 'Male' : 'Female'}</span>,
     },
-    {
-      title: 'Heure de création',
-      dataIndex: 'createdTime',
-      key: 'createdTime',
-      width: 160,
-      render: time => showDate(time),
-    },
+    // {
+    //   title: 'Heure de création',
+    //   dataIndex: 'createdTime',
+    //   key: 'createdTime',
+    //   width: 160,
+    //   render: time => showDate(time),
+    // },
     {
       title: 'Heure mise à jour',
       dataIndex: 'updatedTime',

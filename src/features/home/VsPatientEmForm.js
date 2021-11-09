@@ -22,6 +22,7 @@ var VsPatientEmForm = function(props, ref) {
     setEmData: e => {
       setData(e);
     },
+    emPrevValues: data,
     hasPaid: hasPaid,
     visiteDetailId: visiteDetailId,
   }));

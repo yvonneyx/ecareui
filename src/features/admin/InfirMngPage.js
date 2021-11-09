@@ -32,10 +32,10 @@ export default function InfirMngPage() {
   }, [getInfirmieresList, version]);
 
   useEffect(() => {
-    if (_.isEmpty(dptsList)) {
-      getDptsList();
-    }
-  }, [getDptsList, dptsList]);
+    // if (_.isEmpty(dptsList)) {
+    getDptsList();
+    // }
+  }, [getDptsList]);
 
   useEffect(() => {
     if (!_.isEmpty(searchUserId)) {
@@ -122,13 +122,13 @@ export default function InfirMngPage() {
         </span>
       ),
     },
-    {
-      title: 'Heure de création',
-      dataIndex: 'createdTime',
-      key: 'createdTime',
-      width: 180,
-      render: time => showDate(time),
-    },
+    // {
+    //   title: 'Heure de création',
+    //   dataIndex: 'createdTime',
+    //   key: 'createdTime',
+    //   width: 180,
+    //   render: time => showDate(time),
+    // },
     {
       title: 'Heure mise à jour',
       dataIndex: 'updatedTime',

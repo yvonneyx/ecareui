@@ -3,9 +3,11 @@ import React, { useState, useImperativeHandle, forwardRef } from 'react';
 import { Form, Input, message, notification, Radio, DatePicker } from 'antd';
 import _ from 'lodash';
 import { useAddPatient, useUpdatePatient } from './redux/hooks';
+import moment from 'moment';
 
 var PatientDetailForm = function(props, ref) {
   const { data, onModalVisibleChange, handleVersionUpdate } = props;
+  debugger;
   const [selectedSexe, setSelectedSexe] = useState(0);
   const [form] = Form.useForm();
   const mode = _.isEmpty(data) ? 'new' : 'update';
@@ -33,7 +35,7 @@ var PatientDetailForm = function(props, ref) {
     if (mode === 'new') {
       addPatient({
         ...values,
-        patientNaissance: new Date(values.patientNaissance),
+        patientNaissance: new Date(values.patient_naissance),
       })
         .then(() => {
           onModalVisibleChange(false);
@@ -49,7 +51,7 @@ var PatientDetailForm = function(props, ref) {
       updatePatient({
         ...values,
         patientId: data.patientId,
-        patientNaissance: new Date(values.patientNaissance),
+        patientNaissance: new Date(values.patient_naissance),
       })
         .then(() => {
           onModalVisibleChange(false);
@@ -67,6 +69,7 @@ var PatientDetailForm = function(props, ref) {
     setSelectedSexe(e.target.value);
   };
 
+  debugger;
   return (
     <div className="home-patient-detail-form">
       <Form
@@ -85,7 +88,6 @@ var PatientDetailForm = function(props, ref) {
             <span className="ant-form-text">{data.patientId}</span>
           </Form.Item>
         )}
-
 
         <Form.Item
           label="Nom"
@@ -116,15 +118,22 @@ var PatientDetailForm = function(props, ref) {
         </Form.Item>
         <Form.Item
           label="Date de naissance"
-          name="patientNaissance"
+          name="patient_naissance"
           rules={[
             {
               required: true,
-              message: "Veuillez saisir l'adresse du patient!",
+              message: 'Veuillez saisir le date de naissance du patient!',
             },
           ]}
         >
-          <DatePicker format={'DD-MM-YYYY'} placeholder="DD-MM-YYYY" />
+          <DatePicker
+            format={'DD-MM-YYYY'}
+            placeholder="DD-MM-YYYY"
+            defaultValue={moment(
+              !_.isEmpty(data) ? data.patientNaissance : '01-01-1990',
+              'DD-MM-YYYY',
+            )}
+          />
         </Form.Item>
         <Form.Item
           label="Téléphone"

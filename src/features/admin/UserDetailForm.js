@@ -96,7 +96,7 @@ var UserDetailForm = function(props, ref) {
         userId: values.id,
         userNom: values.username,
         userType: roles.indexOf(values.role),
-        userPassword: values.password,
+        userPassword: values.new_password || values.password,
       })
         .then(() => {
           onModalVisibleChange(false);
@@ -149,20 +149,39 @@ var UserDetailForm = function(props, ref) {
           <Input />
         </Form.Item>
 
-        <Form.Item
-          label="Mot de passe"
-          name="password"
-          extra="Votre mot de passe doit être composé de 6 à 20 chiffres, lettres ou traits de soulignement, dont au moins deux, commençant par une lettre."
-          rules={[
-            {
-              required: true,
-              pattern: /^[a-zA-Z](?![a-zA-Z]+$)\w{5,19}$/,
-              message: 'Veuillez vérifier le mot de passe',
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
+        {mode === 'new' && (
+          <Form.Item
+            label="Mot de passe"
+            name="password"
+            extra="Votre mot de passe doit être composé de 6 à 20 chiffres, lettres ou traits de soulignement, dont au moins deux, commençant par une lettre."
+            rules={[
+              {
+                required: true,
+                pattern: /^[a-zA-Z](?![a-zA-Z]+$)\w{5,19}$/,
+                message: 'Veuillez vérifier le mot de passe',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+        )}
+
+        {mode === 'update' && (
+          <Form.Item
+            label="Nouveau mot de passe"
+            name="new_password"
+            extra="Votre mot de passe doit être composé de 6 à 20 chiffres, lettres ou traits de soulignement, dont au moins deux, commençant par une lettre."
+            rules={[
+              {
+                required: true,
+                pattern: /^[a-zA-Z](?![a-zA-Z]+$)\w{5,19}$/,
+                message: 'Veuillez vérifier le mot de passe',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+        )}
 
         <Form.Item
           name="role"

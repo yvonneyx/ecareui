@@ -3,13 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { Table, Typography, Space, Popconfirm, message, Spin } from 'antd';
 import { DeleteOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons';
 import _ from 'lodash';
-import {
-  showOnlyDate,
-  showOnlyTime,
-} from '../../common/constants';
+import { showOnlyDate, showOnlyTime, showDate } from '../../common/constants';
 import ModalWrapper from '../common/ModalWrapper';
 import { useGetPatientsList, useDeletePatient } from '../home/redux/hooks';
 import { useFindVssByOrdId } from './redux/hooks';
+import moment from 'moment';
 
 export default function VsDetailTable(props) {
   const {
@@ -21,6 +19,7 @@ export default function VsDetailTable(props) {
     ordRecord,
     pageSize,
     showQuickStartAndDetail,
+    showSimpleColumns,
     target,
   } = props;
   const { findVssByOrdId, findVssByOrdIdPending, findVssByOrdIdError } = useFindVssByOrdId();
@@ -60,7 +59,7 @@ export default function VsDetailTable(props) {
       title: 'infirmiere',
       dataIndex: 'infirmiereNom',
       key: 'infirmiereNom',
-      width: 120,
+      width: 200,
     },
     {
       title: 'patient',
@@ -78,6 +77,12 @@ export default function VsDetailTable(props) {
       },
     },
     {
+      title: 'Examen médical',
+      dataIndex: 'examNom',
+      key: 'examNom',
+      width: 240,
+    },
+    {
       title: 'Observation',
       dataIndex: 'visiteObservation',
       key: 'visiteObservation',
@@ -86,38 +91,16 @@ export default function VsDetailTable(props) {
     },
     {
       title: 'Date',
-      dataIndex: 'visiteDate',
-      key: 'visiteDate',
+      dataIndex: 'visiteHeureDebut',
+      key: 'visiteHeureDebut',
       width: 280,
-      render: (text, record) => {
-        return (
-          <div>
-            {showOnlyDate(text)}{' '}
-            <div>
-              {' '}
-              {!_.isEmpty(record.visiteHeureDebut) ? showOnlyTime(record.visiteHeureDebut) : '--'}
-              {' ~ '}
-              {!_.isEmpty(record.visiteHeureFin) ? showOnlyTime(record.visiteHeureFin) : '--'}
-            </div>
-          </div>
-        );
-      },
+      render: (text, record) =>
+        _.upperFirst(
+          moment(text)
+            .locale('fr')
+            .format('lll'),
+        ),
     },
-    // {
-    //   title: 'Heure de début',
-    //   dataIndex: 'visiteHeureDebut',
-    //   key: 'visiteHeureDebut',
-    //   width: 180,
-    //   render: time => (!_.isEmpty(time) ? showOnlySimpleTime(time) : '--'),
-    // },
-    // {
-    //   title: 'Heure de fin',
-    //   dataIndex: 'visiteHeureFin',
-    //   key: 'visiteHeureFin',
-    //   width: 180,
-    //   render: time => (!_.isEmpty(time) ? showOnlySimpleTime(time) : '--'),
-    // },
-
     {
       title: 'coordinateur',
       dataIndex: 'coordinateurNom',
@@ -130,20 +113,6 @@ export default function VsDetailTable(props) {
       key: 'modificateurRecentNom',
       width: 180,
     },
-    // {
-    //   title: 'Heure de création',
-    //   dataIndex: 'createdTime',
-    //   key: 'createdTime',
-    //   width: 160,
-    //   render: time => showDate(time),
-    // },
-    // {
-    //   title: 'Heure mise à jour',
-    //   dataIndex: 'updatedTime',
-    //   key: 'updatedTime',
-    //   width: 160,
-    //   render: time => showDate(time),
-    // },
     {
       title: 'Opération',
       dataIndex: 'operation',
@@ -192,9 +161,9 @@ export default function VsDetailTable(props) {
     },
   ];
 
-  // if(target === 'infirmiere'){
-  //   columns
-  // }
+  if (target === 'infirmiere' && showSimpleColumns) {
+    _.pullAt(columns, [0, 1, 3, 5, 8]);
+  }
 
   const paginationProps = {
     pageSize: pageSize || 8,

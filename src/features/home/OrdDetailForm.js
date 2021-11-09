@@ -28,7 +28,7 @@ export default function OrdDetailForm(props) {
     },
     {
       type: Input,
-      label: 'Nombre de visites total',
+      label: 'Visites restantes',
       value: `${data.ordonnanceCount} fois`,
       span: 8,
     },

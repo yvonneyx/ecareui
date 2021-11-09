@@ -126,6 +126,10 @@ h3 {
 }
 
 /* ================MODAL============== */
+.ant-modal {
+  width: 600px !important;
+}
+
 .ant-modal-header {
   border-radius: 14px 14px 0 0;
 }
@@ -136,6 +140,12 @@ h3 {
 
 .error {
   color: rgb(214, 74, 74);
+}
+
+.ant-card-meta-title {
+  overflow: visible;
+  text-overflow: clip;
+  white-space: pre-line;
 }
 
 // ICON
@@ -271,6 +281,21 @@ a.ant-typography,
   color: var(--second-color) !important;
 }
 
+.ant-table {
+  .ant-table-filter-column {
+    .ant-table-filter-trigger:hover,
+    .ant-table-filter-trigger.active {
+      color: #ffee58;
+    }
+  }
+}
+
+.ant-dropdown-menu-item-selected,
+.ant-dropdown-menu-submenu-title-selected {
+  color: var(--first-color);
+  background-color: var(--first-color-shadow);
+}
+
 .ant-notification-notice-message {
   font-size: 15px;
 }
@@ -335,4 +360,10 @@ a:hover {
 .ant-checkbox:hover .ant-checkbox-inner,
 .ant-checkbox-input:focus + .ant-checkbox-inner {
   border-color: var(--first-color);
+}
+
+a.ant-typography:focus, .ant-typography a:focus, a.ant-typography:hover, .ant-typography a:hover {
+  background-color: var(--first-color-shadow);
+  color: var(--forst-color-alt);
+  border-radius: 5px;
 }

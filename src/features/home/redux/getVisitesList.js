@@ -10,7 +10,8 @@ import axios from 'axios';
 import { serverUrl, config } from '../../../common/globalConfig';
 
 export function getVisitesList(args = {}) {
-  return (dispatch) => { // optionally you can have getState as the second argument
+  return dispatch => {
+    // optionally you can have getState as the second argument
     dispatch({
       type: HOME_GET_VISITES_LIST_BEGIN,
     });
@@ -18,7 +19,7 @@ export function getVisitesList(args = {}) {
     const promise = new Promise((resolve, reject) => {
       const doRequest = axios.get(`${serverUrl}/Visite/all`, config);
       doRequest.then(
-        (res) => {
+        res => {
           dispatch({
             type: HOME_GET_VISITES_LIST_SUCCESS,
             data: res.data,
@@ -26,7 +27,7 @@ export function getVisitesList(args = {}) {
           resolve(res);
         },
         // Use rejectHandler as the second argument so that render errors won't be caught.
-        (err) => {
+        err => {
           dispatch({
             type: HOME_GET_VISITES_LIST_FAILURE,
             data: { error: err },
@@ -58,9 +59,12 @@ export function useGetVisitesList() {
     shallowEqual,
   );
 
-  const boundAction = useCallback((...args) => {
-    return dispatch(getVisitesList(...args));
-  }, [dispatch]);
+  const boundAction = useCallback(
+    (...args) => {
+      return dispatch(getVisitesList(...args));
+    },
+    [dispatch],
+  );
 
   const boundDismissError = useCallback(() => {
     return dispatch(dismissGetVisitesListError());
@@ -89,7 +93,7 @@ export function reducer(state, action) {
       // The request is success
       return {
         ...state,
-        visitesList: action.data.ext.visites,
+        visitesList: action.data.ext && action.data.ext.visites,
         getVisitesListPending: false,
         getVisitesListError: null,
       };

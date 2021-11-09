@@ -7,8 +7,8 @@ import { Spin } from 'antd';
 import { useCookies } from 'react-cookie';
 
 export default function VsSummaryPage() {
-  const [cookies, ] = useCookies(['UID', 'UNAME', 'UROLE']);
-  let loggedId = cookies.UID; 
+  const [cookies] = useCookies(['UID', 'UIID', 'UNAME', 'UROLE']);
+  let loggedIId = cookies.UIID;
 
   const {
     vssByInfirmId,
@@ -18,8 +18,8 @@ export default function VsSummaryPage() {
   } = useFindVssByInfirmId();
 
   useEffect(() => {
-    findVssByInfirmId({ infirmiereId: loggedId });
-  }, [findVssByInfirmId, loggedId]);
+    findVssByInfirmId({ infirmiereId: loggedIId });
+  }, [findVssByInfirmId, loggedIId]);
 
   const vssToDoList = useMemo(() => {
     return vssByInfirmId && vssByInfirmId.filter(vs => vs.visiteEtat === 0);
@@ -48,6 +48,7 @@ export default function VsSummaryPage() {
               size="small"
               pageSize={5}
               showQuickStartAndDetail={true}
+              showSimpleColumns={true}
             />
             <h2>Pas commencé</h2>
             <VsDetailTable
@@ -56,6 +57,7 @@ export default function VsSummaryPage() {
               size="small"
               pageSize={5}
               showQuickStartAndDetail={true}
+              showSimpleColumns={true}
             />
             <h2>Fini</h2>
             <VsDetailTable
@@ -64,6 +66,7 @@ export default function VsSummaryPage() {
               size="small"
               pageSize={5}
               showQuickStartAndDetail={true}
+              showSimpleColumns={true}
             />
           </div>
         ) : (

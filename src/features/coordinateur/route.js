@@ -19,7 +19,7 @@ export default {
   childRoutes: [
     { path: 'gestion-des-patients', component: PatientMngWrapper },
     { path: 'nouvelle-ordonnance', component: NouvelleOrdonnance },
-    { path: 'nouvelle-visite', component: NouvelleVisite },
+    { path: 'nouvelle-visite', component: NouvelleVisite, isIndex: true },
     { path: 'gestion-des-visites', component: VsMngWrapper },
     { path: 'gestion-des-ordonnances', component: OrdMngWrapper },
     { path: 'ordonnance/:ordonnanceId/visite/:visiteId', component: SingleVsDtlWrapper },

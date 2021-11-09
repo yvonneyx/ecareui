@@ -40,7 +40,7 @@ export default function OrdWithVsDtlPage(props) {
                 size="small"
                 pageSize={5}
                 showQuickStartAndDetail={true}
-                needShowDtl={true}
+                // needShowDtl={true}
               />
             </div>
           ) : (

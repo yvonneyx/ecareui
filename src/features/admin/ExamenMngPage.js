@@ -1,11 +1,17 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 // import PropTypes from 'prop-types';
 import { Table, Input, Button, Typography, Space, Popconfirm, message, Spin } from 'antd';
-import { DeleteOutlined, EditOutlined, ExclamationCircleFilled } from '@ant-design/icons';
+import {
+  DeleteOutlined,
+  EditOutlined,
+  ExclamationCircleFilled,
+  SearchOutlined,
+} from '@ant-design/icons';
 import _ from 'lodash';
 import { showDate, antIcon } from '../../common/constants';
 import ModalWrapper from '../common/ModalWrapper';
 import { useGetExamensList, useDeleteExamen, useGetDptsList } from './redux/hooks';
+import Highlighter from 'react-highlight-words';
 
 const { Search } = Input;
 
@@ -23,6 +29,10 @@ export default function ExamenMngPage(props) {
   const { deleteExamen } = useDeleteExamen();
   const { dptsList, getDptsList, getDptsListPending } = useGetDptsList();
   const searchInput = useRef();
+
+  const [searchText, setSearchText] = useState('');
+  const [searchedColumn, setSearchedColumn] = useState('');
+  const nestedSearchInput = useRef(null);
 
   useEffect(() => {
     getExamensList();
@@ -67,14 +77,100 @@ export default function ExamenMngPage(props) {
       });
   };
 
-  const onResetClick = () => {
-    setSearchKey('');
-    if (searchInput.current) searchInput.current.state.value = '';
-  };
-
   const onModalVisibleChange = visible => {
     setIsModalVisible(visible);
   };
+
+  const filterOptions =
+    !_.isEmpty(dptsList) &&
+    dptsList.map(dpt => {
+      return {
+        text: dpt.departementNom,
+        value: dpt.departementId,
+      };
+    });
+
+  const getColumnFilterProps = dataIndex => ({
+    filters: filterOptions,
+    onFilter: (value, record) => record.departementId === value,
+  });
+
+  const handleSearch = (selectedKeys, confirm, dataIndex) => {
+    confirm();
+    setSearchText(selectedKeys[0]);
+    setSearchedColumn(dataIndex);
+  };
+
+  const handleReset = clearFilters => {
+    clearFilters();
+    setSearchText('');
+  };
+
+  const getColumnSearchProps = dataIndex => ({
+    filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+      <div style={{ padding: 8 }}>
+        <Input
+          ref={nestedSearchInput}
+          placeholder={`Rechercher...`}
+          value={selectedKeys[0]}
+          onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+          style={{ marginBottom: 8, display: 'block' }}
+        />
+        <Space>
+          <Button
+            type="primary"
+            onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+            icon={<SearchOutlined />}
+            size="small"
+            style={{ width: 120 }}
+          >
+            Rechercher
+          </Button>
+          <Button onClick={() => handleReset(clearFilters)} size="small" style={{ width: 100 }}>
+            Réinitialiser
+          </Button>
+          <Button
+            type="link"
+            size="small"
+            onClick={() => {
+              confirm({ closeDropdown: false });
+              setSearchText(selectedKeys[0]);
+              setSearchedColumn(dataIndex);
+            }}
+          >
+            Filtre
+          </Button>
+        </Space>
+      </div>
+    ),
+    filterIcon: filtered => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+    onFilter: (value, record) =>
+      record[dataIndex]
+        ? record[dataIndex]
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        : '',
+    onFilterDropdownVisibleChange: visible => {
+      if (visible) {
+        setTimeout(() => {
+          nestedSearchInput.current.focus();
+        }, 100);
+      }
+    },
+    render: text =>
+      searchedColumn === dataIndex ? (
+        <Highlighter
+          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          searchWords={[searchText]}
+          autoEscape
+          textToHighlight={text ? text.toString() : ''}
+        />
+      ) : (
+        text
+      ),
+  });
 
   const columns = [
     {
@@ -88,13 +184,7 @@ export default function ExamenMngPage(props) {
       dataIndex: 'examenMedicalNom',
       key: 'examenMedicalNom',
       ellipsis: true,
-    },
-    {
-      title: 'Prix',
-      dataIndex: 'examenMedicalPrix',
-      key: 'examenMedicalPrix',
-      width: 120,
-      render: text => <span>{text}€</span>,
+      ...getColumnSearchProps('examenMedicalNom'),
     },
     {
       title: 'Département concerné',
@@ -106,14 +196,22 @@ export default function ExamenMngPage(props) {
             (dptsList.filter(dpt => dpt.departementId === dptId)[0] || []).departementNom}
         </span>
       ),
+      ...getColumnFilterProps('departementId'),
     },
     {
-      title: 'Heure de création',
-      dataIndex: 'createdTime',
-      key: 'createdTime',
-      width: 180,
-      render: time => showDate(time),
+      title: 'Prix',
+      dataIndex: 'examenMedicalPrix',
+      key: 'examenMedicalPrix',
+      width: 100,
+      render: text => <span>{text}€</span>,
     },
+    // {
+    //   title: 'Heure de création',
+    //   dataIndex: 'createdTime',
+    //   key: 'createdTime',
+    //   width: 180,
+    //   render: time => showDate(time),
+    // },
     {
       title: 'Heure mise à jour',
       dataIndex: 'updatedTime',
@@ -184,29 +282,18 @@ export default function ExamenMngPage(props) {
         handleVersionUpdate={handleVersionUpdate}
         dptsList={dptsList}
       />
-
-      <div className="admin-examen-mng-page-table-header">
-        <div className="admin-examen-mng-page-table-header-left">
-          <Search
-            className="search-bar"
-            placeholder="Rechercher par nom d'examen medical.."
-            onSearch={onSearch}
-            enterButton
-            ref={searchInput}
-          />
-        </div>
-        <div className="admin-examen-mng-page-table-header-right">
-          <Button className="reset-btn" onClick={onResetClick}>
-            Réinitialiser
-          </Button>
-        </div>
-      </div>
       <Spin
         tip="Chargement en cours..."
         spinning={getExamensListPending || getDptsListPending}
         indicator={antIcon}
       >
-        <Table size="middle" rowKey="examenMedicalId" columns={columns} dataSource={emToShow} pagination={paginationProps} />
+        <Table
+          size="middle"
+          rowKey="examenMedicalId"
+          columns={columns}
+          dataSource={emToShow}
+          pagination={paginationProps}
+        />
         <div className="admin-examen-mng-page-footer">
           {!getExamensListError ? (
             _.isEmpty(emToShow) ? (

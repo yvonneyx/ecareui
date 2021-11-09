@@ -8,7 +8,7 @@ export default function OrdVsBreadcrumb(props) {
   return (
     <div className="home-ord-vs-breadcrumb">
       <Breadcrumb>
-        <Breadcrumb.Item><a href={`/${userType}/gestion-des-ordonnances`}>Gestion Des Ordonnances</a></Breadcrumb.Item>
+        <Breadcrumb.Item><a href={`/${userType}/gestion-des-ordonnances`}>Ordonnances</a></Breadcrumb.Item>
         <Breadcrumb.Item>
           <a href={`/${userType}/ordonnance/${ordonnanceId}`}>{`Ordonnance [${ordonnanceId}]`}</a>
         </Breadcrumb.Item>

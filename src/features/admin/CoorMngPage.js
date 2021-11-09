@@ -46,10 +46,12 @@ export default function CoorMngPage(param) {
     if (_.isEmpty(coorsList)) return null;
     let temp = coorsList.filter(data => data.isDeleted === 'N');
     if (searchKey) {
+      debugger;
       temp = temp.filter(
         data =>
           _.includes(_.lowerCase(data.coordinateurNom), _.lowerCase(searchKey)) ||
-          _.includes(_.lowerCase(data.coordinateurId), _.lowerCase(searchKey)),
+          _.includes(_.lowerCase(data.coordinateurId), _.lowerCase(searchKey)) ||
+          _.includes(_.lowerCase(data.userId), _.lowerCase(searchKey)),
       );
     }
     return temp;
@@ -100,13 +102,13 @@ export default function CoorMngPage(param) {
       dataIndex: 'coordinateurTelephone',
       key: 'coordinateurTelephone',
     },
-    {
-      title: 'Heure de création',
-      dataIndex: 'createdTime',
-      key: 'createdTime',
-      width: 180,
-      render: time => showDate(time),
-    },
+    // {
+    //   title: 'Heure de création',
+    //   dataIndex: 'createdTime',
+    //   key: 'createdTime',
+    //   width: 180,
+    //   render: time => showDate(time),
+    // },
     {
       title: 'Heure mise à jour',
       dataIndex: 'updatedTime',

@@ -42,12 +42,12 @@ export default function VsDetailForm(props) {
       value: data.visiteObservation || '--',
       span: 16,
     },
-    {
-      type: Input,
-      label: 'Heure de création',
-      value: showSimpleDateInline(data.createdTime),
-      span: 8,
-    },
+    // {
+    //   type: Input,
+    //   label: 'Heure de création',
+    //   value: showSimpleDateInline(data.createdTime),
+    //   span: 8,
+    // },
     {
       type: Input,
       label: 'Heure mise à jour',

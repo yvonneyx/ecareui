@@ -5,7 +5,7 @@ import { useLogin } from './redux/hooks';
 import _ from 'lodash';
 
 export default function Login(props) {
-  const [cookies, setCookie] = useCookies(['UID', 'UNAME', 'UROLE']);
+  const [cookies, setCookie] = useCookies(['UID', 'UCID', 'UIID', 'UNAME', 'UROLE']);
   const [radioValue, setRadioValue] = useState(1);
   const { login, loginPending, loginError } = useLogin();
   const [form] = Form.useForm();
@@ -23,6 +23,13 @@ export default function Login(props) {
         setCookie('UID', loggedUser.userId, { path: '/' });
         setCookie('UNAME', loggedUser.userNom, { path: '/' });
         setCookie('UROLE', role, { path: '/' });
+        if (role === 1) {
+          setCookie('UIID', loggedUser.infirmiereId, { path: '/' });
+        } else if (role === 2) {
+          debugger;
+          setCookie('UCID', loggedUser.coordinateurId, { path: '/' });
+        }
+
         props.history.push(jumpTo);
       } else {
         notification['error']({

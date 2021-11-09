@@ -124,13 +124,13 @@ export default function UserMngPage() {
         );
       },
     },
-    {
-      title: 'Heure de création',
-      dataIndex: 'createdTime',
-      key: 'createdTime',
-      width: 180,
-      render: time => showDate(time),
-    },
+    // {
+    //   title: 'Heure de création',
+    //   dataIndex: 'createdTime',
+    //   key: 'createdTime',
+    //   width: 180,
+    //   render: time => showDate(time),
+    // },
     {
       title: 'Heure mise à jour',
       dataIndex: 'updatedTime',
