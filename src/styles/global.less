@@ -276,17 +276,31 @@ a.ant-typography,
 .ant-table-filter-trigger.active {
   color: var(--first-color);
 }
-
-.ant-table-filter-trigger.active .anticon-search {
-  color: var(--second-color) !important;
+.ant-table-thead th.ant-table-column-sort,
+.ant-table-thead th.ant-table-column-has-sorters:hover,
+.ant-table-thead th.ant-table-column-has-sorters:focus {
+  background: var(--first-color);
+  color: rgba(255, 255, 255, 0.9);
 }
 
-.ant-table {
-  .ant-table-filter-column {
-    .ant-table-filter-trigger:hover,
-    .ant-table-filter-trigger.active {
-      color: #ffee58;
-    }
+.ant-table-row-expand-icon:focus,
+.ant-table-row-expand-icon:hover {
+  color: var(--first-color);
+}
+
+.ant-table-column-sorter-up.active,
+.ant-table-column-sorter-down.active {
+  color: #ffca28;
+}
+
+.ant-table-filter-column {
+  .ant-table-filter-trigger:hover,
+  .ant-table-filter-trigger.active {
+    color: #ffca28;
+  }
+
+  .ant-table-filter-trigger.active .anticon-search {
+    color: #ffca28 !important;
   }
 }
 
@@ -362,7 +376,10 @@ a:hover {
   border-color: var(--first-color);
 }
 
-a.ant-typography:focus, .ant-typography a:focus, a.ant-typography:hover, .ant-typography a:hover {
+a.ant-typography:focus,
+.ant-typography a:focus,
+a.ant-typography:hover,
+.ant-typography a:hover {
   background-color: var(--first-color-shadow);
   color: var(--forst-color-alt);
   border-radius: 5px;

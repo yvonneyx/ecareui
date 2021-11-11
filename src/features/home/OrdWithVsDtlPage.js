@@ -46,7 +46,7 @@ export default function OrdWithVsDtlPage(props) {
                 setShowRdv={setShowRdv}
                 setPrevCoorId={setPrevCoorId}
               />
-              {showRdv && (
+              {showRdv && ordRecord.ordonnanceCount > 0 && (
                 <VsRdvContainer
                   restVssCount={ordRecord.ordonnanceCount}
                   data={ordRecord}

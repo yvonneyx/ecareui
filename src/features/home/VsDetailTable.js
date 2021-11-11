@@ -8,6 +8,8 @@ import ModalWrapper from '../common/ModalWrapper';
 import { useGetPatientsList, useDeletePatient } from '../home/redux/hooks';
 import { useFindVssByOrdId } from './redux/hooks';
 import moment from 'moment';
+import { GetColumnSearchProps as getColumnSearchProps } from '../common';
+import { VsPatientPeForm, VsPatientEmForm } from '../home';
 
 export default function VsDetailTable(props) {
   const {
@@ -19,27 +21,14 @@ export default function VsDetailTable(props) {
     ordRecord,
     pageSize,
     showQuickStartAndDetail,
-    showSimpleColumns,
+    columnsDisplayStatus,
     target,
     setShowRdv,
     setPrevCoorId,
+    needExpand,
   } = props;
   const { findVssByOrdId, findVssByOrdIdPending, findVssByOrdIdError } = useFindVssByOrdId();
   const [dataToShow, setDataToShow] = useState(null);
-  const [allVssFinished, setAllVssFinished] = useState(false);
-
-  const deleteConfirm = rc => {
-    // deletePatient({
-    //   patientId: rc.patientId,
-    // })
-    //   .then(() => {
-    //     handleVersionUpdate();
-    //     message.success('Supprimé avec succès', 5);
-    //   })
-    //   .catch(() => {
-    //     message.error('Echec de la suppression', 5);
-    //   });
-  };
 
   useEffect(() => {
     if (!_.isEmpty(ordRecord)) {
@@ -64,24 +53,42 @@ export default function VsDetailTable(props) {
     }
   }, [dataToShow, setShowRdv, setPrevCoorId]);
 
+  const filterOptions = [
+    { text: 'Pas commencé', value: 0 },
+    { text: 'En cours', value: 1 },
+    {
+      text: 'Fini',
+      value: 2,
+    },
+  ];
+
+  const getColumnFilterProps = dataIndex => ({
+    filters: filterOptions,
+    onFilter: (value, record) => record[dataIndex] === value,
+  });
+
   const columns = [
     {
       title: 'VID',
       dataIndex: 'visiteId',
       key: 'visiteId',
-      width: 25,
+      width: 40,
+      sorter: (a, b) => a.visiteId - b.visiteId,
+      defaultSortOrder: 'ascend',
     },
     {
       title: 'infirmiere',
       dataIndex: 'infirmiereNom',
       key: 'infirmiereNom',
       width: 200,
+      ...getColumnSearchProps('infirmiereNom'),
     },
     {
       title: 'patient',
       dataIndex: 'patientNom',
       key: 'patientNom',
       width: 120,
+      ...getColumnSearchProps('patientNom'),
     },
     {
       title: 'État',
@@ -91,12 +98,14 @@ export default function VsDetailTable(props) {
       render: text => {
         return text === 0 ? 'Pas commencé' : text === 1 ? 'En cours' : 'Fini';
       },
+      ...getColumnFilterProps('visiteEtat'),
     },
     {
       title: 'Examen médical',
       dataIndex: 'examNom',
       key: 'examNom',
       width: 240,
+      ...getColumnSearchProps('examNom'),
     },
     {
       title: 'Observation',
@@ -116,18 +125,21 @@ export default function VsDetailTable(props) {
             .locale('fr')
             .format('lll'),
         ),
+      sorter: (a, b) => moment(a.visiteHeureDebut) - moment(b.visiteHeureDebut),
     },
     {
       title: 'coordinateur',
       dataIndex: 'coordinateurNom',
       key: 'coordinateurNom',
       width: 120,
+      ...getColumnSearchProps('coordinateurNom'),
     },
     {
       title: 'Dernière modification par',
       dataIndex: 'modificateurRecentNom',
       key: 'modificateurRecentNom',
       width: 180,
+      ...getColumnSearchProps('modificateurRecentNom'),
     },
     {
       title: 'Opération',
@@ -135,55 +147,39 @@ export default function VsDetailTable(props) {
       key: 'operation',
       width: 180,
       render: (text, record) => {
-        if (showQuickStartAndDetail) {
-          return (
-            <Space size="middle">
-              <Typography.Link
-                href={`/${target}/ordonnance/${record.ordonnanceId}/visite/${record.visiteId}`}
-              >
-                Voir les détails
-              </Typography.Link>
-            </Space>
-          );
-        } else {
-          return (
-            <Space size="middle">
-              <Typography.Link
-                onClick={() => {
-                  onModalVisibleChange(true);
-                  onCurrentLineChange(record);
-                }}
-              >
-                <EditOutlined />
-              </Typography.Link>
-              <Typography.Link>
-                <Popconfirm
-                  icon={<ExclamationCircleFilled style={{ color: 'var(--first-color)' }} />}
-                  title="Êtes-vous sûr de supprimer cet examen medical?"
-                  onConfirm={() => {
-                    deleteConfirm(record);
-                  }}
-                  okText="Oui, je confirme"
-                  cancelText="Non"
-                  placement="left"
-                >
-                  <DeleteOutlined />
-                </Popconfirm>
-              </Typography.Link>
-            </Space>
-          );
-        }
+        return (
+          <Space size="middle">
+            <Typography.Link
+              href={`/${target}/ordonnance/${record.ordonnanceId}/visite/${record.visiteId}`}
+            >
+              Voir les détails
+            </Typography.Link>
+          </Space>
+        );
       },
     },
   ];
 
-  if (target === 'infirmiere' && showSimpleColumns) {
+  if (target === 'infirmiere' && columnsDisplayStatus === 'simple') {
     _.pullAt(columns, [0, 1, 3, 5, 8]);
+  }
+
+  if (!showQuickStartAndDetail) {
+    _.pullAt(columns, [9]);
   }
 
   const paginationProps = {
     pageSize: pageSize || 8,
     total: (dataSource && dataSource.length) || 0,
+  };
+
+  const expandable = {
+    expandedRowRender: record => (
+      <div className="expanded-container">
+        <VsPatientPeForm foundVs={record} />
+        <VsPatientEmForm foundVs={record} />
+      </div>
+    ),
   };
 
   return (
@@ -194,6 +190,7 @@ export default function VsDetailTable(props) {
         columns={columns}
         dataSource={dataToShow || dataSource}
         pagination={paginationProps}
+        expandable={needExpand && expandable}
       />
     </div>
   );

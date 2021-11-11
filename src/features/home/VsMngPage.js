@@ -10,7 +10,8 @@ import { VsDetailTable } from './';
 const { Search } = Input;
 
 export default function VsMngPage(props) {
-  const [searchKey, setSearchKey] = useState('');
+  const { visiteId } = props;
+  const [searchKey, setSearchKey] = useState(visiteId);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentLine, setCurrentLine] = useState({});
   const [version, setVersion] = useState('');
@@ -27,12 +28,18 @@ export default function VsMngPage(props) {
     getVisitesList();
   }, [getVisitesList, version]);
 
+  useEffect(() => {
+    if (visiteId) {
+      searchInput.current.state.value = visiteId;
+    }
+  });
+
   const vsToShow = useMemo(() => {
     let temp;
     if (_.isEmpty(visitesList)) return null;
     temp = visitesList.filter(data => data.isDeleted === 'N');
     if (!_.isEmpty(searchKey)) {
-      temp = temp.filter(data => _.includes(_.lowerCase(data.patientNom), _.lowerCase(searchKey)));
+      temp = temp.filter(data => _.includes(data.visiteId.toString(), searchKey));
     }
     return temp;
   }, [visitesList, searchKey]);
@@ -75,7 +82,7 @@ export default function VsMngPage(props) {
         <div className="home-vs-mng-page-table-header-left">
           <Search
             className="search-bar"
-            placeholder="Rechercher par id.."
+            placeholder="Recherche par identifiant de visite"
             onSearch={onSearch}
             enterButton
             ref={searchInput}
@@ -93,6 +100,7 @@ export default function VsMngPage(props) {
           handleVersionUpdate={handleVersionUpdate}
           onModalVisibleChange={onModalVisibleChange}
           onCurrentLineChange={onCurrentLineChange}
+          needExpand={true}
         />
         <div className="home-vs-mng-page-footer">
           {!getVisitesListError ? (

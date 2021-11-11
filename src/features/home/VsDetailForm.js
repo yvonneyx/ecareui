@@ -5,7 +5,7 @@ import { showSimpleDateInline, showOnlyDate, showOnlyTime } from '../../common/c
 import _ from 'lodash';
 
 export default function VsDetailForm(props) {
-  const { data } = props;
+  const { data, type } = props;
   const [form] = Form.useForm();
 
   const renderOnlyDate = v => {
@@ -42,12 +42,6 @@ export default function VsDetailForm(props) {
       value: data.visiteObservation || '--',
       span: 16,
     },
-    // {
-    //   type: Input,
-    //   label: 'Heure de création',
-    //   value: showSimpleDateInline(data.createdTime),
-    //   span: 8,
-    // },
     {
       type: Input,
       label: 'Heure mise à jour',
@@ -57,26 +51,10 @@ export default function VsDetailForm(props) {
     { type: Input, label: 'Dernière modification par', value: data.modificateurRecentNom, span: 8 },
   ];
 
-  // const formItemLayout = {
-  //   labelCol: {
-  //     span: 10,
-  //   },
-  //   wrapperCol: {
-  //     span: 14,
-  //   },
-  // };
+  if (type === 'simple') {
+    _.pullAt(formProps, [5, 6]);
+  }
 
-  // const specialItemLayout = {
-  //   labelCol: {
-  //     span: 5,
-  //   },
-  //   wrapperCol: {
-  //     span: 19,
-  //   },
-  // };
-
-  // {...formItemLayout}
-  // {...(item.span === 16 && specialItemLayout)}
   return (
     <div className="home-vs-detail-form">
       <Form layout="horizontal" form={form}>

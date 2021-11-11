@@ -117,6 +117,20 @@ export default function OrdDetailTable(props, ref) {
     setSearchText('');
   };
 
+  const filterOptions = [
+    { text: 'Pas commencé', value: 0 },
+    { text: 'En cours', value: 1 },
+    {
+      text: 'Fini',
+      value: 2,
+    },
+  ];
+
+  const getColumnFilterProps = dataIndex => ({
+    filters: filterOptions,
+    onFilter: (value, record) => record[dataIndex] === value,
+  });
+
   const columns = [
     {
       title: 'ID',
@@ -144,6 +158,7 @@ export default function OrdDetailTable(props, ref) {
       render: text => {
         return text === 0 ? 'Pas commencé' : text === 1 ? 'En cours' : 'Fini';
       },
+      ...getColumnFilterProps('ordonnanceEtat'),
     },
     {
       title: 'fois restantes',

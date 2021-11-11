@@ -24,7 +24,7 @@ export default {
     { path: 'gestion-des-coordinateurs/:userId?', component: CoorMngPage },
     { path: 'gestion-des-infirmieres/:userId?', component: InfirMngPage },
     { path: 'gestion-des-patients', component: PatientMngWrapper },
-    { path: 'gestion-des-visites', component: VsMngWrapper },
+    { path: 'gestion-des-visites/:visiteId?', component: VsMngWrapper },
     { path: 'gestion-des-ordonnances', component: OrdMngWrapper },
   ],
 };

@@ -28,7 +28,10 @@ export default function SidePanel(props) {
   }
 
   const removeCookies = () => {
+    window.location.href = '/';
     removeCookie('UID', { path: '/' });
+    removeCookie('UCID', { path: '/' });
+    removeCookie('UIID', { path: '/' });
     removeCookie('UNAME', { path: '/' });
     removeCookie('UROLE', { path: '/' });
   };

@@ -1,6 +1,19 @@
 @import '../../styles/mixins';
 
 .home-patient-mng-page {
+  .ant-table {
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+  }
+
+  .ant-table-container table > thead > tr:first-child th:last-child {
+    border-top-right-radius: 12px;
+  }
+
+  .ant-table-container table > thead > tr:first-child th:first-child {
+    border-top-left-radius: 12px;
+  }
+
   &-header {
     margin-bottom: 1.5rem;
     font-weight: var(--font-medium);

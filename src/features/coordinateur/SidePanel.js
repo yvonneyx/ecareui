@@ -17,7 +17,9 @@ export default function SidePanel(props) {
   }
 
   const removeCookies = () => {
+    window.location.href = '/';
     removeCookie('UID', { path: '/' });
+    removeCookie('UIID', { path: '/' });
     removeCookie('UCID', { path: '/' });
     removeCookie('UNAME', { path: '/' });
     removeCookie('UROLE', { path: '/' });

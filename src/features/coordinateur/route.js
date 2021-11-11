@@ -20,7 +20,7 @@ export default {
     { path: 'gestion-des-patients', component: PatientMngWrapper },
     { path: 'nouvelle-ordonnance', component: NouvelleOrdonnance },
     { path: 'nouvelle-visite', component: NouvelleVisite, isIndex: true },
-    { path: 'gestion-des-visites', component: VsMngWrapper },
+    { path: 'gestion-des-visites/:visiteId?', component: VsMngWrapper },
     { path: 'gestion-des-ordonnances', component: OrdMngWrapper },
     { path: 'ordonnance/:ordonnanceId/visite/:visiteId', component: SingleVsDtlWrapper },
     { path: 'ordonnance/:ordonnanceId', component: OrdWithVsDtlWrapper },

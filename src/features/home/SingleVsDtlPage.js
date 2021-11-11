@@ -88,15 +88,20 @@ export default function SingleVsDtlPage(props) {
       }).then(res => {
         let restVssCount = res.data.ext.ordonnance.ordonnanceCount;
         let newRestVssCount = restVssCount - 1;
-        updateOrdonnance({
-          ordonnanceId: foundVs.ordonnanceId,
-          ordonnanceCount: newRestVssCount,
-        });
-        if (newRestVssCount !== 0) {
+
+        if (newRestVssCount > 0) {
           setRestVssCount(newRestVssCount);
           setShowRdv(true);
+          updateOrdonnance({
+            ordonnanceId: foundVs.ordonnanceId,
+            ordonnanceCount: newRestVssCount,
+          });
         } else {
-          //update ordonnance
+          updateOrdonnance({
+            ordonnanceId: foundVs.ordonnanceId,
+            ordonnanceCount: newRestVssCount,
+            ordonnanceEtat: 2,
+          });
         }
       });
     }
@@ -303,7 +308,9 @@ export default function SingleVsDtlPage(props) {
                   <VsPatientPeForm foundVs={foundVs} editable={false} />
                   <VsPatientEmForm foundVs={foundVs} editable={false} />
                 </div>
-                {showRdv && <VsRdvContainer restVssCount={restVssCount} data={foundVs} />}
+                {showRdv && restVssCount > 0 && (
+                  <VsRdvContainer restVssCount={restVssCount} data={foundVs} />
+                )}
               </div>
             )}
           </div>

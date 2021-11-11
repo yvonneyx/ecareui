@@ -6,7 +6,7 @@ export default function PageNotFound() {
     <div className="common-page-not-found">
       <img src={require('../../images/undraw_page_not_found.svg')}/>
       <div>Page not found.</div>
-      <Button type="primary">Retour Accueil</Button>
+      <Button type="primary" href={`/`}>Retour Accueil</Button>
     </div>
   );
 }

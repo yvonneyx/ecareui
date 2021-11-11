@@ -5,9 +5,11 @@ import { Button } from 'antd';
 export default function Unauthorized() {
   return (
     <div className="common-unauthorized">
-      <img src={require('../../images/undraw_authentication.svg')} alt="403"/>
+      <img src={require('../../images/undraw_authentication.svg')} alt="403" />
       <div>Désolé, vous n'êtes pas autorisé à accéder à cette page.</div>
-      <Button type="primary">Retour Accueil</Button>
+      <Button type="primary" href={`/`}>
+        Retour Accueil
+      </Button>
     </div>
   );
 }

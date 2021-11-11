@@ -1,16 +1,30 @@
 @import '../../styles/mixins';
 
 .home-vs-detail-forms {
-	margin-left: 60px;
+  margin-left: 60px;
 
   .home-vs-detail-form {
     margin-top: var(--mb-0-5);
     margin-bottom: var(--mb-0-5);
   }
 
+  .nested-form-header-container {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+  }
+
   .nested-form-title {
-	text-transform: capitalize;
+    text-transform: capitalize;
     font-weight: bold;
     text-decoration: underline;
+  }
+  
+  .nested-form-link {
+    font-size: 12px;
+  }
+
+  .ant-divider-horizontal {
+    margin: 10px 0;
   }
 }

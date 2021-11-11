@@ -48,7 +48,7 @@ export default function VsSummaryPage() {
               size="small"
               pageSize={5}
               showQuickStartAndDetail={true}
-              showSimpleColumns={true}
+              columnsDisplayStatus="simple"
             />
             <h2>Pas commencé</h2>
             <VsDetailTable
@@ -57,17 +57,17 @@ export default function VsSummaryPage() {
               size="small"
               pageSize={5}
               showQuickStartAndDetail={true}
-              showSimpleColumns={true}
+              columnsDisplayStatus="simple"
             />
-            <h2>Fini</h2>
+            {/* <h2>Fini</h2>
             <VsDetailTable
               target="infirmiere"
               dataSource={vssDoneList}
               size="small"
               pageSize={5}
               showQuickStartAndDetail={true}
-              showSimpleColumns={true}
-            />
+              columnsDisplayStatus="simple"
+            /> */}
           </div>
         ) : (
           <div className="error">Échec du chargement des données</div>
