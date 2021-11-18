@@ -11,10 +11,10 @@
   "static/media/undraw_medicine.svg": "/ecareui/static/media/undraw_medicine.a712aa5c.svg",
   "static/media/undraw_page_not_found.svg": "/ecareui/static/media/undraw_page_not_found.6dac5fae.svg",
   "static/media/undraw_authentication.svg": "/ecareui/static/media/undraw_authentication.737bb53c.svg",
-  "static/media/index.less": "/ecareui/static/media/ZonaPro-ThinItalic.c7b6d320.ttf",
-  "static/css/main.a7aecffc.chunk.css.map": "/ecareui/static/css/main.a7aecffc.chunk.css.map",
+  "static/media/index.less": "/ecareui/static/media/ZonaPro-LightItalic.6053e98a.ttf",
   "static/css/1.b1a508bc.chunk.css.map": "/ecareui/static/css/1.b1a508bc.chunk.css.map",
+  "static/css/main.a7aecffc.chunk.css.map": "/ecareui/static/css/main.a7aecffc.chunk.css.map",
   "index.html": "/ecareui/index.html",
-  "precache-manifest.921d5312c554a3427389c502195ca0de.js": "/ecareui/precache-manifest.921d5312c554a3427389c502195ca0de.js",
+  "precache-manifest.7bbf28111fc5feb092c232fd8c651939.js": "/ecareui/precache-manifest.7bbf28111fc5feb092c232fd8c651939.js",
   "service-worker.js": "/ecareui/service-worker.js"
 }
