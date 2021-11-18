@@ -69,4 +69,23 @@
       cursor: pointer;
     }
   }
+  
+  button[ant-click-animating-without-extra-node]:after {
+    border: 0 none;
+    opacity: 0;
+    animation: none 0 ease 0 1 normal;
+  }
+
+  .reset-btn {
+    padding: 0;
+    height: fit-content;
+    background-color: transparent;
+    border: 1px solid transparent;
+    color: var(--second-color);
+    box-shadow: none;
+
+    &:hover span {
+      text-decoration: underline;
+    }
+  }
 }

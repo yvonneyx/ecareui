@@ -128,16 +128,17 @@ export default function NouvelleVisite() {
       {reset && (
         <div>
           En a créé un avec succès.{' '}
-          <Button type="link">Cliquez ici pour accéder à la page de détails.</Button>
-          {/* todo: jump to vs detail page */}
-          Ou{' '}
+          <a href={`/coordinateur/gestion-des-visites/${newVisiteId}`}>
+            Cliquez ici pour accéder à la page de détails
+          </a>{' '}
+          ou{' '}
           <Button
-            type="link"
             onClick={() => {
               setReset(false);
             }}
+            className="reset-btn"
           >
-            continuer à créer une nouvelle visite
+            continuez à créer une nouvelle visite
           </Button>
           .
         </div>

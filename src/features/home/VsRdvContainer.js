@@ -29,7 +29,7 @@ export default function VsRdvContainer({ restVssCount, data, prevCoorId, setVers
         modificateurRecent: cookies.UID,
       }).then(() => {
         setRdvSuccess(true);
-        setVersion(new Date());
+        setVersion && setVersion(new Date());
       });
     }
   };

@@ -69,7 +69,7 @@ export default function InfirMngPage() {
 
   const deleteConfirm = rc => {
     deleteInfirmiere({
-      coordinateurId: rc.coordinateurId,
+      infirmiereId: rc.infirmiereId,
     })
       .then(() => {
         handleVersionUpdate();

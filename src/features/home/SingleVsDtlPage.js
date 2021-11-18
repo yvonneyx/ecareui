@@ -73,36 +73,29 @@ export default function SingleVsDtlPage(props) {
       }).then(() => {
         setVersion(new Date());
       });
-    } else if (vsStatus === 'done') {
+    }
+
+    if (vsStatus === 'done') {
       updateVisite({
         visiteId: vsId,
         visiteHeureFin: new Date(),
         visiteEtat: 2,
         visiteObservation: conValues.observation,
         modificateurRecent: cookies.UID,
-      }).then(() => {
-        setVersion(new Date());
       });
       findOrdByOrdId({
         ordonnanceId: foundVs.ordonnanceId,
       }).then(res => {
         let restVssCount = res.data.ext.ordonnance.ordonnanceCount;
-        let newRestVssCount = restVssCount - 1;
-
-        if (newRestVssCount > 0) {
-          setRestVssCount(newRestVssCount);
-          setShowRdv(true);
+        if (restVssCount == 0) {
           updateOrdonnance({
             ordonnanceId: foundVs.ordonnanceId,
-            ordonnanceCount: newRestVssCount,
-          });
-        } else {
-          updateOrdonnance({
-            ordonnanceId: foundVs.ordonnanceId,
-            ordonnanceCount: newRestVssCount,
             ordonnanceEtat: 2,
           });
+        } else {
+          setShowRdv(true);
         }
+        setVersion(new Date());
       });
     }
   };
@@ -190,7 +183,7 @@ export default function SingleVsDtlPage(props) {
       });
     }
     setShouldSave(false);
-    document.getElementById('read-only-btn').click();
+    document.getElementById('read-only-btn') && document.getElementById('read-only-btn').click();
   };
 
   const hideModal = () => {
