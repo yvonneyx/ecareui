@@ -1,7 +1,7 @@
 {
   "main.css": "/static/css/main.9d5fb0bd.chunk.css",
-  "main.js": "/static/js/main.05fcb127.chunk.js",
-  "main.js.map": "/static/js/main.05fcb127.chunk.js.map",
+  "main.js": "/static/js/main.7681fdb5.chunk.js",
+  "main.js.map": "/static/js/main.7681fdb5.chunk.js.map",
   "static/css/1.b41354fd.chunk.css": "/static/css/1.b41354fd.chunk.css",
   "static/js/1.5bdf75f4.chunk.js": "/static/js/1.5bdf75f4.chunk.js",
   "static/js/1.5bdf75f4.chunk.js.map": "/static/js/1.5bdf75f4.chunk.js.map",
@@ -11,10 +11,10 @@
   "static/media/undraw_authentication.svg": "/static/media/undraw_authentication.737bb53c.svg",
   "static/media/rekit-react.png": "/static/media/rekit-react.5c11e8db.png",
   "static/media/undraw_medicine.svg": "/static/media/undraw_medicine.a712aa5c.svg",
-  "static/media/index.less": "/static/media/ZonaPro-ThinItalic.c7b6d320.ttf",
+  "static/media/index.less": "/static/media/ZonaPro-ThinItalic.ff48da35.woff",
   "static/css/main.9d5fb0bd.chunk.css.map": "/static/css/main.9d5fb0bd.chunk.css.map",
   "static/css/1.b41354fd.chunk.css.map": "/static/css/1.b41354fd.chunk.css.map",
   "index.html": "/index.html",
-  "precache-manifest.de2ff2ba4639fb7c0497bc074aa11d55.js": "/precache-manifest.de2ff2ba4639fb7c0497bc074aa11d55.js",
+  "precache-manifest.f239edef3d1b4b0c8cc39797de4e97df.js": "/precache-manifest.f239edef3d1b4b0c8cc39797de4e97df.js",
   "service-worker.js": "/service-worker.js"
 }
