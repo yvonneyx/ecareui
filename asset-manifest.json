@@ -1,7 +1,7 @@
 {
   "main.css": "/ecareui/static/css/main.a7aecffc.chunk.css",
-  "main.js": "/ecareui/static/js/main.2fac3232.chunk.js",
-  "main.js.map": "/ecareui/static/js/main.2fac3232.chunk.js.map",
+  "main.js": "/ecareui/static/js/main.6b8e9745.chunk.js",
+  "main.js.map": "/ecareui/static/js/main.6b8e9745.chunk.js.map",
   "static/css/1.b1a508bc.chunk.css": "/ecareui/static/css/1.b1a508bc.chunk.css",
   "static/js/1.9e7c70d0.chunk.js": "/ecareui/static/js/1.9e7c70d0.chunk.js",
   "static/js/1.9e7c70d0.chunk.js.map": "/ecareui/static/js/1.9e7c70d0.chunk.js.map",
@@ -12,9 +12,9 @@
   "static/media/undraw_page_not_found.svg": "/ecareui/static/media/undraw_page_not_found.6dac5fae.svg",
   "static/media/undraw_authentication.svg": "/ecareui/static/media/undraw_authentication.737bb53c.svg",
   "static/media/index.less": "/ecareui/static/media/ZonaPro-ThinItalic.c7b6d320.ttf",
-  "static/css/1.b1a508bc.chunk.css.map": "/ecareui/static/css/1.b1a508bc.chunk.css.map",
   "static/css/main.a7aecffc.chunk.css.map": "/ecareui/static/css/main.a7aecffc.chunk.css.map",
+  "static/css/1.b1a508bc.chunk.css.map": "/ecareui/static/css/1.b1a508bc.chunk.css.map",
   "index.html": "/ecareui/index.html",
-  "precache-manifest.ee281ec98f7dbde915cea9e0ba733296.js": "/ecareui/precache-manifest.ee281ec98f7dbde915cea9e0ba733296.js",
+  "precache-manifest.a180120239671f07748cf9d1c6bd6e4f.js": "/ecareui/precache-manifest.a180120239671f07748cf9d1c6bd6e4f.js",
   "service-worker.js": "/ecareui/service-worker.js"
 }
