@@ -112,12 +112,6 @@ export default function Login(props) {
                   Me connecter
                 </Button>
               </Form.Item>
-              {loginError &&
-                notification['error']({
-                  message: 'Échec de la connexion.',
-                  description:
-                    "Veuillez vérifier que votre identité, nom d'utilisateur et mot de passe sont corrects.",
-                })}
             </Form>
           </div>
         </div>

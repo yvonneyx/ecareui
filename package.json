@@ -1,7 +1,8 @@
 {
-  "name": "ecareui",
+  "name": "yvonneyx.github.io",
   "version": "1.0.0",
-  "private": true,
+  "private": false,
+  "homepage": "http://yvonneyx.github.io/",
   "dependencies": {
     "@babel/core": "^7.4.3",
     "@svgr/webpack": "2.4.1",
@@ -63,7 +64,11 @@
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.0.1",
     "redux": "^4.0.1",
+<<<<<<< Updated upstream
     "redux-log-slow-reducers": "0.0.2",
+=======
+    "redux-devtools-extension": "^2.13.9",
+>>>>>>> Stashed changes
     "redux-logger": "^3.0.6",
     "redux-mock-store": "^1.5.3",
     "redux-thunk": "^2.3.0",
@@ -80,6 +85,7 @@
   "scripts": {
     "start": "cross-env PORT=3100 node scripts/start.js",
     "build": "node scripts/build.js",
+    "deploy": "gh-pages -d build",
     "test": "node scripts/test.js"
   },
   "browserslist": [
@@ -130,6 +136,7 @@
     ]
   },
   "devDependencies": {
-    "@babel/plugin-syntax-json-strings": "^7.8.3"
+    "@babel/plugin-syntax-json-strings": "^7.8.3",
+    "gh-pages": "^3.2.3"
   }
 }

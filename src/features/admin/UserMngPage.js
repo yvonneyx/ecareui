@@ -237,7 +237,8 @@ export default function UserMngPage() {
       </div>
       <Spin
         tip="Chargement en cours..."
-        spinning={getUsersListPending || deleteUserPending}
+        // spinning={getUsersListPending || deleteUserPending}
+        spinning={false}
         indicator={antIcon}
       >
         <Table
