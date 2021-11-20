@@ -45,4 +45,5 @@ const initialState = {
   updateInfirmiereError: null,
 };
 
+
 export default initialState;

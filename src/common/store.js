@@ -4,6 +4,9 @@ import { routerMiddleware } from 'connected-react-router';
 import history from './history';
 import rootReducer from './rootReducer';
 
+import logSlowReducers from 'redux-log-slow-reducers';
+const loggingReducers = logSlowReducers(rootReducer);
+
 const router = routerMiddleware(history);
 
 // NOTE: Do not change middleares delaration pattern since rekit plugins may register middlewares to it.
