@@ -16,7 +16,34 @@
   }
 
   .infirmiere-part {
+    width: 100%;
     font-size: 14px;
+    font-weight: 600;
+    color: var(--first-color);
+    background-color: #fafafa;
+
+    &-title {
+      padding-bottom: 12px;
+    }
+
+    &-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    &-one {
+      font-size: 13px;
+      margin-top: 10px;
+      height: 30px;
+      line-height: 30px;
+      background-color: white;
+    }
+
+    .aucune-tip {
+      width: 100%;
+      text-align: center;
+      font-weight: normal;
+    }
 
     .ant-tag {
       margin-left: 14px;
@@ -39,6 +66,46 @@
       background-color: var(--first-color);
       color: var(--white-color);
       border-color: var(--first-color);
+    }
+
+    &-tip {
+      padding-top: 12px;
+      font-size: 12px;
+      font-weight: lighter;
+    }
+
+    .square {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      line-height: 12px;
+      border-radius: 2px;
+      margin-right: 4px;
+      vertical-align: text-bottom;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    .square-fit-content {
+      border-radius: 3px;
+      padding: 1px 3px;
+      margin-right: 2px;
+      color: white;
+      font-size: 12px;
+    }
+
+    .red {
+      background-color: #B91646;
+    }
+
+    .green {
+      background-color: #105652;
+    }
+
+    .yellow {
+      background-color: #DFD8CA;
     }
   }
 
@@ -69,7 +136,7 @@
       cursor: pointer;
     }
   }
-  
+
   button[ant-click-animating-without-extra-node]:after {
     border: 0 none;
     opacity: 0;

@@ -96,18 +96,39 @@ export default function NouvelleVisite() {
         indicator={antIcon}
       >
         <div className="infirmiere-part classic-part">
-          Les infirmières suivantes peuvent prendre des dispositions:{' '}
-          {!_.isEmpty(infirmieres)
-            ? infirmieres.map(infirm => (
-                <Tag.CheckableTag
-                  key={infirm.infirmiereId}
-                  checked={selectedInfirm === infirm.infirmiereId}
-                  onChange={checked => handleInfirmChange(infirm, checked)}
-                >
-                  {infirm.infirmiereNom}
-                </Tag.CheckableTag>
-              ))
-            : 'Aucune infirmière ne peut être choisie'}
+          <div className="infirmiere-part-title">
+            Les infirmières suivantes peuvent prendre des dispositions:
+          </div>
+          {!_.isEmpty(infirmieres) ? (
+            <div>
+              <div className="infirmiere-part-container">
+                {infirmieres.map(infirm => (
+                  <div>
+                    <Tag.CheckableTag
+                      className="infirmiere-part-one"
+                      key={infirm.infirmiereId}
+                      checked={selectedInfirm === infirm.infirmiereId}
+                      onChange={checked => handleInfirmChange(infirm, checked)}
+                    >
+                      {infirm.infirmiereNom}
+                    </Tag.CheckableTag>
+                    <span className="infirm-status-container">
+                      <span className="square-fit-content red">{infirm.pasCommence}</span>
+                      <span className="square-fit-content yellow">{infirm.enCour}</span>
+                      <span className="square-fit-content green">{infirm.fin}</span>
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <div className="infirmiere-part-tip">
+                * Charge de travail actuelle de l'infirmière - En attente: <span className="square red" />
+                En-cours: <span className="square yellow" />
+                Finis: <span className="square green" />
+              </div>
+            </div>
+          ) : (
+            <div className="aucune-tip">[Aucune infirmière ne peut être choisie]</div>
+          )}
         </div>
       </Spin>
 
