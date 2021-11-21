@@ -1,5 +1,5 @@
 {
-  "name": "yvonneyx.github.io",
+  "name": "ecareui",
   "version": "1.0.0",
   "private": false,
   "homepage": "http://yvonneyx.github.io/",
@@ -64,11 +64,8 @@
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.0.1",
     "redux": "^4.0.1",
-<<<<<<< Updated upstream
     "redux-log-slow-reducers": "0.0.2",
-=======
     "redux-devtools-extension": "^2.13.9",
->>>>>>> Stashed changes
     "redux-logger": "^3.0.6",
     "redux-mock-store": "^1.5.3",
     "redux-thunk": "^2.3.0",

@@ -36,6 +36,7 @@ export default function ExamenMngPage(props) {
 
   useEffect(() => {
     getExamensList();
+    console.log('useEffect', new Date().getMilliseconds());
   }, [getExamensList, version]);
 
   useEffect(() => {

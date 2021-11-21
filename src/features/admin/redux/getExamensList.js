@@ -10,7 +10,8 @@ import axios from 'axios';
 import { serverUrl, config } from '../../../common/globalConfig';
 
 export function getExamensList(args = {}) {
-  return (dispatch) => { // optionally you can have getState as the second argument
+  return dispatch => {
+    // optionally you can have getState as the second argument
     dispatch({
       type: ADMIN_GET_EXAMENS_LIST_BEGIN,
     });
@@ -18,7 +19,9 @@ export function getExamensList(args = {}) {
     const promise = new Promise((resolve, reject) => {
       const doRequest = axios.get(`${serverUrl}/ExamenMedical/find`, config);
       doRequest.then(
-        (res) => {
+        res => {
+          console.log('200', new Date().getMilliseconds());
+
           dispatch({
             type: ADMIN_GET_EXAMENS_LIST_SUCCESS,
             data: res.data,
@@ -26,7 +29,7 @@ export function getExamensList(args = {}) {
           resolve(res);
         },
         // Use rejectHandler as the second argument so that render errors won't be caught.
-        (err) => {
+        err => {
           dispatch({
             type: ADMIN_GET_EXAMENS_LIST_FAILURE,
             data: { error: err },
@@ -58,9 +61,12 @@ export function useGetExamensList() {
     shallowEqual,
   );
 
-  const boundAction = useCallback((...args) => {
-    return dispatch(getExamensList(...args));
-  }, [dispatch]);
+  const boundAction = useCallback(
+    (...args) => {
+      return dispatch(getExamensList(...args));
+    },
+    [dispatch],
+  );
 
   const boundDismissError = useCallback(() => {
     return dispatch(dismissGetExamensListError());
@@ -87,6 +93,7 @@ export function reducer(state, action) {
 
     case ADMIN_GET_EXAMENS_LIST_SUCCESS:
       // The request is success
+      console.log('ADMIN_GET_EXAMENS_LIST_SUCCESS', new Date().getMilliseconds());
       return {
         ...state,
         examensList: action.data.ext.examenMedicals,

@@ -20,6 +20,10 @@ import {
   AlignLeftOutlined,
 } from '@ant-design/icons';
 import { roles, showDate, antIcon } from '../../common/constants';
+import {
+  GetColumnSearchProps as getColumnSearchProps,
+  GetColumnFilterProps as getColumnFilterProps,
+} from '../common';
 import { useDeleteUser, useGetUsersList } from './redux/hooks';
 import _ from 'lodash';
 
@@ -32,13 +36,30 @@ export default function UserMngPage() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentLine, setCurrentLine] = useState({});
   const { deleteUser, deleteUserPending } = useDeleteUser();
-  const { usersList, getUsersList, getUsersListPending, getUsersListError } = useGetUsersList();
+  // const { usersList, getUsersList, getUsersListPending, getUsersListError } = useGetUsersList();
   const [version, setVersion] = useState('');
   const searchInput = useRef();
+  const [usersList, setUsersList] = useState(null);
+  const [getUsersListPending, setGetUsersListPending] = useState(false);
+  const [getUsersListError, setGetUsersListError] = useState(false);
 
   useEffect(() => {
-    getUsersList();
-  }, [getUsersList, version]);
+    // getUsersList();
+    setGetUsersListPending(true);
+    setGetUsersListError(false);
+    fetch('http://192.168.1.76:8090/User/all')
+      .then(res => res.json())
+      .then(
+        res => {
+          setUsersList(res.ext.users);
+          setGetUsersListPending(false);
+        },
+        err => {
+          setGetUsersListPending(false);
+          setGetUsersListError(true);
+        },
+      );
+  }, [version]);
 
   const handleVersionUpdate = () => {
     setVersion(new Date());
@@ -53,8 +74,10 @@ export default function UserMngPage() {
   };
 
   const usersToShow = useMemo(() => {
-    if (_.isEmpty(usersList)) return null;
-    let temp = usersList.filter(data => data.isDeleted === 'N');
+    if (_.isEmpty(usersList)) {
+      return null;
+    }
+    let temp = usersList && usersList.filter(data => data.isDeleted === 'N');
     if (selectedRole && selectedRole !== 'Tous') {
       temp = temp.filter(data => {
         return data.userType === roles.indexOf(selectedRole);
@@ -66,10 +89,27 @@ export default function UserMngPage() {
     return temp;
   }, [usersList, searchKey, selectedRole]);
 
+  async function postData(url = '', data = {}) {
+    // Default options are marked with *
+    const response = await fetch(url, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, *cors, same-origin
+      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: 'same-origin', // include, *same-origin, omit
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      redirect: 'follow', // manual, *follow, error
+      referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+      body: JSON.stringify(data), // body data type must match "Content-Type" header
+    });
+    return response.json(); // parses JSON response into native JavaScript objects
+  }
+
   const deleteConfirm = rc => {
-    deleteUser({
-      userId: rc.userId,
-    })
+    // deleteUser({
+    postData('http://192.168.1.76:8090/User/remove', { userId: rc.userId })
       .then(() => {
         handleVersionUpdate();
         message.success('Supprimé avec succès', 5);
@@ -89,27 +129,29 @@ export default function UserMngPage() {
     setIsModalVisible(visible);
   };
 
+  const roleFilterOptions = roles.slice(0, 3).map(role => {
+    return {
+      text: role,
+      value: roles.indexOf(role),
+    };
+  });
+
   const columns = [
     {
       title: 'UID',
       dataIndex: 'userId',
       key: 'userId',
       width: 40,
+      sorter: (a, b) => a.userId - b.userId,
+      defaultSortOrder: 'ascend',
     },
-
     {
       title: "Nom d'utilisateur",
       dataIndex: 'userNom',
       key: 'userNom',
       width: 180,
+      ...getColumnSearchProps('userNom'),
     },
-    // {
-    //   title: 'Mot de passe',
-    //   dataIndex: 'userPassword',
-    //   key: 'userPassword',
-    //   ellipsis: true,
-    //   width: 180,
-    // },
     {
       title: 'Rôle',
       dataIndex: 'userType',
@@ -123,20 +165,15 @@ export default function UserMngPage() {
           </div>
         );
       },
+      ...getColumnFilterProps('userType', roleFilterOptions),
     },
-    // {
-    //   title: 'Heure de création',
-    //   dataIndex: 'createdTime',
-    //   key: 'createdTime',
-    //   width: 180,
-    //   render: time => showDate(time),
-    // },
     {
       title: 'Heure mise à jour',
       dataIndex: 'updatedTime',
       key: 'updatedTime',
       width: 180,
       render: time => showDate(time),
+      sorter: (a, b) => a.updatedTime > b.updatedTime,
     },
     {
       title: 'Opération',
@@ -237,8 +274,7 @@ export default function UserMngPage() {
       </div>
       <Spin
         tip="Chargement en cours..."
-        // spinning={getUsersListPending || deleteUserPending}
-        spinning={false}
+        spinning={getUsersListPending || deleteUserPending}
         indicator={antIcon}
       >
         <Table

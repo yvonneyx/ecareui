@@ -8,9 +8,13 @@ import {
 } from './constants';
 import axios from 'axios';
 import { serverUrl, config } from '../../../common/globalConfig';
+import moment from 'moment';
 
 export function getDptsList(args = {}) {
-  return (dispatch) => { // optionally you can have getState as the second argument
+  return dispatch => {
+    // optionally you can have getState as the second argument
+    console.log('begin', moment().format('MMMM Do YYYY, h:mm:ss a'));
+
     dispatch({
       type: ADMIN_GET_DPTS_LIST_BEGIN,
     });
@@ -18,15 +22,15 @@ export function getDptsList(args = {}) {
     const promise = new Promise((resolve, reject) => {
       const doRequest = axios.get(`${serverUrl}/Departement/all`, config);
       doRequest.then(
-        (res) => {
+        res => {
+          console.log('200', moment().format('MMMM Do YYYY, h:mm:ss a'));
           dispatch({
             type: ADMIN_GET_DPTS_LIST_SUCCESS,
             data: res.data,
           });
           resolve(res);
         },
-        // Use rejectHandler as the second argument so that render errors won't be caught.
-        (err) => {
+        err => {
           dispatch({
             type: ADMIN_GET_DPTS_LIST_FAILURE,
             data: { error: err },
@@ -58,9 +62,12 @@ export function useGetDptsList() {
     shallowEqual,
   );
 
-  const boundAction = useCallback((...args) => {
-    return dispatch(getDptsList(...args));
-  }, [dispatch]);
+  const boundAction = useCallback(
+    (...args) => {
+      return dispatch(getDptsList(...args));
+    },
+    [dispatch],
+  );
 
   const boundDismissError = useCallback(() => {
     return dispatch(dismissGetDptsListError());
@@ -79,6 +86,8 @@ export function reducer(state, action) {
   switch (action.type) {
     case ADMIN_GET_DPTS_LIST_BEGIN:
       // Just after a request is sent
+      console.log('ADMIN_GET_DPTS_LIST_BEGIN', moment().format('MMMM Do YYYY, h:mm:ss a'));
+
       return {
         ...state,
         getDptsListPending: true,
@@ -87,6 +96,7 @@ export function reducer(state, action) {
 
     case ADMIN_GET_DPTS_LIST_SUCCESS:
       // The request is success
+      console.log('ADMIN_GET_DPTS_LIST_SUCCESS', moment().format('MMMM Do YYYY, h:mm:ss a'));
       return {
         ...state,
         dptsList: action.data,

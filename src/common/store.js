@@ -4,8 +4,8 @@ import { routerMiddleware } from 'connected-react-router';
 import history from './history';
 import rootReducer from './rootReducer';
 
-import logSlowReducers from 'redux-log-slow-reducers';
-const loggingReducers = logSlowReducers(rootReducer);
+// import logSlowReducers from 'redux-log-slow-reducers';
+// const loggingReducers = logSlowReducers(rootReducer);
 
 const router = routerMiddleware(history);
 
