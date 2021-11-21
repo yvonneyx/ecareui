@@ -20,6 +20,7 @@ import {
   AlignLeftOutlined,
 } from '@ant-design/icons';
 import { roles, showDate, antIcon } from '../../common/constants';
+import { serverUrl } from '../../common/globalConfig';
 import {
   GetColumnSearchProps as getColumnSearchProps,
   GetColumnFilterProps as getColumnFilterProps,
@@ -47,7 +48,7 @@ export default function UserMngPage() {
     // getUsersList();
     setGetUsersListPending(true);
     setGetUsersListError(false);
-    fetch('http://192.168.1.76:8090/User/all')
+    fetch(`${serverUrl}/User/all`)
       .then(res => res.json())
       .then(
         res => {
@@ -109,7 +110,7 @@ export default function UserMngPage() {
 
   const deleteConfirm = rc => {
     // deleteUser({
-    postData('http://192.168.1.76:8090/User/remove', { userId: rc.userId })
+    postData(`${serverUrl}/User/remove`, { userId: rc.userId })
       .then(() => {
         handleVersionUpdate();
         message.success('Supprimé avec succès', 5);
