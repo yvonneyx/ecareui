@@ -1,8 +1,8 @@
 // Development
-export const serverUrl = 'http://192.168.1.76:8090';
+// export const serverUrl = 'http://192.168.1.76:8090';
 
 // Production
-// export const serverUrl = 'http://121.43.149.108:8090';
+export const serverUrl = 'http://182.92.165.86:8090';
 
 export const config = {
   headers: {
